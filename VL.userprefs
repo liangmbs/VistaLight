@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../Documents/Marine/Script Test/Assets/Script/Mussel.cs">
+    <Files>
+      <File FileName="Assets/Script/InformationInput.cs" Line="1" Column="1" />
+      <File FileName="../Documents/VistaLight/1/Assets/Main Menu/Script/LoadingScipt.cs" Line="1" Column="1" />
+      <File FileName="../Documents/Marine/Script Test/Assets/Script/Mussel.cs" Line="76" Column="32" />
+      <File FileName="Assets/Script/ClientSocket.cs" Line="66" Column="19" />
+      <File FileName="../Downloads/Unity3D Tutorials Server&amp;Client/Scripts/Menu.cs" Line="95" Column="6" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
