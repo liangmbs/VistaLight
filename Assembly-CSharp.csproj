@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Script\ClientSocket.cs" />
+     <Compile Include="Assets\Script\GamePlayTest.cs" />
      <Compile Include="Assets\Script\InformationInput.cs" />
      <Compile Include="Assets\Script\MainMenu.cs" />
  <Reference Include="UnityEngine.UI">
