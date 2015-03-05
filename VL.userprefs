@@ -1,11 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/ClientSocket.cs">
     <Files>
-      <File FileName="Assets/Script/InformationInput.cs" Line="36" Column="47" />
-      <File FileName="Assets/Script/ClientSocket.cs" Line="13" Column="22" />
-      <File FileName="../Downloads/Unity3D Tutorials Server&amp;Client/Scripts/Menu.cs" Line="95" Column="6" />
-      <File FileName="Assets/Script/MainMenu.cs" Line="8" Column="1" />
+      <File FileName="Assets/Script/GamePlayTest.cs" Line="106" Column="18" />
+      <File FileName="Assets/Script/Ship.cs" Line="1" Column="11" />
+      <File FileName="Assets/Script/ClientSocket.cs" Line="27" Column="16" />
+      <File FileName="Assets/Script/JSOCreatShip.cs" Line="18" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

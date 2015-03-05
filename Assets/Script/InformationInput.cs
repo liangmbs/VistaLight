@@ -18,10 +18,10 @@ public class InformationInput : MonoBehaviour {
 		//IPaddress = IPaddress.convert.ToString ();
 	}
 
-	void Awake(){
+	/*void Awake(){
 
 		//DontDestroyOnLoad()
-	}
+	}*/
 
 
 	public void CharacterField(string inputFiledName)
