@@ -13,23 +13,15 @@ using System.Linq;
 public class ClientSocket : MonoBehaviour {
 
 	bool socketReady = false;
-	//private InformationInput information;
-	//TcpClient mySocket;
-	//NetworkStream theStream;
-	//StreamWriter theWriter;
-	//StreamReader theReader;
-	string Host = " ";
+	string Host = "";
 	Int32 Port = 8000; 
-	//string test;
-	//string tmpreader;
 	Socket client;
-	static List<string> sharedMemory = new List<string>() ;
-	public static string saved_string;
-
-
-	public static JSOCreatShip detection;
-
-	private static ManualResetEvent connectDone = new ManualResetEvent(false);
+	List<string> sharedMemory = new List<string>() ;
+	public string saved_string;
+	public JSOCreatShip detection;
+	private StringBuilder jsonStringBuilder = new StringBuilder ();
+	private int bracketCount = 0;
+	private ManualResetEvent connectDone = new ManualResetEvent(false);
 
 
 	public class StateObject{
@@ -63,14 +55,6 @@ public class ClientSocket : MonoBehaviour {
 		DontDestroyOnLoad (transform.gameObject);
 
 	}
-	/*
-	void FixedUpdate(){
-		//writeSocket ("abcdefg");
-		tmpreader = readSocket ();
-		if(tmpreader != "")
-			print (tmpreader);
-	}
-*/
 
 
 	public void setupSocket(){
@@ -87,17 +71,6 @@ public class ClientSocket : MonoBehaviour {
 			connectDone.WaitOne();
 			socketReady = true;
 			Receive();
-
-			/*
-			theStream = mySocket.GetStream();
-			theWriter = new StreamWriter(theStream);
-			theReader = new StreamReader(theStream);
-			socketReady = true;
-			maintainConnection();
-			if(socketReady ==  true)
-				StartGameScene("GamePlay");*/
-
-			//send test data to the remote device
 		
 		}
 
@@ -109,9 +82,8 @@ public class ClientSocket : MonoBehaviour {
 
 
 
-	private static void ConnectCallback(IAsyncResult ar){
+	private void ConnectCallback(IAsyncResult ar){
 		try {
-			
 			//retrieve the socket from the state object.
 			Socket client = (Socket)ar.AsyncState;
 			
@@ -145,7 +117,7 @@ public class ClientSocket : MonoBehaviour {
 		}
 	}
 
-	private static void ReceiveCallback(IAsyncResult ar){
+	private void ReceiveCallback(IAsyncResult ar){
 		try {
 			//retrieve the state object and the client socket from the asynchronous state object
 			StateObject state = (StateObject)ar.AsyncState;
@@ -155,26 +127,12 @@ public class ClientSocket : MonoBehaviour {
 			int bytesRead = client.EndReceive (ar);
 
 			if (bytesRead > 0) {
-				//There might be more data, so store the data received so far.
-				//state.sb.Append (Encoding.ASCII.GetString (state.buffer, 0, bytesRead));
-				//print (Encoding.ASCII.GetString (state.buffer, 0, bytesRead));
 
-				//print (detection);
-				//calling function from other scripts
-				//detection.Detection(Encoding.ASCII.GetString (state.buffer, 0, bytesRead));
-				//sharedMemory.Add (Encoding.ASCII.GetString (state.buffer, 0, bytesRead));
 				string words = Encoding.ASCII.GetString (state.buffer, 0, bytesRead);
-				//print (words);
-				split(words);
-
-
-				//Get the rest of the data.
+				split (words);
 				client.BeginReceive(state.buffer,0, StateObject.BufferSize,0, new AsyncCallback(ReceiveCallback),state);
 
-			
 
-				//print result
-				//print (state.sb.ToString());
 
 			} 
 		} catch (Exception e) {
@@ -182,12 +140,43 @@ public class ClientSocket : MonoBehaviour {
 		}
 	}
 
-	void Update(){
-		//if(socketReady){
-			//Receive ();
-			ReadMomory();
-		//}
+
+	public void Send(String data) {
+		// Convert the string data to byte data using ASCII encoding.
+		byte[] byteData = Encoding.ASCII.GetBytes(data);
+
+
+
+		if (JSOCreatShip.accept == true) {
+			// Begin sending the data to the remote device.
+			client.BeginSend (byteData, 0, byteData.Length, SocketFlags.None,
+		                 new AsyncCallback (SendCallback), client);
+		}
 	}
+	
+	
+	private void SendCallback(IAsyncResult ar) {
+		try {
+			// Retrieve the socket from the state object.
+			Socket client = (Socket) ar.AsyncState;
+			
+			// Complete sending the data to the remote device.
+			int bytesSent = client.EndSend(ar);
+
+			//if(JSOCreatShip.accept == true){
+			//	Console.WriteLine("Sent {0} bytes to server.", bytesSent);
+				//SOCreatShip.accept = false;
+			//}
+		} catch (Exception e) {
+			Console.WriteLine(e.ToString());
+		}
+	}
+
+
+	void Update(){
+		ReadMomory();
+	}
+
 
 
 
@@ -200,63 +189,27 @@ public class ClientSocket : MonoBehaviour {
 
 	}
 
-
-	 static void split(string words){
-		/*
-		string[] temp = words.Split (';');
-
-		int i = temp.Length - 1;
-
-		saved_string = temp [i];
-		if(saved_string ==)
-
-
-		sharedMemory.Add (saved_string);
-		for (int k = 1; k < temp.Length - 2; k++) {
-			sharedMemory.Add (temp[k]);
-		}
-*/		string[] temp = words.Split (';');
-		/*
-		if(saved_string == "" && words[words.Length - 1] == ';'){
-			try{
-				sharedMemory.Add(temp[0]);
-			}
-			catch{
-				saved_string = temp[0];
+	void split(string words){
+		
+		for (int i = 0; i < words.Length; i++) {
+			jsonStringBuilder.Append(words[i]);
+			
+			if (words[i] == '{') {
+				bracketCount++;
+			} else if (words[i] == '}') {
+				bracketCount--;
+				if (bracketCount == 0){
+					sharedMemory.Add (jsonStringBuilder.ToString());
+					jsonStringBuilder = new StringBuilder();
+				} else if (bracketCount < 0) {
+					jsonStringBuilder = new StringBuilder();
+				}
 			}
 		}
-		if (saved_string == "" && words[words.Length - 1] != ';') {
-			saved_string = temp[temp.Length - 1];
-		}
-		if (saved_string != "") {
-			string add = saved_string + temp[0];
-			sharedMemory.Add (add);
-		}*/
-		for (int i = 0; i< temp.Length-1; i++) {
-			addSegment(temp[i]);
-			print (temp[i])	;	
-		}
-
+		
 	}
 
-
-
-	static void addSegment(string segment){
-		if (saved_string != "") {
-			segment = saved_string + segment;
-		}
-		try{
-			JSON.Parse(segment);
-			sharedMemory.Add (segment) ;
-			saved_string = "";
-		}
-		catch(Exception){
-			saved_string  = segment ;
-		}
-
-
-	}
-
+	
 	public void StartGameScene(string SceneName)
 	{
 		Application.LoadLevel (SceneName);

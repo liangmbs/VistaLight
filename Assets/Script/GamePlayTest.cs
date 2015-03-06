@@ -59,8 +59,8 @@ public class GamePlayTest : MonoBehaviour {
 			}
 		}*/
 
-	protected float HorizontalSpeed =40.0f;
-	protected float VerticalSpeed =40.0f;
+	protected float HorizontalSpeed =10.0f;
+	protected float VerticalSpeed =10.0f;
 
 	public BoxCollider Bounds;
 	//public float h;

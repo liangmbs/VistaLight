@@ -2,55 +2,89 @@
 using System.Collections;
 using SimpleJSON;
 using System.Linq;
+using System;
 
 public class JSOCreatShip : MonoBehaviour {
-	public TextAsset  Json;
 	public GameObject breakbulk;
+	public static bool accept;
+	public ClientSocket send;
 
-
+	void Start(){
+		send = GameObject.Find("ClientSocketObject").GetComponent <ClientSocket>();
+	}
 
 	void Update(){
-		//JSONNode N = JSON.Parse (Json.text);
-		//string action = N["action"]; //access object member
-		//Detection (N.Serialize());
-
+		// Send Message
+		//send.Send ("hello");
 	}
 
+	/*
+	 * Detect the Ship Action
+	 */
 
 	public void Detection(string json){
+
 		JSONNode N = JSON.Parse (json);
-		//print (json);
 		string action = N["action"]; 
+
 		switch (action) {
 		case "ship create":
-			//postion
-			float x = N ["position"]["x"].AsFloat;
-			float y = N ["position"]["y"].AsFloat;
-			float z = N ["position"]["z"].AsFloat;
 
-			//Heading 
-			float Anglex = N ["heading"]["x"].AsFloat;
-			float Angley = N ["heading"]["y"].AsFloat;
-			float Anglez = N ["heading"]["z"].AsFloat;
-			
-			//Vehicle ID
-			
-			string shipID = N["VehicleID"];
-			CreatShip(x, y, z, Anglex, Angley,  Anglez,  shipID);
+			CreatShip (N);
 			break;
-		
+
 		case "ship move":
-			print ("moved");
+
+			string shipID = N ["VehicleID"];
+			MoveShip (N, shipID);
 			break;
+
+		default: 
+
+			throw new Exception("Do not support such form" + action);
 
 		}
-
 	}
 
-	 void CreatShip(float x, float y, float z, float Anglex, float Angley, float Anglez, string shipID){
-		GameObject ship = Instantiate (breakbulk, new Vector3 ((x/1000.0f)-50.0f, -((y/1000.0f)-50.0f), z), Quaternion.Euler (new Vector3 (Anglex, Angley, Anglez))) as GameObject;
+	/*
+	 * Creat Ship and information to prefab
+	 */
+
+	 void CreatShip(JSONNode json){
+
+		// Postion
+		float x = json ["position"]["x"].AsFloat;
+		float y = json ["position"]["y"].AsFloat;
+		float z = json ["position"]["z"].AsFloat;
+		
+		// Heading 
+		float rX = json ["heading"]["x"].AsFloat;
+		float rY = json ["heading"]["y"].AsFloat;
+		float rZ = json ["heading"]["z"].AsFloat;
+
+		// Creat Ship
+		GameObject ship = Instantiate (breakbulk, 
+		            new Vector3 ((x/1000.0f)-50.0f, -((y/1000.0f)-50.0f), z), 
+		            Quaternion.Euler (new Vector3 (rX, rY, rZ))
+	                            ) as GameObject;
+
+		// Name Ship
+		int shipID = json["VehicleID"].AsInt;
 		ship.name = "ship_" + shipID;
+
+		// Set up Ship Information to Prefab
+		ship.GetComponent<Ship>().SetupShip (json);
 	}
 
+
+	/*
+	 * Move the Ship
+	 */
+
+	 public void MoveShip(JSONNode json, string shipID){
+
+		GameObject ship = GameObject.Find ("ship_" + shipID);
+		ship.GetComponent<Ship> ().Move (json);
+	}
 
 }
