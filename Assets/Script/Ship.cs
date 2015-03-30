@@ -4,12 +4,12 @@ using System;
 using SimpleJSON;
 
 public class Ship : MonoBehaviour {
-
 	/*
 	 * Pop up Window
 	 */
-	public Rect windowRect = new Rect (20, 20, 120, 50);
-	
+	//public Rect windowRect = new Rect (20, 20, 120, 50);
+	public GUISkin property;
+	public Texture icon;
 
 	/*
 	 * Location
@@ -22,11 +22,23 @@ public class Ship : MonoBehaviour {
 	/*
 	 * Heading Rotation
 	 */
-	public float rX;
-	public float rY;
-	float rZ;
 
-	private int shipID;
+	public float rZ;
+
+	/*
+	 * Vehicle
+	 */
+	public int shipID;
+	public int priority;
+	public string Type;
+	public double Heading;
+
+	/*
+	 * Company
+	 */
+
+	public string Industry;
+	public string Name;
 
 	/*
 	 * Input ShipInformation
@@ -34,16 +46,18 @@ public class Ship : MonoBehaviour {
 
 	public void SetupShip(JSONNode json){
 
-		shipID = json["VehicleID"].AsInt;
+		shipID = json["vehicle"]["vehicle_id"].AsInt;
+		priority = json ["vehicle"]["priority"].AsInt;
+		Type = json ["vehicle"]["type"];
+		print (Type);
 
-		x = json ["position"]["x"].AsFloat;
-		y = json ["position"]["y"].AsFloat;
-		z = json ["position"]["z"].AsFloat;
+		Heading = json ["vehicle"]["heading"].AsDouble;
+		x = json ["vehicle"]["position"]["x"].AsFloat;
+		y = json ["vehicle"]["position"]["y"].AsFloat;
+		z = json ["vehicle"]["position"]["z"].AsFloat;
 		
-		rX = json ["heading"]["x"].AsFloat;
-		rY = json ["heading"]["y"].AsFloat;
-		rZ = json ["heading"]["z"].AsFloat;
-
+	
+		rZ = json ["vehicle"]["heading"].AsFloat;
 	}
  
 	/*
@@ -52,34 +66,20 @@ public class Ship : MonoBehaviour {
 
 	public void Move(JSONNode json){
 
-		x = json ["position"]["x"].AsFloat;
-		y = json ["position"]["y"].AsFloat;
-		z = json ["position"]["z"].AsFloat;
+		x = json ["vehicle"]["position"]["x"].AsFloat;
+		y = json ["vehicle"]["position"]["y"].AsFloat;
+		z = json ["vehicle"]["position"]["z"].AsFloat;
 		
-		rX = json ["heading"]["x"].AsFloat;
-		rY = json ["heading"]["y"].AsFloat;
-		rZ = json ["heading"]["z"].AsFloat;
+	
+		rZ = json ["vehicle"]["heading"].AsFloat;
 
 		transform.position = new Vector3 ((x / 1000.0f) - 50.0f, -((y / 1000.0f) - 50.0f), z);
-		transform.rotation = Quaternion.Euler (new Vector3 (rX, rY, rZ));
+		transform.rotation = Quaternion.Euler (new Vector3 (0, 0, rZ));
 	}
 
-	/*
-	 * Draw Ship Property Window
-	 */
 
-	public void PropertyWindow(){
-
-		windowRect = GUI.Window(shipID,windowRect,DoMyWindow, new GUIContent(x.ToString ()));
-
+	public void setpriority(string prio){
+		priority = int.Parse(prio);
+		
 	}
-
-	/*
-	 * Print Properties on the Window
-	 */
-
-	void DoMyWindow(int windowID){
-
-	}
-	
 }

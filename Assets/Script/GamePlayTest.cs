@@ -1,112 +1,60 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class GamePlayTest : MonoBehaviour {
-	/*
-	private ClientSocket clientsocket;
-	public string test;
-	public GameObject ClientSocketObject;
 
-	void Awake()
-	{
-		print ("Awake");
-		ClientSocketObject = GameObject.Find ("ClientSocketObject");
-		clientsocket  = ClientSocketObject.GetComponent <ClientSocket>();
-		//DontDestroyOnLoad (transform.gameObject);
-		print (clientsocket);
+	public GUISkin Property; 
+	//public Texture aTexture;
 
-	}
-	// Use this for initialization
-	void Start () {
-		clientsocket.writeSocket("steven");
-		test = clientsocket .readSocket ();
-		Debug.Log (test);
-}
-	
-	// Update is called once per frame
-	void Update () {
-		clientsocket.writeSocket("steven");
-		test = clientsocket.readSocket ();
-		Debug.Log (test);
-
-	}*/
-	/*
-		private Vector3 ResetCamera;
-		private Vector3 Origin;
-		private Vector3 Diference;
-		private bool    Drag=false;
-
-		void Start () {
-			ResetCamera = Camera.main.transform.position;
-		}
-		
-		void LateUpdate () {
-			if (Input.GetMouseButton (0)) {
-				Diference=(Camera.main.ScreenToWorldPoint (Input.mousePosition))- Camera.main.transform.position;
-				if (Drag==false){
-					Drag=true;
-					Origin=Camera.main.ScreenToWorldPoint (Input.mousePosition);
-				}
-			} else {
-				Drag=false;
-			}
-			if (Drag==true){
-				Camera.main.transform.position = Origin-Diference;
-			}
-			//RESET CAMERA TO STARTING POSITION WITH RIGHT CLICK
-			if (Input.GetMouseButton (1)) {
-				Camera.main.transform.position=ResetCamera;
-			}
-		}*/
-
-	protected float HorizontalSpeed =10.0f;
-	protected float VerticalSpeed =10.0f;
-
-	public BoxCollider Bounds;
-	//public float h;
-	//public float v;
-	//public float z;
-	private Vector3 min,max; 
+	public int priority;
 
 
-	void Start(){
-		min = Bounds.bounds.min;
-		max = Bounds.bounds.max;
+
+
+
+	void OnGUI(){
+		/*GUI.skin = Property;
+
+		GUI.BeginGroup(new Rect(Screen.width/2-150,Screen.height/2-150,300,300));
+			GUI.Box(new Rect(0,0,300,300),"Decision Making");
+			//GUI.DrawTexture(new Rect(10, 50, 80,60), aTexture,ScaleMode.ScaleToFit, true, 1.33F);
+			 if (GUI.Button (new Rect (100, 50, 150, 20), "Decision1"))
+					print ("decision1");
+			 if(GUI.Button (new Rect (100, 70 ,150, 20),  "Decision2" ))
+					print ("decision2");	
+			 if(GUI.Button (new Rect (100, 90, 150, 20),  "Decision3"))
+					print ("decision3");
+			 if(GUI.Button (new Rect (100, 110, 150, 20), "Decision4"))
+					print ("decision4");
+		GUI.Button (new Rect (0, 0, 20, 20), "closed");
+			GUI.EndGroup ();*/
+
+
+
+		//windowRect = GUI.Window(shipID,windowRect,DoMyWindow, new GUIContent(x.ToString ()));
+		//GUI.skin = hitObject.GetComponent<Ship>().property;
+		GUI.BeginGroup(new Rect(Screen.width/2-150,Screen.height/2-150,300,300));
+		GUI.Box(new Rect(0,0,300,300),"Ship Property");
+		//GUI.DrawTexture(new Rect(10, 50, 80,60), hitObject.GetComponent<Ship>().icon,ScaleMode.ScaleToFit, true, 1.33F);
+		//GUI.Label (new Rect (100, 50, 150, 20), "company: " + company);
+		//GUI.Label (new Rect (100, 70,150, 20), "Ship ID: " + hitObject.GetComponent<Ship>().shipID);
+		//GUI.Label (new Rect (100, 90, 150, 20), "capacity: " + capacity);
+		//if (GUI.Button (new Rect (0, 0, 20, 20), "closed")) {
+		//	showproperty = !showproperty;
+		//}
+		GUI.Label(new Rect (30,200,60,20),"Priority: ");	
+		priority = Convert.ToInt32(GUI.TextField(new Rect(100,200,40,20), priority.ToString(),100));
+		//hitObject.GetComponent<Ship>().priority = priority;
+		GUI.Button (new Rect (120, 250, 50, 50), "Submit");
+		GUI.EndGroup ();
 	}
 
-
-	void LateUpdate(){
-
-		if (Input.GetButton ("Fire1")) {
-
-			float h = HorizontalSpeed * Input.GetAxis ("Mouse Y");
-			float v = VerticalSpeed * Input.GetAxis ("Mouse X");
-
-			transform.Translate (v, h, 0);	
-		}
-
-		if (Input.GetAxis ("Mouse ScrollWheel") >0) {
-			if(Camera.main.orthographicSize < 33)
-				Camera.main.orthographicSize++;
-			else{
-
-			}
-		}
-
-		if (Input.GetAxis ("Mouse ScrollWheel") <0) {
-			if(Camera.main.orthographicSize > 5)
-				Camera.main.orthographicSize --;
-			else{
-
-			}
-		}
-			transform.position = new Vector3 (
-			Mathf.Clamp (transform.position.x, min.x, max.x),
-			Mathf.Clamp (transform.position.y, min.y, max.y),
-			Mathf.Clamp (transform.position.z, min.z, max.z));
-		}
-	
 }
+
+
+
+
 
 
 

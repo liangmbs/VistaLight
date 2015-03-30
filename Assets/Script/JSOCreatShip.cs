@@ -5,9 +5,24 @@ using System.Linq;
 using System;
 
 public class JSOCreatShip : MonoBehaviour {
+	
 	public GameObject breakbulk;
+	public GameObject petrochemical;
+	public GameObject bulk;
 	public static bool accept;
 	public ClientSocket send;
+
+
+	/*
+	 * Company's Icon and GUI Skin attached
+	 */
+
+	public Texture company1;
+	//public Texture company2;
+	//public Texture compnay3;
+	//public Texture company4;
+
+
 
 	void Start(){
 		send = GameObject.Find("ClientSocketObject").GetComponent <ClientSocket>();
@@ -26,7 +41,7 @@ public class JSOCreatShip : MonoBehaviour {
 
 		JSONNode N = JSON.Parse (json);
 		string action = N["action"]; 
-
+		print (json);
 		switch (action) {
 		case "ship create":
 
@@ -35,7 +50,7 @@ public class JSOCreatShip : MonoBehaviour {
 
 		case "ship move":
 
-			string shipID = N ["VehicleID"];
+			int shipID = N ["vehicle"]["vehicle_id"].AsInt;
 			MoveShip (N, shipID);
 			break;
 
@@ -53,24 +68,67 @@ public class JSOCreatShip : MonoBehaviour {
 	 void CreatShip(JSONNode json){
 
 		// Postion
-		float x = json ["position"]["x"].AsFloat;
-		float y = json ["position"]["y"].AsFloat;
-		float z = json ["position"]["z"].AsFloat;
+		float x = json ["vehicle"]["position"]["x"].AsFloat;
+		float y = json ["vehicle"]["position"]["y"].AsFloat;
+		float z = json ["vehicle"]["position"]["z"].AsFloat;
 		
 		// Heading 
-		float rX = json ["heading"]["x"].AsFloat;
-		float rY = json ["heading"]["y"].AsFloat;
-		float rZ = json ["heading"]["z"].AsFloat;
+		float rZ = json ["vehicle"]["heading"].AsFloat;
 
+		// Industry
+		string industry = json["vehicle"]["company"]["industry"];
+		print (industry);
+
+		GameObject ship;
+	
 		// Creat Ship
-		GameObject ship = Instantiate (breakbulk, 
-		            new Vector3 ((x/1000.0f)-50.0f, -((y/1000.0f)-50.0f), z), 
-		            Quaternion.Euler (new Vector3 (rX, rY, rZ))
-	                            ) as GameObject;
+		switch (industry) {
+
+		case "BREAKBULK":
+		
+			ship = Instantiate (breakbulk, 
+		            new Vector3 ((x / 1000.0f) - 50.0f, -((y / 1000.0f) - 50.0f), z), 
+		            Quaternion.Euler (new Vector3 (0, 0, rZ))
+					) as GameObject;
+			break;
+		
+
+		case "PETROCHEMICAL":
+		
+			ship = Instantiate (petrochemical, 
+				   new Vector3 ((x / 1000.0f) - 50.0f, -((y / 1000.0f) - 50.0f), z), 
+				   Quaternion.Euler (new Vector3 (0, 0, rZ))
+				   ) as GameObject;
+			break;
+		
+
+		case "BULK":
+
+			ship = Instantiate (bulk, 
+			                    new Vector3 ((x / 1000.0f) - 50.0f, -((y / 1000.0f) - 50.0f), z), 
+			                    Quaternion.Euler (new Vector3 (0, 0, rZ))
+			                    ) as GameObject;
+			break;
+
+		case "PORT":
+			
+			ship = Instantiate (breakbulk, 
+			                    new Vector3 ((x / 1000.0f) - 50.0f, -((y / 1000.0f) - 50.0f), z), 
+			                    Quaternion.Euler (new Vector3 (0, 0, rZ))
+			                    ) as GameObject;
+			break;
+
+		default: 
+			
+			throw new Exception("Do not support such form" +industry);
+			
+		}
+	
 
 		// Name Ship
-		int shipID = json["VehicleID"].AsInt;
+		int shipID = json["vehicle"]["vehicle_id"].AsInt;
 		ship.name = "ship_" + shipID;
+		ship.GetComponent<Ship> ().icon = company1;
 
 		// Set up Ship Information to Prefab
 		ship.GetComponent<Ship>().SetupShip (json);
@@ -81,7 +139,7 @@ public class JSOCreatShip : MonoBehaviour {
 	 * Move the Ship
 	 */
 
-	 public void MoveShip(JSONNode json, string shipID){
+	 public void MoveShip(JSONNode json, int shipID){
 
 		GameObject ship = GameObject.Find ("ship_" + shipID);
 		ship.GetComponent<Ship> ().Move (json);
