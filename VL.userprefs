@@ -1,13 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/JSOCreatShip.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/InformationInput.cs">
     <Files>
-      <File FileName="Assets/Script/Window.cs" Line="57" Column="75" />
-      <File FileName="Assets/Script/ClientSocket.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/Window.cs" Line="40" Column="39" />
+      <File FileName="Assets/Script/ClientSocket.cs" Line="149" Column="3" />
       <File FileName="Assets/Script/ShipPropertyWindow.cs" Line="67" Column="19" />
-      <File FileName="Assets/Script/Ship.cs" Line="50" Column="46" />
-      <File FileName="Assets/Script/JSOCreatShip.cs" Line="103" Column="3" />
-      <File FileName="Assets/Script/InformationInput.cs" Line="17" Column="22" />
+      <File FileName="Assets/Script/Ship.cs" Line="77" Column="66" />
+      <File FileName="Assets/Script/JSOCreatShip.cs" Line="113" Column="13" />
+      <File FileName="Assets/Script/InformationInput.cs" Line="16" Column="34" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
