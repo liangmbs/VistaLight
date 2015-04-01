@@ -9,7 +9,7 @@ public class Window : MonoBehaviour {
 	public GameObject window;
 	public GameObject closed;
 	public GameObject submited;
-
+	public ClientSocket send;
 	/*
 	 * input text to send
 	 */
@@ -29,16 +29,22 @@ public class Window : MonoBehaviour {
 	}
 	
 	void Start(){
+		ShipName = GameObject.Find ("/window/PropertyWindow/ShipName").GetComponent<Text> (); 
+		CurrentPriority = GameObject.Find ("/window/PropertyWindow/CurrentPriority").GetComponent<Text> ();
+		send = GameObject.Find("ClientSocketObject").GetComponent <ClientSocket>();
 		PresentInformation ();
-		ShipName = GameObject.Find ("ShipName").GetComponent<Text> (); 
-		CurrentPriority = GameObject.Find ("CurrentPriority").GetComponent<Text> ();
-	}
+	
 
-	void Update(){
+
 		closed.GetComponent<Button> ().onClick.AddListener (() => {
 			closedwindow ();});
 		submited.GetComponent<Button> ().onClick.AddListener (() => {
 			submitedwindow ();});
+	}
+
+
+	void Update(){
+		CurrentPriority.text = (ship.GetComponent<Ship> ().priority).ToString();
 	}
 
 
@@ -49,13 +55,15 @@ public class Window : MonoBehaviour {
 	public void submitedwindow(){
 		//textfield = priority.text;
 		//GetComponent<ShipPropertyWindow>().hitObject.GetComponent<Ship>().priority = int.Parse(textfield);
+		print ("clicked");
 		ship.GetComponent <Ship> ().setpriority (priority.text);
+		send.Send (ship.GetComponent <Ship>().shipID+"%"+priority.text+";");
 	}
 
 
 	public void PresentInformation(){
 		ShipName.text= ship.GetComponent<Ship>().Name;
-		CurrentPriority.text = (ship.GetComponent<Ship> ().priority).ToString();
+
 	}
 
 

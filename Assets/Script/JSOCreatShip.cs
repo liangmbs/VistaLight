@@ -10,7 +10,7 @@ public class JSOCreatShip : MonoBehaviour {
 	public GameObject petrochemical;
 	public GameObject bulk;
 	public static bool accept;
-	public ClientSocket send;
+	//public ClientSocket send;
 
 
 	/*
@@ -25,11 +25,11 @@ public class JSOCreatShip : MonoBehaviour {
 
 
 	void Start(){
-		send = GameObject.Find("ClientSocketObject").GetComponent <ClientSocket>();
+		//send = GameObject.Find("ClientSocketObject").GetComponent <ClientSocket>();
 	}
 
 	void Update(){
-		// Send Message
+		 //Send Message
 		//send.Send ("hello");
 	}
 
@@ -142,5 +142,10 @@ public class JSOCreatShip : MonoBehaviour {
 		GameObject ship = GameObject.Find ("ship_" + shipID);
 		ship.GetComponent<Ship> ().Move (json);
 	}
+
+
+
+
+
 
 }
