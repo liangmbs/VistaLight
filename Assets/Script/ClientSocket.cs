@@ -147,11 +147,11 @@ public class ClientSocket : MonoBehaviour {
 
 
 
-		if (JSOCreatShip.accept == true) {
+		//if (JSOCreatShip.accept == true) {
 			// Begin sending the data to the remote device.
 			client.BeginSend (byteData, 0, byteData.Length, SocketFlags.None,
 		                 new AsyncCallback (SendCallback), client);
-		}
+		//}
 	}
 	
 	
@@ -162,11 +162,13 @@ public class ClientSocket : MonoBehaviour {
 			
 			// Complete sending the data to the remote device.
 			int bytesSent = client.EndSend(ar);
+			Console.WriteLine("Sent {0} bytes to server.", bytesSent);
 
-			//if(JSOCreatShip.accept == true){
-			//	Console.WriteLine("Sent {0} bytes to server.", bytesSent);
-				//SOCreatShip.accept = false;
-			//}
+			/*if(JSOCreatShip.accept == true){
+				Console.WriteLine("Sent {0} bytes to server.", bytesSent);
+				JSOCreatShip.accept = false;
+			}*/
+
 		} catch (Exception e) {
 			Console.WriteLine(e.ToString());
 		}

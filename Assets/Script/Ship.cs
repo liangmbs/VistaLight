@@ -47,6 +47,7 @@ public class Ship : MonoBehaviour {
 	public void SetupShip(JSONNode json){
 
 		shipID = json["vehicle"]["vehicle_id"].AsInt;
+		//Name = json ["vehicle"] ["vehicle_name"];
 		priority = json ["vehicle"]["priority"].AsInt;
 
 		Heading = json ["vehicle"]["heading"].AsDouble;
