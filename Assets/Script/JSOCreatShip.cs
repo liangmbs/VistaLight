@@ -41,10 +41,11 @@ public class JSOCreatShip : MonoBehaviour {
 
 		JSONNode N = JSON.Parse (json);
 		string action = N["action"]; 
-		print (json);
+		
 		switch (action) {
 		case "ship create":
-
+			print ("Creating ship:");
+			print (json);
 			CreatShip (N);
 			break;
 
@@ -53,10 +54,6 @@ public class JSOCreatShip : MonoBehaviour {
 			int shipID = N ["vehicle"]["vehicle_id"].AsInt;
 			MoveShip (N, shipID);
 			break;
-
-		default: 
-
-			throw new Exception("Do not support such form" + action);
 
 		}
 	}
@@ -120,13 +117,14 @@ public class JSOCreatShip : MonoBehaviour {
 
 		default: 
 			
-			throw new Exception("Do not support such form" +industry);
+			throw new Exception("Do not support such form" + industry);
 			
 		}
 	
 
 		// Name Ship
 		int shipID = json["vehicle"]["vehicle_id"].AsInt;
+		print(shipID);
 		ship.name = "ship_" + shipID;
 		ship.GetComponent<Ship> ().icon = company1;
 
