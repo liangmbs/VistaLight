@@ -48,8 +48,6 @@ public class Ship : MonoBehaviour {
 
 		shipID = json["vehicle"]["vehicle_id"].AsInt;
 		priority = json ["vehicle"]["priority"].AsInt;
-		Type = json ["vehicle"]["type"];
-		print (Type);
 
 		Heading = json ["vehicle"]["heading"].AsDouble;
 		x = json ["vehicle"]["position"]["x"].AsFloat;
@@ -63,18 +61,16 @@ public class Ship : MonoBehaviour {
 	/*
 	 * Ship Move
 	 */
-
 	public void Move(JSONNode json){
 
 		x = json ["vehicle"]["position"]["x"].AsFloat;
 		y = json ["vehicle"]["position"]["y"].AsFloat;
 		z = json ["vehicle"]["position"]["z"].AsFloat;
-		
-	
+
 		rZ = json ["vehicle"]["heading"].AsFloat;
 
 		transform.position = new Vector3 ((x / 1000.0f) - 50.0f, -((y / 1000.0f) - 50.0f), z);
-		transform.rotation = Quaternion.Euler (new Vector3 (0, 0, rZ));
+		transform.rotation = Quaternion.Euler(new Vector3 (0, 0, -rZ));
 	}
 
 
