@@ -56,7 +56,7 @@ public class Window : MonoBehaviour {
 		//textfield = priority.text;
 		//GetComponent<ShipPropertyWindow>().hitObject.GetComponent<Ship>().priority = int.Parse(textfield);
 		print ("clicked");
-		ship.GetComponent <Ship> ().setpriority (priority.text);
+//		ship.GetComponent <Ship> ().setpriority (priority.text);
 		send.Send (ship.GetComponent <Ship>().shipID+"%"+priority.text+";");
 	}
 

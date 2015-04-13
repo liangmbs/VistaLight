@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using SimpleJSON;
 using System.Linq;
@@ -10,6 +11,7 @@ public class JSOCreatShip : MonoBehaviour {
 	public GameObject petrochemical;
 	public GameObject bulk;
 	public static bool accept;
+	public Text time;
 	//public ClientSocket send;
 
 
@@ -25,12 +27,11 @@ public class JSOCreatShip : MonoBehaviour {
 
 
 	void Start(){
-		//send = GameObject.Find("ClientSocketObject").GetComponent <ClientSocket>();
+		time = GameObject.Find ("/Canvas/TimeBoard/Time").GetComponent<Text> (); 
 	}
 
 	void Update(){
-		 //Send Message
-		//send.Send ("hello");
+		 
 	}
 
 	/*
@@ -40,9 +41,18 @@ public class JSOCreatShip : MonoBehaviour {
 	public void Detection(string json){
 
 		JSONNode N = JSON.Parse (json);
-		string action = N["action"]; 
-		
+		string action = N["action"];
+
+		//time.text = N["action"]["time"];
+
 		switch (action) {
+
+		case "time":
+			string showtime = N["time"];
+			print(showtime);
+			time.text = showtime;
+			break;
+
 		case "ship create":
 			print ("Creating ship:");
 			print (json);

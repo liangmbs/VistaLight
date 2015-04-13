@@ -1,8 +1,15 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/GamePlayTest.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/JSOCreatShip.cs">
     <Files>
       <File FileName="Assets/Script/GamePlayTest.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/InformationInput.cs" Line="17" Column="18" />
+      <File FileName="Assets/Script/Window.cs" Line="65" Column="18" />
+      <File FileName="Assets/Script/Ship.cs" Line="13" Column="2" />
+      <File FileName="Assets/Script/JSOCreatShip.cs" Line="55" Column="4" />
+      <File FileName="Assets/Script/ClientSocket.cs" Line="207" Column="29" />
+      <File FileName="Assets/plugins/SimpleJSON.cs" Line="239" Column="1" />
+      <File FileName="Assets/Script/ShipPropertyWindow.cs" Line="67" Column="19" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

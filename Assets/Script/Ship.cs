@@ -72,11 +72,14 @@ public class Ship : MonoBehaviour {
 
 		transform.position = new Vector3 ((x / 1000.0f) - 50.0f, -((y / 1000.0f) - 50.0f), z);
 		transform.rotation = Quaternion.Euler(new Vector3 (0, 0, -rZ));
+		priority = json ["vehicle"]["priority"].AsInt;
 	}
 
+	void Update(){
+	}
 
-	public void setpriority(string prio){
+	/*public void setpriority(string prio){
 		priority = int.Parse(prio);
 		
-	}
+	}*/
 }
