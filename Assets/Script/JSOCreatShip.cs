@@ -24,7 +24,6 @@ public class JSOCreatShip : MonoBehaviour {
 	//public Texture company4;
 
 
-
 	void Start(){
 		time = GameObject.Find ("/Canvas/TimeBoard/Time").GetComponent<Text> (); 
 	}
@@ -72,6 +71,10 @@ public class JSOCreatShip : MonoBehaviour {
 
 		case "score update":
 			updateScore(N);
+			break;
+
+		case "game over":
+			Application.LoadLevel("GameOverScene");
 			break;
 		}
 	}
@@ -178,7 +181,9 @@ public class JSOCreatShip : MonoBehaviour {
 
 	public void updateScore(JSONNode json){
 		float moneyScore = json["score"]["score"].AsFloat;
+		GameObject.Find ("ScoreManager").GetComponent<ScoreManager> ().score = moneyScore;
 		GameObject.Find("Canvas").GetComponent<BarPresent>().currentMoney = moneyScore;
 	}
+
 
 }

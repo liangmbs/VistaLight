@@ -16,7 +16,6 @@ public class BarPresent : MonoBehaviour {
 
 	void Start(){
 
-		cachedY = moneytransform.position.y;
 		maxXValue = moneytransform.position.x;
 		minXValue = moneytransform.position.x - moneytransform.rect.width;
 	}
@@ -26,7 +25,7 @@ public class BarPresent : MonoBehaviour {
 	}
 
 	private void HandleMoney(){
-
+		cachedY = moneytransform.position.y;
 		float currentXValue = MapValues (currentMoney, -10000.0f, maxMoney, minXValue, maxXValue);
 
 		moneytransform.position = new Vector3 (currentXValue, cachedY);
