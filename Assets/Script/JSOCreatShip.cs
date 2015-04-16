@@ -48,7 +48,6 @@ public class JSOCreatShip : MonoBehaviour {
 
 		case "time":
 			string showtime = N["time"];
-			//print(showtime);
 			time.text = showtime;
 			break;
 
