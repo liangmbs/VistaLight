@@ -32,7 +32,10 @@ public class Ship : MonoBehaviour {
 	public int priority;
 	public string Type;
 	public double Heading;
-
+	public double cargo;
+	public float destinationX;
+	public float destinationY;
+	public string scheduletime;
 	/*
 	 * Company
 	 */
@@ -72,10 +75,14 @@ public class Ship : MonoBehaviour {
 
 		transform.position = new Vector3 ((x / 1000.0f) - 50.0f, -((y / 1000.0f) - 50.0f), z);
 		transform.rotation = Quaternion.Euler(new Vector3 (0, 0, -rZ));
-		priority = json ["vehicle"]["priority"].AsInt;
 	}
 
-	void Update(){
+	public void updateInformation(JSONNode json){
+		priority = json ["vehicle"]["priority"].AsInt;
+		cargo = json ["vehicle"] ["cargo"] ["quantity"].AsDouble;
+		destinationX = ((json["vehicle"]["task"]["destination"]["x"].AsFloat)/1000.0f)-50.0f;
+		destinationY = -(((json["vehicle"]["task"]["destination"]["y"].AsFloat)/1000.0f)-50.0f);
+		scheduletime = json["vehicle"]["task"]["deadline"];
 	}
 
 	/*public void setpriority(string prio){

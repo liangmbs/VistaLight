@@ -14,7 +14,6 @@ public class JSOCreatShip : MonoBehaviour {
 	public Text time;
 	//public ClientSocket send;
 
-
 	/*
 	 * Company's Icon and GUI Skin attached
 	 */
@@ -42,29 +41,39 @@ public class JSOCreatShip : MonoBehaviour {
 
 		JSONNode N = JSON.Parse (json);
 		string action = N["action"];
-
 		//time.text = N["action"]["time"];
+
 
 		switch (action) {
 
 		case "time":
 			string showtime = N["time"];
-			print(showtime);
+			//print(showtime);
 			time.text = showtime;
 			break;
 
 		case "ship create":
 			print ("Creating ship:");
-			print (json);
+			//print (json);
 			CreatShip (N);
+			updateShipInformation (N);
 			break;
 
 		case "ship move":
-
 			int shipID = N ["vehicle"]["vehicle_id"].AsInt;
 			MoveShip (N, shipID);
+			updateShipInformation (N);
 			break;
 
+		case "ship remove":
+			int removedshipID = N ["vehicle"]["vehicle_id"].AsInt;
+			RemoveShip (N, removedshipID);
+			updateShipInformation (N);
+			break;
+
+		case "score update":
+			updateScore(N);
+			break;
 		}
 	}
 
@@ -153,9 +162,24 @@ public class JSOCreatShip : MonoBehaviour {
 		ship.GetComponent<Ship> ().Move (json);
 	}
 
+	/*
+	 * Remove the Ship
+	 */
+	public void RemoveShip(JSONNode json, int shipID){
+		GameObject ship = GameObject.Find ("ship_" + shipID);
+		GameObject.Destroy (ship);
+	}
 
+	public void updateShipInformation(JSONNode json)
+	{
+		int updateshipid = json["vehicle"]["vehicle_id"].AsInt;
+		GameObject ship = GameObject.Find ("ship_" + updateshipid);
+		ship.GetComponent<Ship> ().updateInformation(json);
+	}
 
-
-
+	public void updateScore(JSONNode json){
+		float moneyScore = json["score"]["score"].AsFloat;
+		GameObject.Find("Canvas").GetComponent<BarPresent>().currentMoney = moneyScore;
+	}
 
 }
