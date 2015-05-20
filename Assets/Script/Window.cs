@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -29,37 +30,42 @@ public class Window : MonoBehaviour {
 
 	public float destinationpointX;
 	public float destinationpointy;
-	
 
 	public void setShip(GameObject Ship){
 		this.ship = Ship;
 	}
 	
 	void Start(){
-		ShipName = GameObject.Find ("/window/PropertyWindow/ShipName").GetComponent<Text> (); 
-		CurrentPriority = GameObject.Find ("/window/PropertyWindow/CurrentPriority").GetComponent<Text> ();
+		Initialize ();
+	}
+
+
+	void Update(){
+		if (CurrentPriority) {
+			CurrentPriority.text = (ship.GetComponent<Ship> ().priority).ToString ();
+			ShipCapacity.text = (ship.GetComponent <Ship> ().cargo).ToString ();
+			ScheduleTime.text = ship.GetComponent<Ship> ().remainTime;
+		}
+	}
+
+
+	public void Initialize(){
+
+		//ShipName = transform.Find("PropertyWindow/ShipName").GetComponent<Text> ();
+		//CurrentPriority = transform.Find("PropertyWindow/CurrentPriority").GetComponent<Text> ();
 		send = GameObject.Find("ClientSocketObject").GetComponent <ClientSocket>();
-		ShipCapacity = GameObject.Find ("/window/PropertyWindow/ShipCapacity").GetComponent<Text>();
-		ScheduleTime = GameObject.Find ("/window/PropertyWindow/ShipTime").GetComponent<Text> ();
+		//ShipCapacity = transform.Find("PropertyWindow/ShipCapacity").GetComponent<Text> ();
+		//ScheduleTime = transform.Find("PropertyWindow/ScheduleTime").GetComponent<Text> ();
 		destinationpointX = ship.GetComponent<Ship>().destinationX;
 		destinationpointy = ship.GetComponent<Ship>().destinationY;
 		destinationpoint = Instantiate (destination, new Vector3(destinationpointX,destinationpointy), Quaternion.identity) as GameObject;
 		destinationpoint.name = "destination";
 		PresentInformation ();
-	
-
-
+		
 		closed.GetComponent<Button> ().onClick.AddListener (() => {
 			closedwindow ();});
 		submited.GetComponent<Button> ().onClick.AddListener (() => {
 			submitedwindow ();});
-	}
-
-
-	void Update(){
-		CurrentPriority.text = (ship.GetComponent<Ship> ().priority).ToString();
-		ShipCapacity.text = (ship.GetComponent <Ship> ().cargo).ToString ();
-		ScheduleTime.text = ship.GetComponent<Ship> ().scheduletime;
 	}
 
 
@@ -71,16 +77,18 @@ public class Window : MonoBehaviour {
 	public void submitedwindow(){
 		//textfield = priority.text;
 		//GetComponent<ShipPropertyWindow>().hitObject.GetComponent<Ship>().priority = int.Parse(textfield);
-		print ("clicked");
-//		ship.GetComponent <Ship> ().setpriority (priority.text);
+		//		ship.GetComponent <Ship> ().setpriority (priority.text);
 
-		string str = "{" +
-			"\"action\":\"change priority\", " +
-			"\"data\": {" +
+		int verification;
+		if (int.TryParse (priority.text, out verification)) {
+			string str = "{" +
+				"\"action\":\"change priority\", " +
+				"\"data\": {" +
 				"\"vehicle_id\": " + ship.GetComponent <Ship> ().shipID + "," +
 				"\"priority\": " + priority.text + "" +
 				"}}";
-		send.Send (str);
+			send.Send (str);
+		}
 	}
 
 

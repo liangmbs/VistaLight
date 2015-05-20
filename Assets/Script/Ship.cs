@@ -35,7 +35,9 @@ public class Ship : MonoBehaviour {
 	public double cargo;
 	public float destinationX;
 	public float destinationY;
-	public string scheduletime;
+	public string remainTime;
+	public string status;
+
 	/*
 	 * Company
 	 */
@@ -78,15 +80,21 @@ public class Ship : MonoBehaviour {
 	}
 
 	public void updateInformation(JSONNode json){
+		status = json["vehicle"]["status"];
 		priority = json ["vehicle"]["priority"].AsInt;
 		cargo = json ["vehicle"] ["cargo"] ["quantity"].AsDouble;
 		destinationX = ((json["vehicle"]["task"]["destination"]["x"].AsFloat)/1000.0f)-50.0f;
 		destinationY = -(((json["vehicle"]["task"]["destination"]["y"].AsFloat)/1000.0f)-50.0f);
-		scheduletime = json["vehicle"]["task"]["deadline"];
+		string scheduletime = json["vehicle"]["task"]["deadline"];
+		RemainingTime (scheduletime);
 	}
 
-	/*public void setpriority(string prio){
-		priority = int.Parse(prio);
-		
-	}*/
+	public void RemainingTime(string schedule){
+		DateTime scheduledtime;
+		if (DateTime.TryParse (schedule, out scheduledtime)) {
+			DateTime globaltime = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<JSOCreatShip> ().dateValue;
+			System.TimeSpan diff = scheduledtime.Subtract(globaltime);
+			remainTime = string.Format("{0:00}:{1:00}", diff.Hours, diff.Minutes);
+		}
+	}
 }
