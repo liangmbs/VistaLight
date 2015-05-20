@@ -54,7 +54,7 @@ public class Ship : MonoBehaviour {
 		shipID = json["vehicle"]["vehicle_id"].AsInt;
 		//Name = json ["vehicle"] ["vehicle_name"];
 		priority = json ["vehicle"]["priority"].AsInt;
-
+		status = json["vehicle"]["status"];
 		Heading = json ["vehicle"]["heading"].AsDouble;
 		x = json ["vehicle"]["position"]["x"].AsFloat;
 		y = json ["vehicle"]["position"]["y"].AsFloat;

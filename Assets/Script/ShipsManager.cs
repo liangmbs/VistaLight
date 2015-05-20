@@ -142,7 +142,6 @@ public class ShipsManager : MonoBehaviour {
 
 		if (currentstatus != updatedstatus) {
 			UpdateList(ship, updatedstatus, currentstatus, priority);
-			print ("updated");
 		}
 	}
 
@@ -166,7 +165,8 @@ public class ShipsManager : MonoBehaviour {
 			break;
 
 		default:
-			throw new Exception("Do not support such form");
+			throw new Exception("Do not support such form" + status);
+
 		}
 
 	}
