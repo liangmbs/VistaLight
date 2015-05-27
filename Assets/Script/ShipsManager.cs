@@ -130,6 +130,10 @@ public class ShipsManager : MonoBehaviour {
 
 		//adding ships to the shipmanager's list
 		ships.Add (shipID, ship);
+
+		//notice the Control Panel by status
+		string startstatus = json["vehicle"]["status"];
+		GameObject.Find ("ControlPanel").GetComponent<ControlPanel> ().InstantiateButton (ship, startstatus);
 	}
 
 	
@@ -141,6 +145,10 @@ public class ShipsManager : MonoBehaviour {
 
 		if (currentstatus != updatedstatus) {
 			UpdateList(ship, updatedstatus, currentstatus, priority);
+			print ("underway" + underwaysships.Count);
+			print ("anchor" + anchorships .Count);
+			print ("freemoving" + freemovingships.Count );
+			print ("moored" + mooredships.Count);
 		}
 	}
 
@@ -182,6 +190,6 @@ public class ShipsManager : MonoBehaviour {
 		
 		// Insert into new list
 		updated_list.Add (priority, ship);
-	
+
 	}
 }
