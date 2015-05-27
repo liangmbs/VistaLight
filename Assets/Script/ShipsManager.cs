@@ -124,6 +124,7 @@ public class ShipsManager : MonoBehaviour {
 		// Name Ship
 		int shipID = json["vehicle"]["vehicle_id"].AsInt;
 		ship.name = "ship_" + shipID;
+		print (shipID);
 
 		// Set up Ship Information to Prefab
 		ship.GetComponent<Ship>().SetupShip (json);
@@ -133,7 +134,7 @@ public class ShipsManager : MonoBehaviour {
 
 		//notice the Control Panel by status
 		string startstatus = json["vehicle"]["status"];
-		GameObject.Find ("ControlPanel").GetComponent<ControlPanel> ().InstantiateButton (ship, startstatus);
+		//GameObject.Find ("ControlPanel").GetComponent<ControlPanel> ().InstantiateButton (ship, startstatus);
 	}
 
 	

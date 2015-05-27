@@ -28,19 +28,15 @@ public class ControlPanel: MonoBehaviour {
 			
 		case "underway":
 			return underwayPanel;
-			break;
 			
 		case "freemoving":
 			return freemovingPanel;
-			break;
 			
 		case "moored":
 			return mooredPanel;
-			break;
 			
 		case "anchor":
 			return anchorPanel;
-			break;
 			
 		default:
 			throw new Exception ("Do not support such form" + status);
@@ -58,9 +54,9 @@ public class ControlPanel: MonoBehaviour {
 
 
 	public void InstantiateButton(GameObject ship, string startstatus){
-		GameObject newButton = (GameObject)Instantiate (shipButton, Vector3 (1, 1, 1), Quaternion.identity);
+		GameObject newButton = (GameObject)Instantiate (shipButton, new Vector3 (1, 1, 1), Quaternion.identity);
 		newButton.GetComponentInChildren<Text> ().text = ship.name;
-		newButton.name = "button "ship.name;
+		newButton.name = "button " + ship.name;
 		RectTransform selectedPanel = getPanelbyStatus (startstatus);
 		newButton.transform.SetParent (selectedPanel, false);
 		newButton.transform.localScale = new Vector3 (1, 1, 1);
@@ -74,6 +70,7 @@ public class ControlPanel: MonoBehaviour {
 		gameObject.transform.SetParent (updated_Panel.transform, false);
 
 
+	}
 
 
 }

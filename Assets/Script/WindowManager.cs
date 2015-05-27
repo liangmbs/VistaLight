@@ -48,40 +48,7 @@ public class WindowManager: MonoBehaviour {
 		window.GetComponentInChildren<Window> ().setShip (shipobject);
 	}
 
-	/*
-	void Drawpropertywindow(bool showproperty,RaycastHit2D hit){
-		bool show = true;
-		bool notdoinganything = true;
-		if (hitObject == null) {
-			show = true;
-			notdoinganything = false;
-		}
-		else if(hitObject != hit.collider){
-			show = false;
-			notdoinganything = false;
-		}
-		else if (hitObject == hit.collider){
-			show = false;
-			notdoinganything = true;
 
-		}
-
-		if (show == true && notdoinganything == false) {
-			window = Instantiate (propertywindow, transform.position, transform.rotation) as GameObject;
-			hitObject = hit.collider;
-			GameObject shipObject = GameObject.Find (hitObject.name);
-			window.name = "window";
-			window.GetComponentInChildren<Window> ().setShip (shipObject);
-		}
-		if (show == false && notdoinganything == false) {
-			Destroy (window);
-		} 
-		if (notdoinganything) {
-	
-		}
-	}
-	*/
-	
 	
 	
 }
