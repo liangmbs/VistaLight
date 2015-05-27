@@ -55,6 +55,7 @@ public class Ship : MonoBehaviour {
 		//Name = json ["vehicle"] ["vehicle_name"];
 		priority = json ["vehicle"]["priority"].AsInt;
 		status = json["vehicle"]["status"];
+
 		Heading = json ["vehicle"]["heading"].AsDouble;
 		x = json ["vehicle"]["position"]["x"].AsFloat;
 		y = json ["vehicle"]["position"]["y"].AsFloat;
@@ -97,4 +98,10 @@ public class Ship : MonoBehaviour {
 			remainTime = string.Format("{0:00}:{1:00}", diff.Hours, diff.Minutes);
 		}
 	}
+
+
+
+
+
+
 }

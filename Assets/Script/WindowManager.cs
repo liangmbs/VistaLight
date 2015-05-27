@@ -35,7 +35,7 @@ public class WindowManager: MonoBehaviour {
 		window.name = "window";
 	}
 	
-	void ClickOnShip(GameObject hit){
+	public void ClickOnShip(GameObject hit){
 		GameObject detection = GameObject.Find ("window");
 		if (detection == null) {
 			OpenWindow ();	
