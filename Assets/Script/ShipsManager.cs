@@ -63,9 +63,9 @@ public class ShipsManager : MonoBehaviour {
 	}
 	
 	/*
-	 * Creat Ship and information to prefab
+	 * Create Ship and information to prefab
 	 */
-	public void CreatShip(JSONNode json){
+	public void CreateShip(JSONNode json){
 		
 		// Postion
 		float x = json ["vehicle"]["position"]["x"].AsFloat;
@@ -132,8 +132,7 @@ public class ShipsManager : MonoBehaviour {
 		ships.Add (shipID, ship);
 	}
 
-
-
+	
 	public void UpdateStatustoLists(JSONNode json, GameObject ship){
 
 		string currentstatus = ship.GetComponent<Ship> ().status;
@@ -145,24 +144,21 @@ public class ShipsManager : MonoBehaviour {
 		}
 	}
 
+
 	private SortedDictionary <int, GameObject> getListByStatus(string status){
 	switch (status) {
 
 		case "underway":
 			return underwaysships;
-			break;
 
 		case "freemoving":
 			return freemovingships;
-			break;
 
 		case "moored":
 			return mooredships;
-			break;
 
 		case "anchor":
 			return anchorships;
-			break;
 
 		default:
 			throw new Exception("Do not support such form" + status);
@@ -170,6 +166,7 @@ public class ShipsManager : MonoBehaviour {
 		}
 
 	}
+
 
 	public void UpdateList(GameObject ship, string updatedStatus, string currentStatus, int priority){
 
