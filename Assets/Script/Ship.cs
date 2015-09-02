@@ -7,14 +7,12 @@ public class Ship : MonoBehaviour {
 	/*
 	 * Pop up Window
 	 */
-	//public Rect windowRect = new Rect (20, 20, 120, 50);
 	public GUISkin property;
 	public Texture icon;
 
 	/*
 	 * Location
 	 */
-
 	public float x;
 	public float y;
 	public float z;
@@ -22,7 +20,6 @@ public class Ship : MonoBehaviour {
 	/*
 	 * Heading Rotation
 	 */
-
 	public float rZ;
 
 	/*
@@ -41,13 +38,9 @@ public class Ship : MonoBehaviour {
 	/*
 	 * Company
 	 */
-
 	public string Industry;
 	public string Name;
-
-	/*
-	 * Input ShipInformation
-	 */
+	
 
 	public void SetupShip(JSONNode json){
 
@@ -93,7 +86,7 @@ public class Ship : MonoBehaviour {
 	public void RemainingTime(string schedule){
 		DateTime scheduledtime;
 		if (DateTime.TryParse (schedule, out scheduledtime)) {
-			DateTime globaltime = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<JSOCreatShip> ().dateValue;
+			DateTime globaltime = GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<JsonCreateShip> ().dateValue;
 			System.TimeSpan diff = scheduledtime.Subtract(globaltime);
 			remainTime = string.Format("{0:00}:{1:00}", diff.Hours, diff.Minutes);
 		}

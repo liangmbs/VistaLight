@@ -5,7 +5,7 @@ using SimpleJSON;
 using System.Linq;
 using System;
 
-public class JSOCreatShip : MonoBehaviour {
+public class JsonCreateShip : MonoBehaviour {
 
 	public static bool accept;
 	public Text time;
@@ -23,7 +23,7 @@ public class JSOCreatShip : MonoBehaviour {
 	/*
 	 * Detect the Ship Action
 	 */
-		public void Detection(string json){
+	public void Detection(string json){
 
 		JSONNode N = JSON.Parse (json);
 		string action = N["action"];
@@ -36,9 +36,7 @@ public class JSOCreatShip : MonoBehaviour {
 			break;
 
 		case "ship create":
-			//print (json);
-			GameObject.Find ("ShipsManager").GetComponent<ShipsManager>().CreatShip (N);
-			GameObject.Find ("ShipsManager").GetComponent<ShipsManager>().updateShipInformation (N);
+			GameObject.Find ("ShipsManager").GetComponent<ShipsManager>().CreateShip (N);
 			break;
 
 		case "ship move":

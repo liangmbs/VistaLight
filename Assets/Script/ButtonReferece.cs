@@ -7,7 +7,7 @@ public class ButtonReferece : MonoBehaviour {
 
 
 	public void setButton(GameObject button){
-		this.button = button
+		this.button = button;
 	}
 
 

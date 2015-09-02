@@ -18,7 +18,7 @@ public class ClientSocket : MonoBehaviour {
 	Socket client;
 	List<string> sharedMemory = new List<string>() ;
 	public string saved_string;
-	public JSOCreatShip detection;
+	public JsonCreateShip detection;
 	private StringBuilder jsonStringBuilder = new StringBuilder ();
 	private int bracketCount = 0;
 	private ManualResetEvent connectDone = new ManualResetEvent(false);
@@ -37,13 +37,13 @@ public class ClientSocket : MonoBehaviour {
 	}
 
 	void Start(){
-		detection = GameObject.Find("Main Camera").GetComponent <JSOCreatShip>();
+		detection = GameObject.Find("Main Camera").GetComponent <JsonCreateShip>();
 		//Debug.Log(detection);
 
 	}
 
 	void OnLevelWasLoaded(int level){
-		detection = GameObject.Find("Main Camera").GetComponent <JSOCreatShip>();
+		detection = GameObject.Find("Main Camera").GetComponent <JsonCreateShip>();
 		Debug.Log(detection);
 	}
 
@@ -145,13 +145,8 @@ public class ClientSocket : MonoBehaviour {
 		// Convert the string data to byte data using ASCII encoding.
 		byte[] byteData = Encoding.ASCII.GetBytes(data);
 
-
-
-		//if (JSOCreatShip.accept == true) {
-			// Begin sending the data to the remote device.
-			client.BeginSend (byteData, 0, byteData.Length, SocketFlags.None,
-		                 new AsyncCallback (SendCallback), client);
-		//}
+		client.BeginSend (byteData, 0, byteData.Length, SocketFlags.None,
+			new AsyncCallback (SendCallback), client);
 	}
 	
 	
@@ -164,11 +159,6 @@ public class ClientSocket : MonoBehaviour {
 			int bytesSent = client.EndSend(ar);
 			Console.WriteLine("Sent {0} bytes to server.", bytesSent);
 
-			/*if(JSOCreatShip.accept == true){
-				Console.WriteLine("Sent {0} bytes to server.", bytesSent);
-				JSOCreatShip.accept = false;
-			}*/
-
 		} catch (Exception e) {
 			Console.WriteLine(e.ToString());
 		}
@@ -179,20 +169,15 @@ public class ClientSocket : MonoBehaviour {
 		ReadMomory();
 	}
 
-
-
-
 	void ReadMomory(){
 		for (int i =0; i< sharedMemory.Count; i++) {
 			string json = sharedMemory[i];
 			detection.Detection(json);
 		}
 		sharedMemory.Clear();
-
 	}
 
 	void split(string words){
-		
 		for (int i = 0; i < words.Length; i++) {
 			jsonStringBuilder.Append(words[i]);
 			

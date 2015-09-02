@@ -28,19 +28,15 @@ public class ControlPanel: MonoBehaviour {
 			
 		case "underway":
 			return underwayPanel;
-			break;
 			
 		case "freemoving":
 			return freemovingPanel;
-			break;
 			
 		case "moored":
 			return mooredPanel;
-			break;
 			
 		case "anchor":
 			return anchorPanel;
-			break;
 			
 		default:
 			throw new Exception ("Do not support such form" + status);
@@ -74,6 +70,7 @@ public class ControlPanel: MonoBehaviour {
 		gameObject.transform.SetParent (updated_Panel.transform, false);
 	}
 
+	}
 
 
 }

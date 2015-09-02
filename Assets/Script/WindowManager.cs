@@ -64,7 +64,6 @@ public class WindowManager: MonoBehaviour {
 			rt.anchoredPosition = new Vector2
 				(rt.anchoredPosition.x, Mathf.Lerp (homeY , endY, 1 - (slideTimer / slideTime)));
 			//GameObject.Find("Main Camera").GetComponent<MovingCamera>().enabled = false;
-			
 		}
 		
 		if (open == false) {
@@ -81,10 +80,6 @@ public class WindowManager: MonoBehaviour {
 		open = !open;
 		slideTimer = slideTime;
 	}
-
-
-
-
 
 	public void RefreshList(){
 		
