@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic; 
 
 
 public class Window : MonoBehaviour {
@@ -31,10 +32,42 @@ public class Window : MonoBehaviour {
 	public float destinationpointX;
 	public float destinationpointy;
 
+	SortedDictionary<int, GameObject> ships = 
+		new SortedDictionary<int, GameObject> ();
+
+	public List<GameObject> selectedUnits= new List<GameObject>();
+
+
 	public void setShip(GameObject Ship){
 		this.ship = Ship;
 	}
-	
+
+	void Start(){
+
+	}
+
+
+	public void RefreshList(){
+
+		Empty ();
+
+
+	}
+
+
+	public void Empty(){
+
+
+	}
+
+
+
+
+
+
+}
+
+	/*
 	void Start(){
 		Initialize ();
 	}
@@ -95,7 +128,7 @@ public class Window : MonoBehaviour {
 	public void PresentInformation(){
 		ShipName.text= ship.GetComponent<Ship>().Name;
 
-	}
+	}*/
 
 
-}
+

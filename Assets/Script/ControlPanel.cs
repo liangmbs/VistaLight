@@ -47,20 +47,20 @@ public class ControlPanel: MonoBehaviour {
 		}
 	}
 
-
+	/*
 	public void ClickedforWindow(GameObject ship){
 
 		GameObject.Find ("Main Camera").GetComponent <WindowManager> ().ClickOnShip (ship);
 
 	}
-
+*/
 
 
 
 	public void InstantiateButton(GameObject ship, string startstatus){
-		GameObject newButton = (GameObject)Instantiate (shipButton, Vector3 (1, 1, 1), Quaternion.identity);
+		GameObject newButton = (GameObject)Instantiate (shipButton, new Vector3 (1, 1, 1), Quaternion.identity);
 		newButton.GetComponentInChildren<Text> ().text = ship.name;
-		newButton.name = "button "ship.name;
+		newButton.name = "button " + ship.name;
 		RectTransform selectedPanel = getPanelbyStatus (startstatus);
 		newButton.transform.SetParent (selectedPanel, false);
 		newButton.transform.localScale = new Vector3 (1, 1, 1);
@@ -72,7 +72,7 @@ public class ControlPanel: MonoBehaviour {
 		RectTransform current_Panel = getPanelbyStatus (currentStatus);
 		RectTransform updated_Panel = getPanelbyStatus (updatedStatus);
 		gameObject.transform.SetParent (updated_Panel.transform, false);
-
+	}
 
 
 

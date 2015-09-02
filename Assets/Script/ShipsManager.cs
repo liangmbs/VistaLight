@@ -133,7 +133,7 @@ public class ShipsManager : MonoBehaviour {
 
 		//notice the Control Panel by status
 		string startstatus = json["vehicle"]["status"];
-		GameObject.Find ("ControlPanel").GetComponent<ControlPanel> ().InstantiateButton (ship, startstatus);
+		//GameObject.Find ("ControlPanel").GetComponent<ControlPanel> ().InstantiateButton (ship, startstatus);
 	}
 
 

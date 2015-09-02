@@ -12,7 +12,7 @@ public class GameSpeedChange : MonoBehaviour {
 	public GameObject times3;
 
 	void Start(){
-		send = GameObject.Find("ClientSocketObject").GetComponent <ClientSocket>();
+//		send = GameObject.Find("ClientSocketObject").GetComponent <ClientSocket>();
 		paused.GetComponent<Button> ().onClick.AddListener (() => {
 			pausing ();});
 		times1.GetComponent<Button> ().onClick.AddListener (() => {

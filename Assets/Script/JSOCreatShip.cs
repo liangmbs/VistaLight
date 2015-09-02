@@ -13,7 +13,7 @@ public class JSOCreatShip : MonoBehaviour {
 	
 
 	void Start(){
-		time = GameObject.Find ("/UI/TimeBoard/Time").GetComponent<Text> (); 
+//		time = GameObject.Find ("/UI/TimeBoard/Time").GetComponent<Text> (); 
 	}
 
 	void Update(){
@@ -70,7 +70,6 @@ public class JSOCreatShip : MonoBehaviour {
 	public void updateScore(JSONNode json){
 		float moneyScore = json["score"]["score"].AsFloat;
 		GameObject.Find ("ScoreManager").GetComponent<ScoreManager> ().score = moneyScore;
- 		GameObject.Find("UI").GetComponent<BarPresent>().currentMoney = moneyScore;
 	}
 
 	public void Showtime(string globaltime){
