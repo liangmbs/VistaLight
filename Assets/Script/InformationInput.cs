@@ -46,7 +46,7 @@ public class InformationInput : MonoBehaviour {
 		ConfirmInformation ();
 		connection = ClientSocketObject.GetComponent<ClientSocket>();
 		connection.setupSocket ();
-		Application.LoadLevel("GamePlay");
+		Application.LoadLevel("MainPlay");
 		
 	}
 

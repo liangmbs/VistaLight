@@ -45,7 +45,7 @@ public class ClientSocket : MonoBehaviour {
 	void OnLevelWasLoaded(int level){
 		detection = GameObject.Find("Main Camera").GetComponent <JsonCreateShip>();
 		Debug.Log(detection);
-	}
+	}	
 
 
 	void Awake()

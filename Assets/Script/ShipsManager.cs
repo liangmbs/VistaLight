@@ -76,9 +76,9 @@ public class ShipsManager : MonoBehaviour {
 		float rZ = json ["vehicle"]["heading"].AsFloat;
 		
 		// Industry
-		string industry = json["vehicle"]["company"]["industry"];
+		string industry = json["vehicle"]["industry"];
 		GameObject ship;
-
+		print (industry);
 		// Creat Ship
 		switch (industry) {
 			
@@ -91,7 +91,7 @@ public class ShipsManager : MonoBehaviour {
 			break;
 			
 			
-		case "PETROCHEMICAL":
+		case "PETRO":
 			
 			ship = Instantiate (petrochemical, 
 			                    new Vector3 ((x / 1000.0f) - 50.0f, -((y / 1000.0f) - 50.0f), z), 

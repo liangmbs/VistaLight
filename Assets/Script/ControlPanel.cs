@@ -70,7 +70,4 @@ public class ControlPanel: MonoBehaviour {
 		gameObject.transform.SetParent (updated_Panel.transform, false);
 	}
 
-	}
-
-
 }
