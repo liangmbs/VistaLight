@@ -1,19 +1,28 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
-using SimpleJSON;
 using System.IO;
+using System.Text;
 
 public class JSONFile : MonoBehaviour {
+	/*
+	public string path;
 
-	// Use this for initialization
-	void Start () {
-		SimpleJSON.JSONNode node = SimpleJSON.JSONNode.Parse (Resources.Load<TextAsset>);
+	public void NameFiles(){
 
-		File.WriteAllText(@"/Users/chishengliang/Documents/VistaLight/Assets/test", JSON);
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
+*/
+	// Use this for initialization
+	public void Generate () {
+		string path = @"/Users/chishengliang/Documents/VistaLight/Assets/MapGenerator/mapbase.json";
+		if (!File.Exists (path)) {
+
+			string createText = "Hello this is json file" + Environment.NewLine;
+			File.WriteAllText(path, createText);
+			print ("generated");
+		}
+		string appendText = "this is extra text" + Environment.NewLine;
+		File.AppendAllText (path, appendText);
 	}
 }
