@@ -4,45 +4,33 @@ using System.Collections.Generic;
 
 public class Map : MonoBehaviour {
 
-	public List<Vector3> nodes;
-	public List<Vector3> connections;
-	public List<Vector3> ports;
+	public List<Node> nodes = new List<Node>();
+	public List<Connection> connections = new List<Connection>();
+	//public List<Vector3> ports;
 
-	public void addNode(Vector3 startNode, Vector3 endNode){
+	public Map() {}
 
-		Vector3 objectLine = endNode - startNode;
-		float segmentDistance = 2.0f;
-		float distance = objectLine.magnitude;
-		float remainingDistance = distance;
-		Vector3 previousDot = startNode;
-		while (remainingDistance > segmentDistance) {
-			nodes.Add (previousDot);
-			Vector3 nextPoint = previousDot + objectLine.normalized * segmentDistance;
-			previousDot = nextPoint;
-			print (nextPoint);
-			remainingDistance -= segmentDistance;
-		}
+	public string ToString() { return "1234"; }
+
+	public void addNode(Node node){
+		nodes.Add (node);
 	}
  
-	public void addConnection(Vector3 startNode, Vector3 endNode){
-
-	
-
-
+	public void addConnection(Node startNode, Node endNode, bool isBidirectional){
+		connections.Add (new Connection (startNode, endNode, isBidirectional));
 	}
-
+	
+	/*
 	public void addPort(Vector3 port, Vector3 replacednode){
 
 		ports.Add(port);
 		foreach (Vector3 element in nodes) {
 			if(element = replacednode){
 				nodes.Remove(element);
-
 			}
-
-
 		}
 	}
+	*/
 
 
 }
