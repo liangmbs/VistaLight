@@ -12,15 +12,15 @@ using UnityEngine;
 
 public class SingleDirectionTool : MonoBehaviour
 {
-	public GameObject map;
-	public double segmentLength = 2;
-	private double previousPosition;
+	public Map map;
+	public float segmentLength = 2;
+
+	private Node previousNode;
 
 	/**
 	 * State machine state
 	 *   0 - Not started
 	 *   1 - Started
-	 *   2 - Finish
 	 */
 	private int state = 0;
 
@@ -35,14 +35,41 @@ public class SingleDirectionTool : MonoBehaviour
 		switch (state) {
 		case 0:
 			if(ray.collider != null){
-
-
+				previousNode = map.AddNode(ray.point);
 			}
 			state = 1;
 			break;
 		case 1:
 			if (ray.collider != null) {
 				Vector3 targetPosition = ray.point;
+				Vector3 startPosition = previousNode.gameObject.transform.position;
+				float remainingDistance = Vector3.Distance(startPosition, targetPosition);
+
+				// Get the direction from the start point to the destination
+				Vector3 vector = (targetPosition - startPosition).normalized;
+
+				// Create a series of nodes towards the destination
+				Vector3 previousPosition = startPosition;
+				Node nextNode;
+				while(remainingDistance > segmentLength) {
+					// Create next node
+					Vector3 nextPosition = previousPosition + vector * segmentLength;
+					nextNode = map.AddNode(nextPosition);
+
+					// Create connection
+					Connection connection = map.AddConnection(previousNode, nextNode, false);
+
+					// Update for the next iteration
+					previousNode = nextNode;
+					previousPosition = nextPosition;
+					remainingDistance = (targetPosition - previousPosition).magnitude;
+				}
+
+				// At the end, create a node at the target position
+				nextNode = map.AddNode(targetPosition);
+				map.AddConnection(previousNode, nextNode, false);
+				previousPosition = nextNode.gameObject.transform.position;
+				previousNode = nextNode;
 			}
 			break;
 		default:

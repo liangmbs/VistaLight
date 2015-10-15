@@ -9,8 +9,6 @@ public class MovingScreen1 : MonoBehaviour {
 	
 	void LateUpdate(){
 		
-
-		
 		if (Input.GetAxis ("Mouse ScrollWheel") >0 ) {
 			if(Camera.main.orthographicSize < 50)
 				Camera.main.orthographicSize++;

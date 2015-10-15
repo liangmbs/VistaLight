@@ -10,18 +10,34 @@
 using System;
 using UnityEngine;
 
-public class Connection
+public class Connection : MonoBehaviour
 {
 	private Node startNode;
 	private Node endNode;
 	bool isBidirectional;
 
+	/*
 	public Connection (Node startNode, Node endNode, bool isBidirectional)
 	{
 		this.startNode = startNode;
 		this.endNode = endNode;
 		this.isBidirectional = isBidirectional;
 	}
+	*/
+
+	public Node StartNode {
+		get {return startNode;}
+		set {startNode = value;}
+	}
+
+	public Node EndNode {
+		get {return endNode;}
+		set {endNode = value;}
+	}
+
+	public bool Bidirectional {
+		get {return isBidirectional;}
+		set {isBidirectional = value;}
+	}
+
 }
-
-
