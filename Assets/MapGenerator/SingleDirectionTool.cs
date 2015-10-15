@@ -12,7 +12,9 @@ using UnityEngine;
 
 public class SingleDirectionTool : MonoBehaviour
 {
-	public GameObject Dots;
+	public GameObject map;
+	public double segmentLength = 2;
+	private double previousPosition;
 
 	/**
 	 * State machine state
@@ -20,7 +22,7 @@ public class SingleDirectionTool : MonoBehaviour
 	 *   1 - Started
 	 *   2 - Finish
 	 */
-	int state = 0;
+	private int state = 0;
 
 	public SingleDirectionTool ()
 	{
@@ -28,18 +30,20 @@ public class SingleDirectionTool : MonoBehaviour
 	}
 
 	public void RespondMouseClick() {
-		print ("Here");
+		print (map.ToString());
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 		switch (state) {
 		case 0:
-			print ("Here");
-			RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 			if(ray.collider != null){
-				GameObject CreatedDot = Instantiate (Dots, ray.point, transform.rotation) as GameObject;
+
+
 			}
 			state = 1;
 			break;
 		case 1:
-
+			if (ray.collider != null) {
+				Vector3 targetPosition = ray.point;
+			}
 			break;
 		default:
 			break;

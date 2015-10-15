@@ -10,16 +10,8 @@
 using System;
 using UnityEngine;
 
-public class Node
+public class Node : MonoBehaviour
 {
-	private Vector3 position;
-
-	public Node (Vector3 position)
-	{
-		this.position = position;
-	}
-
-
 }
 
 

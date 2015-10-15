@@ -4,12 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
-public class DotGenerator : MonoBehaviour {
+public class MapEditorController : MonoBehaviour {
 
 	public int DotID = 0;
 	public List<GameObject> CreatedDots= new List<GameObject>();
-
-	public Map map;
 
 
 	public GameObject SingleDirectionLane;
@@ -51,8 +49,6 @@ public class DotGenerator : MonoBehaviour {
 		Port.GetComponent<Button> ().onClick.AddListener (() => {
 			getPort ("Port");});
 
-		this.map = new Map ();
-		print (this.map.ToString());
 	}
 	
 	// Update is called once per frame
