@@ -7,8 +7,9 @@ public class Map : MonoBehaviour {
 	public GameObject nodePreFab;
 	public GameObject connectionPreFab;
 
-	private List<Node> nodes = new List<Node>();
-	private List<Connection> connections = new List<Connection>();
+	private int nextNodeId = 1;
+	public List<Node> nodes = new List<Node>();
+	public List<Connection> connections = new List<Connection>();
 	//public List<Vector3> ports;
 
 	public Map() {}
@@ -18,6 +19,8 @@ public class Map : MonoBehaviour {
 	public Node AddNode(Vector3 position){
 		GameObject node = Instantiate (nodePreFab, position, transform.rotation) as GameObject;
 		nodes.Add (node.GetComponent<Node>());
+		node.GetComponent<Node> ().Id = nextNodeId;
+		nextNodeId ++;
 		return node.GetComponent<Node>();
 	}
  
@@ -25,6 +28,7 @@ public class Map : MonoBehaviour {
 		// Instantiate the connection
 		GameObject connectionObject = Instantiate (connectionPreFab, Vector3.zero, Quaternion.identity) as GameObject;
 		Connection connection = connectionObject.GetComponent<Connection> ();
+		this.connections.Add (connection);
 
 		// Set the parameters of the connection
 		connection.StartNode = startNode;

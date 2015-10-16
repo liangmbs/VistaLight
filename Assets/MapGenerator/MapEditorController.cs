@@ -25,6 +25,8 @@ public class MapEditorController : MonoBehaviour {
 	public GameObject BulkImage;
 	public GameObject PortImage;
 
+	public GameObject SaveMapButton;
+
 
 	public int property;
 	public int dock;
@@ -48,6 +50,9 @@ public class MapEditorController : MonoBehaviour {
 			getPort ("Bulk");});
 		Port.GetComponent<Button> ().onClick.AddListener (() => {
 			getPort ("Port");});
+
+		SaveMapButton.GetComponent<Button> ().onClick.AddListener (() => {SaveMap();});
+
 
 	}
 	
@@ -188,6 +193,12 @@ public class MapEditorController : MonoBehaviour {
 			property = 7;
 			break;
 		}
+	}
+
+	public void SaveMap() {
+		Map map = GameObject.Find ("Map").GetComponent<Map> ();
+		MapStringifier mapStringifier = new MapStringifier (map);
+		System.IO.File.WriteAllText ("map.json", mapStringifier.Stringify ());
 	}
 
 }

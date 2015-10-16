@@ -12,6 +12,12 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
+	private int id;
+
+	public int Id {
+		get {return id;}
+		set {id = value;}
+	}
 }
 
 

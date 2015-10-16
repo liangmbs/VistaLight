@@ -1,0 +1,38 @@
+{
+"map_name": "basemap",
+"start_time": "2015-01-01 12:00:00",
+"network":{
+"nodes:":[
+{ "id":1, "position": { "x":33.73832, "y":-83.73832, "z":0 } },
+{ "id":2, "position": { "x":35.55905, "y":-82.91071, "z":0 } },
+{ "id":3, "position": { "x":37.37978, "y":-82.08311, "z":0 } },
+{ "id":4, "position": { "x":39.20052, "y":-81.2555, "z":0 } },
+{ "id":5, "position": { "x":41.02125, "y":-80.42789, "z":0 } },
+{ "id":6, "position": { "x":42.84198, "y":-79.60029, "z":0 } },
+{ "id":7, "position": { "x":44.66271, "y":-78.77268, "z":0 } },
+{ "id":8, "position": { "x":46.48344, "y":-77.94508, "z":0 } },
+{ "id":9, "position": { "x":48.30418, "y":-77.11747, "z":0 } },
+{ "id":10, "position": { "x":50.12491, "y":-76.28986, "z":0 } },
+{ "id":11, "position": { "x":51.94564, "y":-75.46226, "z":0 } },
+{ "id":12, "position": { "x":53.76637, "y":-74.63465, "z":0 } },
+{ "id":13, "position": { "x":55.5871, "y":-73.80704, "z":0 } },
+{ "id":14, "position": { "x":56.35514, "y":-73.45795, "z":0 } }
+],
+"segments": 
+[
+{"src":1, "dst":2, "bidirectional":false },
+{"src":2, "dst":3, "bidirectional":false },
+{"src":3, "dst":4, "bidirectional":false },
+{"src":4, "dst":5, "bidirectional":false },
+{"src":5, "dst":6, "bidirectional":false },
+{"src":6, "dst":7, "bidirectional":false },
+{"src":7, "dst":8, "bidirectional":false },
+{"src":8, "dst":9, "bidirectional":false },
+{"src":9, "dst":10, "bidirectional":false },
+{"src":10, "dst":11, "bidirectional":false },
+{"src":11, "dst":12, "bidirectional":false },
+{"src":12, "dst":13, "bidirectional":false },
+{"src":13, "dst":14, "bidirectional":false }
+]
+}
+}
