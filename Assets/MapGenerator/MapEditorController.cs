@@ -10,50 +10,59 @@ public class MapEditorController : MonoBehaviour {
 	public List<GameObject> CreatedDots= new List<GameObject>();
 
 
-	public GameObject SingleDirectionLane;
-	public GameObject BiDirectionalLane;
-	public GameObject Intersection;
+	public Button SingleDirectionLane;
+	public Button BiDirectionalLane;
+	public Button Intersection;
 	public GameObject Line;
-	public GameObject PetroDock;
-	public GameObject BreakbulkDock;
-	public GameObject BulkDock;
-	public GameObject Port;
 
+	public Button PetroDock;
+	public Button BreakbulkDock;
+	public Button BulkDock;
+	public Button Port;
 	public GameObject Dots;
+
 	public GameObject PetroImage;
 	public GameObject BreakImage;
 	public GameObject BulkImage;
 	public GameObject PortImage;
 
-	public GameObject SaveMapButton;
-
+	public Button SaveMapButton;
+	public List<Button> buttons = new List<Button> (); 
 
 	public int property;
 	public int dock;
 
 	public SingleDirectionTool singleDirectionTool;
 
+
 	// Use this for initialization
 	void Start () {
-		SingleDirectionLane.GetComponent<Button> ().onClick.AddListener (() => {
-			 getButton("SingleDirectional");});
-		BiDirectionalLane.GetComponent<Button> ().onClick.AddListener (() => {
-			getButton ("BiDirectional");});
-		Intersection.GetComponent<Button> ().onClick.AddListener (() => {
-			getButton ("Intersection");});
 
+
+		SingleDirectionLane.GetComponent<Button> ().onClick.AddListener (() => {
+			 selectTool("SingleDirectional",SingleDirectionLane);});
+		BiDirectionalLane.GetComponent<Button> ().onClick.AddListener (() => {
+			selectTool ("BiDirectional",BiDirectionalLane);});
+		Intersection.GetComponent<Button> ().onClick.AddListener (() => {
+			selectTool ("Intersection",Intersection);});
 		PetroDock.GetComponent<Button> ().onClick.AddListener (() => {
-			getPort ("Petro");});
+			selectTool ("Petro",PetroDock);});
 		BreakbulkDock.GetComponent<Button> ().onClick.AddListener (() => {
-			getPort ("Break");});
+			selectTool ("Break",BreakbulkDock);});
 		BulkDock.GetComponent<Button> ().onClick.AddListener (() => {
-			getPort ("Bulk");});
+			selectTool ("Bulk",BulkDock);});
 		Port.GetComponent<Button> ().onClick.AddListener (() => {
-			getPort ("Port");});
+			selectTool ("Port",Port);});
 
 		SaveMapButton.GetComponent<Button> ().onClick.AddListener (() => {SaveMap();});
 
-
+		buttons.Add (SingleDirectionLane);
+		buttons.Add (BiDirectionalLane);
+		buttons.Add (Intersection);
+		buttons.Add (PetroDock);
+		buttons.Add (BreakbulkDock);
+		buttons.Add (BulkDock);
+		buttons.Add (Port);
 	}
 	
 	// Update is called once per frame
@@ -150,7 +159,7 @@ public class MapEditorController : MonoBehaviour {
 		*/
 		
 	}
-
+	/*
 
 
 	public void getButton(string mission){
@@ -193,6 +202,43 @@ public class MapEditorController : MonoBehaviour {
 			property = 7;
 			break;
 		}
+	}*/
+
+	public void selectTool(string selected, Button selectedButton){
+		foreach (Button element in buttons) {
+			element.image.color = Color.gray;
+		}
+		selectedButton.image.color = Color.white;
+
+		switch(selected){
+		case "SingleDirectional":
+			property = 1;
+			break;
+			
+		case "BiDirectional":
+			property = 2;
+			break;
+			
+		case "Intersection":
+			property = 3;
+			break;
+		case "Petro":
+			property = 4;
+			break;
+			
+		case "Break":
+			property = 5;
+			break;
+			
+		case "Bulk":
+			property = 6;
+			break;
+			
+		case "Port":
+			property = 7;
+			break;
+		}
+
 	}
 
 	public void SaveMap() {
