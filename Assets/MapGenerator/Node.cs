@@ -18,6 +18,11 @@ public class Node : MonoBehaviour
 		get {return id;}
 		set {id = value;}
 	}
+	
+	public Vector3 Position {
+		get {this.gameObject.transform.position;}
+		set {this.game.transform.position = value;}
+	}
 }
 
 
