@@ -8,8 +8,7 @@ public class MapEditorController : MonoBehaviour {
 
 	public int DotID = 0;
 	public List<GameObject> CreatedDots= new List<GameObject>();
-
-
+	
 	public Button SingleDirectionLane;
 	public Button BiDirectionalLane;
 	public Button Intersection;
@@ -33,6 +32,11 @@ public class MapEditorController : MonoBehaviour {
 	public int dock;
 
 	public SingleDirectionTool singleDirectionTool;
+
+
+	enum Dockstypes{
+		Petro, Breakbulk, Bulk, Port
+	}
 
 
 	// Use this for initialization
