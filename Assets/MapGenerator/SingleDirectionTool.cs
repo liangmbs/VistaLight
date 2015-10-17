@@ -10,7 +10,7 @@
 using System;
 using UnityEngine;
 
-public class SingleDirectionTool : MonoBehaviour
+public class SingleDirectionTool : IMapEditorTool
 {
 	public Map map;
 	public float segmentLength = 2;
@@ -24,58 +24,75 @@ public class SingleDirectionTool : MonoBehaviour
 	 */
 	private int state = 0;
 
-	public SingleDirectionTool ()
+	public SingleDirectionTool (Map map)
 	{
 		state = 0;
+		this.map = map;
+	}
+
+	private void CreateNewRoad(Vector3 startPosition, Vector3 targetPosition) {
+		float remainingDistance = Vector3.Distance(startPosition, targetPosition);
+
+		// Get the direction from the start point to the destination
+		Vector3 vector = (targetPosition - startPosition).normalized;
+
+		// Create a series of nodes towards the destination
+		Vector3 previousPosition = startPosition;
+		Node nextNode;
+		while (remainingDistance > segmentLength) {
+			// Create next node
+			Vector3 nextPosition = previousPosition + vector * segmentLength;
+			nextNode = map.AddNode(nextPosition);
+
+			// Create connection
+			Connection connection = map.AddConnection(previousNode, nextNode, false);
+
+			// Update for the next iteration
+			previousNode = nextNode;
+			previousPosition = nextPosition;
+			remainingDistance = (targetPosition - previousPosition).magnitude;
+		}
+
+		// At the end, create a node at the target position
+		nextNode = map.AddNode(targetPosition);
+		map.AddConnection(previousNode, nextNode, false);
+		previousPosition = nextNode.gameObject.transform.position;
+		previousNode = nextNode;
 	}
 
 	public void RespondMouseClick() {
-		print (map.ToString());
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 		switch (state) {
 		case 0:
-			if(ray.collider != null){
-				previousNode = map.AddNode(ray.point);
+			if(ray.collider != null ) {
+				if (ray.collider.tag == "Background") {
+					previousNode = map.AddNode(ray.point);
+				} else if (ray.collider.tag == "Node") {
+					Console.WriteLine(ray.collider);
+				}
 			}
 			state = 1;
 			break;
 		case 1:
-			if (ray.collider != null) {
+			if (ray.collider != null && ray.collider.tag == "Background") {
+				Console.WriteLine(ray.collider);
 				Vector3 targetPosition = ray.point;
 				Vector3 startPosition = previousNode.gameObject.transform.position;
-				float remainingDistance = Vector3.Distance(startPosition, targetPosition);
-
-				// Get the direction from the start point to the destination
-				Vector3 vector = (targetPosition - startPosition).normalized;
-
-				// Create a series of nodes towards the destination
-				Vector3 previousPosition = startPosition;
-				Node nextNode;
-				while(remainingDistance > segmentLength) {
-					// Create next node
-					Vector3 nextPosition = previousPosition + vector * segmentLength;
-					nextNode = map.AddNode(nextPosition);
-
-					// Create connection
-					Connection connection = map.AddConnection(previousNode, nextNode, false);
-
-					// Update for the next iteration
-					previousNode = nextNode;
-					previousPosition = nextPosition;
-					remainingDistance = (targetPosition - previousPosition).magnitude;
-				}
-
-				// At the end, create a node at the target position
-				nextNode = map.AddNode(targetPosition);
-				map.AddConnection(previousNode, nextNode, false);
-				previousPosition = nextNode.gameObject.transform.position;
-				previousNode = nextNode;
+				this.CreateNewRoad(startPosition, targetPosition);
+			} else if (ray.collider != null && ray.collider.tag == "Node") {
+				Console.WriteLine(ray.collider);
 			}
 			break;
 		default:
 			break;
 		}
 	}
+
+    public void RespondMouseMove() {
+        RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
+
+    }
 
 
 }

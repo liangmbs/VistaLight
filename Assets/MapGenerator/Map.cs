@@ -17,7 +17,10 @@ public class Map : MonoBehaviour {
 	public string ToString() { return "1234"; }
 
 	public Node AddNode(Vector3 position){
-		GameObject node = Instantiate (nodePreFab, position, transform.rotation) as GameObject;
+		print(position);
+		GameObject node = Instantiate (nodePreFab, 
+									   new Vector3(position.x, position.y, -1), 
+			                           transform.rotation) as GameObject;
 		nodes.Add (node.GetComponent<Node>());
 		node.GetComponent<Node> ().Id = nextNodeId;
 		nextNodeId ++;
