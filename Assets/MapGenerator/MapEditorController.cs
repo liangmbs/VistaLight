@@ -108,7 +108,9 @@ public class MapEditorController : MonoBehaviour {
 		switch(selected){
 		case "SingleDirectional":
 			// property = 1;
-			mapEditorTool = new SingleDirectionTool(GameObject.Find("Map").GetComponent<Map>());
+			RoadTool unidirectionTool = new RoadTool(GameObject.Find("Map").GetComponent<Map>());
+			mapEditorTool = unidirectionTool;
+			unidirectionTool.BiDirection = false;
 			break;
 
 		case "MoveCamera":
@@ -116,7 +118,9 @@ public class MapEditorController : MonoBehaviour {
 			break;
 			
 		case "BiDirectional":
-			property = 2;
+			RoadTool bidirectionTool = new RoadTool(GameObject.Find("Map").GetComponent<Map>());
+			mapEditorTool = bidirectionTool;
+			bidirectionTool.BiDirection = false;
 			break;
 			
 		case "Intersection":

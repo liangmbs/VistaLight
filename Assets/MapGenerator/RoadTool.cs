@@ -10,12 +10,13 @@
 using System;
 using UnityEngine;
 
-public class SingleDirectionTool : IMapEditorTool
+public class RoadTool : IMapEditorTool
 {
 	public Map map;
 	public float segmentLength = 2;
 
 	private Node previousNode;
+	private bool isBiDirection = true;
 
 	/**
 	 * State machine state
@@ -24,10 +25,15 @@ public class SingleDirectionTool : IMapEditorTool
 	 */
 	private int state = 0;
 
-	public SingleDirectionTool (Map map)
+	public RoadTool (Map map)
 	{
 		state = 0;
 		this.map = map;
+	}
+
+	public bool BiDirection {
+		get { return isBiDirection; }
+		set { isBiDirection = value;  }
 	}
 
 	private void SelectNode(Node node) {
