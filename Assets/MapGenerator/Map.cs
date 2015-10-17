@@ -17,7 +17,6 @@ public class Map : MonoBehaviour {
 	public string ToString() { return "1234"; }
 
 	public Node AddNode(Vector3 position){
-		print(position);
 		GameObject node = Instantiate (nodePreFab, 
 									   new Vector3(position.x, position.y, -1), 
 			                           transform.rotation) as GameObject;

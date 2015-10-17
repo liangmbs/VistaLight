@@ -6,4 +6,6 @@ public interface IMapEditorTool {
 	void RespondMouseClick();
 	void RespondMouseMove();
 
+	void Destory();
+
 }

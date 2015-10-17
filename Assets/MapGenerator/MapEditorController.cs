@@ -87,6 +87,11 @@ public class MapEditorController : MonoBehaviour {
 		}
 		selectedButton.image.color = Color.white;
 
+		// Destory the tool if it is initialized
+		if (mapEditorTool != null) {
+			mapEditorTool.();
+		}
+
 		switch(selected){
 		case "SingleDirectional":
 			// property = 1;

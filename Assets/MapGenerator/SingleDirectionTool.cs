@@ -30,7 +30,19 @@ public class SingleDirectionTool : IMapEditorTool
 		this.map = map;
 	}
 
+	private void SelectNode(Node node) {
+		node.gameObject.transform.FindChild("NodeDot").GetComponent<SpriteRenderer>().enabled = false;
+		node.gameObject.transform.FindChild("NodeDotSelected").GetComponent<SpriteRenderer>().enabled = true;
+	}
+
+	private void DeselectNode(Node node) {
+		node.gameObject.transform.FindChild("NodeDot").GetComponent<SpriteRenderer>().enabled = true;
+		node.gameObject.transform.FindChild("NodeDotSelected").GetComponent<SpriteRenderer>().enabled = false;
+	}
+
+
 	private void CreateNewRoad(Vector3 startPosition, Vector3 targetPosition) {
+		DeselectNode(previousNode);
 		float remainingDistance = Vector3.Distance(startPosition, targetPosition);
 
 		// Get the direction from the start point to the destination
@@ -57,7 +69,11 @@ public class SingleDirectionTool : IMapEditorTool
 		nextNode = map.AddNode(targetPosition);
 		map.AddConnection(previousNode, nextNode, false);
 		previousPosition = nextNode.gameObject.transform.position;
-		previousNode = nextNode;
+
+		
+        previousNode = nextNode;
+		SelectNode(nextNode);
+
 	}
 
 	public void RespondMouseClick() {
@@ -67,8 +83,11 @@ public class SingleDirectionTool : IMapEditorTool
 			if(ray.collider != null ) {
 				if (ray.collider.tag == "Background") {
 					previousNode = map.AddNode(ray.point);
+					this.SelectNode(previousNode);
 				} else if (ray.collider.tag == "Node") {
-					Console.WriteLine(ray.collider);
+					// Console.WriteLine(ray.collider);
+					previousNode = ray.collider.GetComponent<Node>();
+					this.SelectNode(previousNode);
 				}
 			}
 			state = 1;
@@ -80,7 +99,9 @@ public class SingleDirectionTool : IMapEditorTool
 				Vector3 startPosition = previousNode.gameObject.transform.position;
 				this.CreateNewRoad(startPosition, targetPosition);
 			} else if (ray.collider != null && ray.collider.tag == "Node") {
-				Console.WriteLine(ray.collider);
+				DeselectNode(previousNode);
+				previousNode = ray.collider.GetComponent<Node>();
+				SelectNode(previousNode);
 			}
 			break;
 		default:
@@ -94,7 +115,9 @@ public class SingleDirectionTool : IMapEditorTool
 
     }
 
-
+	public void Destory() {
+		DeselectNode(previousNode);
+	}
 }
 
 
