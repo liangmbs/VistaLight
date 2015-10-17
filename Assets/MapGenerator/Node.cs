@@ -20,8 +20,8 @@ public class Node : MonoBehaviour
 	}
 	
 	public Vector3 Position {
-		get {this.gameObject.transform.position;}
-		set {this.game.transform.position = value;}
+		get {return this.gameObject.transform.position;}
+		set {this.gameObject.transform.position = value;}
 	}
 }
 
