@@ -30,7 +30,7 @@ public class Map : MonoBehaviour {
 		// Instantiate the connection
 		GameObject connectionObject = Instantiate (connectionPreFab, Vector3.zero, Quaternion.identity) as GameObject;
 		Connection connection = connectionObject.GetComponent<Connection> ();
-		this.connections.Add (connection);
+		connections.Add (connection);
 
 		// Set the parameters of the connection
 		connection.StartNode = startNode;
@@ -38,11 +38,11 @@ public class Map : MonoBehaviour {
 		connection.Bidirectional = isBidirectional;
 
 		// Update the position of a connection
-		Vector3 startPosition = startNode.gameObject.transform.position;
-		Vector3 endPosition = endNode.gameObject.transform.position;
-		connection.transform.position = (startPosition + endPosition) / 2.0f;
-		connection.transform.localScale = new Vector3(Vector3.Distance(endPosition, startPosition), 0.1f, 0.01f);
-		connection.transform.rotation = Quaternion.FromToRotation(new Vector3(1, 0, 0), startPosition - endPosition);
+		connection.UpdatePosition();
+
+		// Let both startNode and endNode have information about the connection
+		startNode.AddConnection(connection);
+		endNode.AddConnection(connection);
 
 		// Return the newly created connection
 		return connection;

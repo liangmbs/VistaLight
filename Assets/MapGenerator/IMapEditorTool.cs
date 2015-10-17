@@ -4,7 +4,7 @@ using System.Collections;
 public interface IMapEditorTool {
 
 	void RespondMouseClick();
-	void RespondMouseMove();
+	void RespondMouseMove(float x, float y);
 
 	void Destory();
 

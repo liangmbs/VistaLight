@@ -12,17 +12,11 @@ public class MovingScreen1 : MonoBehaviour {
 		if (Input.GetAxis ("Mouse ScrollWheel") >0 ) {
 			if(Camera.main.orthographicSize < 50)
 				Camera.main.orthographicSize++;
-			else{
-				
-			}
 		}
 		
 		if (Input.GetAxis ("Mouse ScrollWheel") <0) {
 			if(Camera.main.orthographicSize > 25)
 				Camera.main.orthographicSize --;
-			else{
-				
-			}
 		}
 	}
 

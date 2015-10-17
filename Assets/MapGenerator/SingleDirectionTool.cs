@@ -94,7 +94,6 @@ public class SingleDirectionTool : IMapEditorTool
 			break;
 		case 1:
 			if (ray.collider != null && ray.collider.tag == "Background") {
-				Console.WriteLine(ray.collider);
 				Vector3 targetPosition = ray.point;
 				Vector3 startPosition = previousNode.gameObject.transform.position;
 				this.CreateNewRoad(startPosition, targetPosition);
@@ -109,10 +108,8 @@ public class SingleDirectionTool : IMapEditorTool
 		}
 	}
 
-    public void RespondMouseMove() {
-        RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-
-
+    public void RespondMouseMove(float x, float y) {
+		Debug.Log("Move");
     }
 
 	public void Destory() {

@@ -8,11 +8,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Node : MonoBehaviour
 {
 	private int id;
+	private List<Connection> connections = new List<Connection>();
 
 	public int Id {
 		get {return id;}
@@ -21,7 +24,21 @@ public class Node : MonoBehaviour
 	
 	public Vector3 Position {
 		get {return this.gameObject.transform.position;}
-		set {this.gameObject.transform.position = value;}
+		set {
+			this.gameObject.transform.position = value;
+			foreach (Connection connection in connections) {
+				connection.UpdatePosition();
+			}
+		}
+	}
+
+	public void AddConnection(Connection connection) {
+		connections.Add(connection); 
+	}
+
+	public void OnMouseDrag() {
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+		Position = new Vector3(ray.point.x, ray.point.y, -1);
 	}
 }
 

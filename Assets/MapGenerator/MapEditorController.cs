@@ -13,7 +13,7 @@ public class MapEditorController : MonoBehaviour {
 	public Button SingleDirectionLane;
 	public Button BiDirectionalLane;
 	public Button Intersection;
-	public GameObject Line;
+	public Button MoveCameraButton;
 
 	public Button PetroDock;
 	public Button BreakbulkDock;
@@ -40,31 +40,35 @@ public class MapEditorController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-
+		MoveCameraButton.GetComponent<Button>().onClick.AddListener(() => {
+			SelectTool("MoveCamera", MoveCameraButton);});
 		SingleDirectionLane.GetComponent<Button> ().onClick.AddListener (() => {
-			 selectTool("SingleDirectional",SingleDirectionLane);});
+			SelectTool("SingleDirectional",SingleDirectionLane);});
 		BiDirectionalLane.GetComponent<Button> ().onClick.AddListener (() => {
-			selectTool ("BiDirectional",BiDirectionalLane);});
+			SelectTool ("BiDirectional",BiDirectionalLane);});
 		Intersection.GetComponent<Button> ().onClick.AddListener (() => {
-			selectTool ("Intersection",Intersection);});
+			SelectTool ("Intersection",Intersection);});
 		PetroDock.GetComponent<Button> ().onClick.AddListener (() => {
-			selectTool ("Petro",PetroDock);});
+			SelectTool ("Petro",PetroDock);});
 		BreakbulkDock.GetComponent<Button> ().onClick.AddListener (() => {
-			selectTool ("Break",BreakbulkDock);});
+			SelectTool ("Break",BreakbulkDock);});
 		BulkDock.GetComponent<Button> ().onClick.AddListener (() => {
-			selectTool ("Bulk",BulkDock);});
+			SelectTool ("Bulk",BulkDock);});
 		Port.GetComponent<Button> ().onClick.AddListener (() => {
-			selectTool ("Port",Port);});
+			SelectTool ("Port",Port);});
 
 		SaveMapButton.GetComponent<Button> ().onClick.AddListener (() => {SaveMap();});
 
 		buttons.Add (SingleDirectionLane);
 		buttons.Add (BiDirectionalLane);
 		buttons.Add (Intersection);
+		buttons.Add(MoveCameraButton);
 		buttons.Add (PetroDock);
 		buttons.Add (BreakbulkDock);
 		buttons.Add (BulkDock);
 		buttons.Add (Port);
+
+		SelectTool("MoveCamera", MoveCameraButton);
 	}
 
 	// Update is called once per frame
@@ -76,12 +80,21 @@ public class MapEditorController : MonoBehaviour {
 				return;
 
 			// Respond click
-			mapEditorTool.RespondMouseClick();
+			if (mapEditorTool != null)
+				mapEditorTool.RespondMouseClick();
+		}
+
+		// print(string.Format("Mouse {0}, {1}", Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")));
+		if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0) {
+			if (mapEditorTool != null) {
+				mapEditorTool.RespondMouseMove(
+					Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+			}
 		}
 	}
 
 
-	public void selectTool(string selected, Button selectedButton){
+	public void SelectTool(string selected, Button selectedButton){
 		foreach (Button element in buttons) {
 			element.image.color = Color.gray;
 		}
@@ -89,13 +102,17 @@ public class MapEditorController : MonoBehaviour {
 
 		// Destory the tool if it is initialized
 		if (mapEditorTool != null) {
-			mapEditorTool.();
+			mapEditorTool.Destory();
 		}
 
 		switch(selected){
 		case "SingleDirectional":
 			// property = 1;
 			mapEditorTool = new SingleDirectionTool(GameObject.Find("Map").GetComponent<Map>());
+			break;
+
+		case "MoveCamera":
+			mapEditorTool = new MoveTool();
 			break;
 			
 		case "BiDirectional":
