@@ -46,6 +46,14 @@ public class Connection : MonoBehaviour
 		gameObject.transform.position = (startPosition + endPosition) / 2.0f;
 		gameObject.transform.localScale = new Vector3(Vector3.Distance(endPosition, startPosition), 0.1f, 0.01f);
 		gameObject.transform.rotation = Quaternion.FromToRotation(new Vector3(1, 0, 0), startPosition - endPosition);
+
+		if (isBidirectional) {
+			gameObject.transform.FindChild("Unidirectional").GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.FindChild("Bidirectional").GetComponent<SpriteRenderer>().enabled = true;
+		} else {
+			gameObject.transform.FindChild("Unidirectional").GetComponent<SpriteRenderer>().enabled = true;
+			gameObject.transform.FindChild("Bidirectional").GetComponent<SpriteRenderer>().enabled = false;
+		}
 	}
 
 }

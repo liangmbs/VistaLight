@@ -73,18 +73,29 @@ public class MapEditorController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
+		// Mouse left click
 		if (Input.GetMouseButtonDown(0)) {
-
 			// If the event is responded by UI elements, do not respond again.
 			if (EventSystem.current.IsPointerOverGameObject())
 				return;
 
 			// Respond click
 			if (mapEditorTool != null)
-				mapEditorTool.RespondMouseClick();
+				mapEditorTool.RespondMouseLeftClick();
 		}
 
-		// print(string.Format("Mouse {0}, {1}", Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")));
+		// Mouse right click
+		if (Input.GetMouseButtonUp(0)) {
+			// If the event is responded by UI elements, do not respond again.
+			if (EventSystem.current.IsPointerOverGameObject())
+				return;
+
+			// Respond click
+			if (mapEditorTool != null)
+				mapEditorTool.RespondMouseLeftUp();
+		}
+
+		// Mouse move
 		if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0) {
 			if (mapEditorTool != null) {
 				mapEditorTool.RespondMouseMove(
@@ -120,7 +131,7 @@ public class MapEditorController : MonoBehaviour {
 		case "BiDirectional":
 			RoadTool bidirectionTool = new RoadTool(GameObject.Find("Map").GetComponent<Map>());
 			mapEditorTool = bidirectionTool;
-			bidirectionTool.BiDirection = false;
+			bidirectionTool.BiDirection = true;
 			break;
 			
 		case "Intersection":

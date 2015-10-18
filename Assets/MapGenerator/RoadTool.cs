@@ -63,7 +63,7 @@ public class RoadTool : IMapEditorTool
 			nextNode = map.AddNode(nextPosition);
 
 			// Create connection
-			Connection connection = map.AddConnection(previousNode, nextNode, false);
+			Connection connection = map.AddConnection(previousNode, nextNode, isBiDirection);
 
 			// Update for the next iteration
 			previousNode = nextNode;
@@ -82,7 +82,7 @@ public class RoadTool : IMapEditorTool
 
 	}
 
-	public void RespondMouseClick() {
+	public void RespondMouseLeftClick() {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 		switch (state) {
 		case 0:
@@ -115,11 +115,13 @@ public class RoadTool : IMapEditorTool
 	}
 
     public void RespondMouseMove(float x, float y) {
-		Debug.Log("Move");
     }
 
 	public void Destory() {
 		DeselectNode(previousNode);
+	}
+
+	public void RespondMouseLeftUp() {
 	}
 }
 

@@ -15,7 +15,7 @@ public class MovingScreen1 : MonoBehaviour {
 		}
 		
 		if (Input.GetAxis ("Mouse ScrollWheel") <0) {
-			if(Camera.main.orthographicSize > 25)
+			if(Camera.main.orthographicSize > 5)
 				Camera.main.orthographicSize --;
 		}
 	}
