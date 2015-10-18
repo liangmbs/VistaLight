@@ -47,6 +47,11 @@ public class Map : MonoBehaviour {
 		// Return the newly created connection
 		return connection;
 	}
+
+	public void RemoveNode(Node node) {
+		node.Remove();
+		nodes.Remove(node);
+	}
 	
 	/*
 	public void addPort(Vector3 port, Vector3 replacednode){

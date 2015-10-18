@@ -40,6 +40,28 @@ public class Node : MonoBehaviour
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 		Position = new Vector3(ray.point.x, ray.point.y, -1);
 	}
+
+	public void Remove() {
+		// Desotry all connections first
+		foreach (Connection connection in connections) {
+			// Remove the connection for the other end of the connection
+			if (connection.StartNode != this) {
+				connection.StartNode.RemoveConnection(connection);
+			} else if (connection.EndNode != this) {
+				connection.EndNode.RemoveConnection(connection);
+			}
+
+			// Remove the connection gameobject
+			Destroy(connection.gameObject);
+		}
+		
+		// Destroy the game object
+		Destroy(this.gameObject);
+	}
+
+	public void RemoveConnection(Connection connection) {
+		connections.Remove(connection); 
+	}
 }
 
 

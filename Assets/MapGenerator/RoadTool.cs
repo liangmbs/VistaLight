@@ -161,6 +161,12 @@ public class RoadTool : IMapEditorTool
 	public void RespondMouseRightClick() {
 		this.DeselectNode(previousNode);
 		this.state = 0;
+
+		// Right click on a node, remove it
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+		if (ray.collider != null && ray.collider.tag == "Node") {
+			map.RemoveNode(ray.collider.GetComponent<Node>());
+		}
 	}
 }
 
