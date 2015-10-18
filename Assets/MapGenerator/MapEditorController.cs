@@ -84,7 +84,7 @@ public class MapEditorController : MonoBehaviour {
 				mapEditorTool.RespondMouseLeftClick();
 		}
 
-		// Mouse right click
+		// Mouse left click up
 		if (Input.GetMouseButtonUp(0)) {
 			// If the event is responded by UI elements, do not respond again.
 			if (EventSystem.current.IsPointerOverGameObject())
@@ -93,6 +93,17 @@ public class MapEditorController : MonoBehaviour {
 			// Respond click
 			if (mapEditorTool != null)
 				mapEditorTool.RespondMouseLeftUp();
+		}
+
+		// Mouse right click
+		if (Input.GetMouseButtonDown(1)) {
+			// If the event is responded by UI elements, do not respond again.
+			if (EventSystem.current.IsPointerOverGameObject())
+				return;
+
+			// Respond click
+			if (mapEditorTool != null)
+				mapEditorTool.RespondMouseRightClick();
 		}
 
 		// Mouse move

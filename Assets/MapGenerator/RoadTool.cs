@@ -57,7 +57,7 @@ public class RoadTool : IMapEditorTool
 		// Create a series of nodes towards the destination
 		Vector3 previousPosition = startPosition;
 		Node nextNode;
-		while (remainingDistance > segmentLength) {
+		while (remainingDistance > 2 * segmentLength) {
 			// Create next node
 			Vector3 nextPosition = previousPosition + vector * segmentLength;
 			nextNode = map.AddNode(nextPosition);
@@ -79,7 +79,40 @@ public class RoadTool : IMapEditorTool
 		
         previousNode = nextNode;
 		SelectNode(nextNode);
+	}
 
+	private void CreateNewRoad(Vector3 startPosition, Node targetNode) {
+		DeselectNode(previousNode);
+		float remainingDistance = Vector3.Distance(startPosition, targetNode.Position);
+
+		// Get the direction from the start point to the destination
+		Vector3 vector = (targetNode.Position - startPosition).normalized;
+
+		// Create a series of nodes towards the destination
+		Vector3 previousPosition = startPosition;
+		Node nextNode;
+		while (remainingDistance > 2 * segmentLength) {
+			// Create next node
+			Vector3 nextPosition = previousPosition + vector * segmentLength;
+			nextNode = map.AddNode(nextPosition);
+
+			// Create connection
+			Connection connection = map.AddConnection(previousNode, nextNode, isBiDirection);
+
+			// Update for the next iteration
+			previousNode = nextNode;
+			previousPosition = nextPosition;
+			remainingDistance = (targetNode.Position - previousPosition).magnitude;
+		}
+
+		// At the end, do not create node, but use the target node
+		// nextNode = map.AddNode(targetNode.Position);
+		map.AddConnection(previousNode, targetNode, false);
+		previousPosition = targetNode.gameObject.transform.position;
+
+
+		previousNode = targetNode;
+		SelectNode(targetNode);
 	}
 
 	public void RespondMouseLeftClick() {
@@ -101,12 +134,13 @@ public class RoadTool : IMapEditorTool
 		case 1:
 			if (ray.collider != null && ray.collider.tag == "Background") {
 				Vector3 targetPosition = ray.point;
-				Vector3 startPosition = previousNode.gameObject.transform.position;
+				Vector3 startPosition = previousNode.Position;
 				this.CreateNewRoad(startPosition, targetPosition);
 			} else if (ray.collider != null && ray.collider.tag == "Node") {
-				DeselectNode(previousNode);
-				previousNode = ray.collider.GetComponent<Node>();
-				SelectNode(previousNode);
+				if (ray.collider.GetComponent<Node>() != previousNode) {
+					Vector3 startPosition = previousNode.Position;
+					this.CreateNewRoad(startPosition, ray.collider.GetComponent<Node>());
+				}
 			}
 			break;
 		default:
@@ -122,6 +156,11 @@ public class RoadTool : IMapEditorTool
 	}
 
 	public void RespondMouseLeftUp() {
+	}
+
+	public void RespondMouseRightClick() {
+		this.DeselectNode(previousNode);
+		this.state = 0;
 	}
 }
 

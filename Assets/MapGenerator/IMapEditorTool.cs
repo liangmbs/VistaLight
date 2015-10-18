@@ -7,6 +7,8 @@ public interface IMapEditorTool {
 	void RespondMouseLeftUp();
 	void RespondMouseMove(float x, float y);
 
+	void RespondMouseRightClick();
+
 	void Destory();
 
 }

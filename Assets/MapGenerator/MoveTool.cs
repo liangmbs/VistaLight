@@ -35,5 +35,7 @@ class MoveTool : IMapEditorTool {
 		}
 	}
 
+	public void RespondMouseRightClick() {
+	}
 }
 
