@@ -42,8 +42,10 @@ public class RoadTool : IMapEditorTool
 	}
 
 	private void DeselectNode(Node node) {
-		node.gameObject.transform.FindChild("NodeDot").GetComponent<SpriteRenderer>().enabled = true;
-		node.gameObject.transform.FindChild("NodeDotSelected").GetComponent<SpriteRenderer>().enabled = false;
+		if (node != null) {
+			node.gameObject.transform.FindChild("NodeDot").GetComponent<SpriteRenderer>().enabled = true;
+			node.gameObject.transform.FindChild("NodeDotSelected").GetComponent<SpriteRenderer>().enabled = false;
+		}
 	}
 
 
@@ -73,7 +75,7 @@ public class RoadTool : IMapEditorTool
 
 		// At the end, create a node at the target position
 		nextNode = map.AddNode(targetPosition);
-		map.AddConnection(previousNode, nextNode, false);
+		map.AddConnection(previousNode, nextNode, isBiDirection);
 		previousPosition = nextNode.gameObject.transform.position;
 
 		
@@ -107,7 +109,7 @@ public class RoadTool : IMapEditorTool
 
 		// At the end, do not create node, but use the target node
 		// nextNode = map.AddNode(targetNode.Position);
-		map.AddConnection(previousNode, targetNode, false);
+		map.AddConnection(previousNode, targetNode, isBiDirection);
 		previousPosition = targetNode.gameObject.transform.position;
 
 
@@ -159,13 +161,16 @@ public class RoadTool : IMapEditorTool
 	}
 
 	public void RespondMouseRightClick() {
-		this.DeselectNode(previousNode);
-		this.state = 0;
-
 		// Right click on a node, remove it
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 		if (ray.collider != null && ray.collider.tag == "Node") {
+			if (ray.collider.GetComponent<Node>() == previousNode) {
+				state = 0;
+			}
 			map.RemoveNode(ray.collider.GetComponent<Node>());
+		} else {
+			this.DeselectNode(previousNode);
+			this.state = 0;
 		}
 	}
 }

@@ -148,20 +148,21 @@ public class MapEditorController : MonoBehaviour {
 		case "Intersection":
 			property = 3;
 			break;
+
 		case "Petro":
-			property = 4;
+			mapEditorTool = new CreateDockTool(GameObject.Find("Map").GetComponent<Map>(), DockType.Petro);
 			break;
 			
 		case "Break":
-			property = 5;
+			mapEditorTool = new CreateDockTool(GameObject.Find("Map").GetComponent<Map>(), DockType.BreakBulk);
 			break;
 			
 		case "Bulk":
-			property = 6;
+			mapEditorTool = new CreateDockTool(GameObject.Find("Map").GetComponent<Map>(), DockType.Bulk);
 			break;
 			
 		case "Port":
-			property = 7;
+			mapEditorTool = new CreateDockTool(GameObject.Find("Map").GetComponent<Map>(), DockType.Port);
 			break;
 		}
 

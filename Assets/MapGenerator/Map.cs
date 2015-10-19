@@ -1,20 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Map : MonoBehaviour {
 
 	public GameObject nodePreFab;
 	public GameObject connectionPreFab;
+	public GameObject dockPreFab;
 
 	private int nextNodeId = 1;
 	public List<Node> nodes = new List<Node>();
 	public List<Connection> connections = new List<Connection>();
-	//public List<Vector3> ports;
+	public List<Dock> docks = new List<Dock>();
 
 	public Map() {}
-
-	public string ToString() { return "1234"; }
 
 	public Node AddNode(Vector3 position){
 		GameObject node = Instantiate (nodePreFab, 
@@ -25,7 +25,7 @@ public class Map : MonoBehaviour {
 		nextNodeId ++;
 		return node.GetComponent<Node>();
 	}
- 
+
 	public Connection AddConnection(Node startNode, Node endNode, bool isBidirectional){
 		// Instantiate the connection
 		GameObject connectionObject = Instantiate (connectionPreFab, Vector3.zero, Quaternion.identity) as GameObject;
@@ -53,17 +53,24 @@ public class Map : MonoBehaviour {
 		nodes.Remove(node);
 	}
 	
-	/*
-	public void addPort(Vector3 port, Vector3 replacednode){
+	public void AddDock(Node node, DockType type){
+		// Create dock object
+		GameObject dockObject = Instantiate(dockPreFab, node.Position, new Quaternion(0, 0, 0, 0)) as GameObject;
+		Dock dock = dockObject.GetComponent<Dock>();
+		docks.Add(dock);
 
-		ports.Add(port);
-		foreach (Vector3 element in nodes) {
-			if(element = replacednode){
-				nodes.Remove(element);
-			}
-		}
+		// Setup dock information
+		dock.Node = node;
+		dock.Type = type;
+		dock.Map = this;
+
+		// Update dock apperance
+		dock.UpdateGameObject();
 	}
-	*/
 
+	public void RemoveDock(Dock dock) {
+		docks.Remove(dock);
+		Destroy(dock.gameObject);
+	}
 
 }

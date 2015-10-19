@@ -15,13 +15,19 @@ using UnityEngine;
 public class Node : MonoBehaviour
 {
 	private int id;
+	private Map map;
 	private List<Connection> connections = new List<Connection>();
 
 	public int Id {
 		get {return id;}
 		set {id = value;}
 	}
-	
+
+	public Map Map {
+		get { return map; }
+		set { map = value; }
+	}
+
 	public Vector3 Position {
 		get {return this.gameObject.transform.position;}
 		set {
@@ -61,6 +67,10 @@ public class Node : MonoBehaviour
 
 	public void RemoveConnection(Connection connection) {
 		connections.Remove(connection); 
+	}
+
+	public void Update() { 
+
 	}
 }
 
