@@ -36,14 +36,13 @@ public class Dock : MonoBehaviour {
 				gameObject.transform.FindChild(type.ToString()).GetComponent<SpriteRenderer>().enabled = false;
 			}
 		}
-		gameObject.transform.position = new Vector3(
-				gameObject.transform.position.x,
-				gameObject.transform.position.y,
-				-2);
 	}
 
 	public void Update() {
-		gameObject.transform.position = node.Position;
+		gameObject.transform.position = new Vector3(
+				node.Position.x, 
+				node.Position.y, 
+				-2);
 		if (Input.GetMouseButtonDown(1)) {
 			RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 			if (ray.collider.gameObject == this.gameObject) {
