@@ -5,6 +5,8 @@ using System;
 
 public class Map : MonoBehaviour {
 
+	private string mapName = "map";
+
 	public GameObject nodePreFab;
 	public GameObject connectionPreFab;
 	public GameObject dockPreFab;
@@ -15,6 +17,11 @@ public class Map : MonoBehaviour {
 	public List<Dock> docks = new List<Dock>();
 
 	public Map() {}
+
+	public string Name { 
+		get { return mapName;  }
+		set { mapName = value; }
+	}
 
 	public Node AddNode(Vector3 position){
 		GameObject node = Instantiate (nodePreFab, 
@@ -71,6 +78,10 @@ public class Map : MonoBehaviour {
 	public void RemoveDock(Dock dock) {
 		docks.Remove(dock);
 		Destroy(dock.gameObject);
+	}
+
+	public void StartOver() {
+		throw new NotImplementedException();
 	}
 
 }

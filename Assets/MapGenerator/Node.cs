@@ -69,8 +69,9 @@ public class Node : MonoBehaviour
 		connections.Remove(connection); 
 	}
 
-	public void Update() { 
-
+	public void Update() {
+		gameObject.transform.localScale = new Vector3(
+			Camera.main.orthographicSize / 300, Camera.main.orthographicSize / 300, 1);
 	}
 }
 

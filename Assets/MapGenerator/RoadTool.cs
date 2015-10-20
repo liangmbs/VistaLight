@@ -13,7 +13,7 @@ using UnityEngine;
 public class RoadTool : IMapEditorTool
 {
 	public Map map;
-	public float segmentLength = 2;
+	public float segmentLength = 1000;
 
 	private Node previousNode;
 	private bool isBiDirection = true;

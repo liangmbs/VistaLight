@@ -5,18 +5,17 @@ public class MovingScreen1 : MonoBehaviour {
 
 	protected float HorizontalSpeed =5.0f;
 	protected float VerticalSpeed =5.0f;
-	public GameObject BackGound;
 	
 	void LateUpdate(){
 		
 		if (Input.GetAxis ("Mouse ScrollWheel") >0 ) {
-			if(Camera.main.orthographicSize < 50)
-				Camera.main.orthographicSize++;
+			if(Camera.main.orthographicSize < 50000)
+				Camera.main.orthographicSize += 0.05f * Camera.main.orthographicSize;
 		}
 		
 		if (Input.GetAxis ("Mouse ScrollWheel") <0) {
-			if(Camera.main.orthographicSize > 5)
-				Camera.main.orthographicSize --;
+			if(Camera.main.orthographicSize > 50)
+				Camera.main.orthographicSize -= 0.05f * Camera.main.orthographicSize;
 		}
 	}
 

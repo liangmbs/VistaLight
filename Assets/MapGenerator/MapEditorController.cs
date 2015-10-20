@@ -19,14 +19,9 @@ public class MapEditorController : MonoBehaviour {
 	public Button BreakbulkDock;
 	public Button BulkDock;
 	public Button Port;
-	public GameObject Dots;
 
-	public GameObject PetroImage;
-	public GameObject BreakImage;
-	public GameObject BulkImage;
-	public GameObject PortImage;
+	public GameObject mapInfoPanel;
 
-	public Button SaveMapButton;
 	public List<Button> buttons = new List<Button> (); 
 
 	public int property;
@@ -57,8 +52,6 @@ public class MapEditorController : MonoBehaviour {
 		Port.GetComponent<Button> ().onClick.AddListener (() => {
 			SelectTool ("Port",Port);});
 
-		SaveMapButton.GetComponent<Button> ().onClick.AddListener (() => {SaveMap();});
-
 		buttons.Add (SingleDirectionLane);
 		buttons.Add (BiDirectionalLane);
 		buttons.Add (Intersection);
@@ -69,6 +62,9 @@ public class MapEditorController : MonoBehaviour {
 		buttons.Add (Port);
 
 		SelectTool("MoveCamera", MoveCameraButton);
+
+		// Set the panel to new map panel
+		mapInfoPanel.transform.SetAsLastSibling();
 	}
 
 	// Update is called once per frame
