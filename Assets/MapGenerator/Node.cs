@@ -8,20 +8,70 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Node : MonoBehaviour
 {
 	private int id;
+	private Map map;
+	private List<Connection> connections = new List<Connection>();
 
 	public int Id {
 		get {return id;}
 		set {id = value;}
 	}
-	
+
+	public Map Map {
+		get { return map; }
+		set { map = value; }
+	}
+
 	public Vector3 Position {
-		get {this.gameObject.transform.position;}
-		set {this.game.transform.position = value;}
+		get {return this.gameObject.transform.position;}
+		set {
+			this.gameObject.transform.position = value;
+			foreach (Connection connection in connections) {
+				connection.UpdatePosition();
+			}
+		}
+	}
+
+	public void AddConnection(Connection connection) {
+		connections.Add(connection); 
+	}
+
+	public void OnMouseDrag() {
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+		Position = new Vector3(ray.point.x, ray.point.y, -1);
+	}
+
+	public void Remove() {
+		// Desotry all connections first
+		foreach (Connection connection in connections) {
+			// Remove the connection for the other end of the connection
+			if (connection.StartNode != this) {
+				connection.StartNode.RemoveConnection(connection);
+			} else if (connection.EndNode != this) {
+				connection.EndNode.RemoveConnection(connection);
+			}
+
+			// Remove the connection gameobject
+			Destroy(connection.gameObject);
+		}
+		
+		// Destroy the game object
+		Destroy(this.gameObject);
+	}
+
+	public void RemoveConnection(Connection connection) {
+		connections.Remove(connection); 
+	}
+
+	public void Update() {
+		gameObject.transform.localScale = new Vector3(
+			Camera.main.orthographicSize / 300, Camera.main.orthographicSize / 300, 1);
 	}
 }
 

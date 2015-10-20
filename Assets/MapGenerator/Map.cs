@@ -1,34 +1,43 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Map : MonoBehaviour {
 
+	private string mapName = "map";
+
 	public GameObject nodePreFab;
 	public GameObject connectionPreFab;
+	public GameObject dockPreFab;
 
 	private int nextNodeId = 1;
 	public List<Node> nodes = new List<Node>();
 	public List<Connection> connections = new List<Connection>();
-	//public List<Vector3> ports;
+	public List<Dock> docks = new List<Dock>();
 
 	public Map() {}
 
-	public string ToString() { return "1234"; }
+	public string Name { 
+		get { return mapName;  }
+		set { mapName = value; }
+	}
 
 	public Node AddNode(Vector3 position){
-		GameObject node = Instantiate (nodePreFab, position, transform.rotation) as GameObject;
+		GameObject node = Instantiate (nodePreFab, 
+									   new Vector3(position.x, position.y, -1), 
+			                           transform.rotation) as GameObject;
 		nodes.Add (node.GetComponent<Node>());
 		node.GetComponent<Node> ().Id = nextNodeId;
 		nextNodeId ++;
 		return node.GetComponent<Node>();
 	}
- 
+
 	public Connection AddConnection(Node startNode, Node endNode, bool isBidirectional){
 		// Instantiate the connection
 		GameObject connectionObject = Instantiate (connectionPreFab, Vector3.zero, Quaternion.identity) as GameObject;
 		Connection connection = connectionObject.GetComponent<Connection> ();
-		this.connections.Add (connection);
+		connections.Add (connection);
 
 		// Set the parameters of the connection
 		connection.StartNode = startNode;
@@ -36,27 +45,43 @@ public class Map : MonoBehaviour {
 		connection.Bidirectional = isBidirectional;
 
 		// Update the position of a connection
-		Vector3 startPosition = startNode.gameObject.transform.position;
-		Vector3 endPosition = endNode.gameObject.transform.position;
-		connection.transform.position = (startPosition + endPosition) / 2.0f;
-		connection.transform.localScale = new Vector3(Vector3.Distance(endPosition, startPosition), 0.1f, 0.01f);
-		connection.transform.rotation = Quaternion.FromToRotation(new Vector3(1, 0, 0), startPosition - endPosition);
+		connection.UpdatePosition();
+
+		// Let both startNode and endNode have information about the connection
+		startNode.AddConnection(connection);
+		endNode.AddConnection(connection);
 
 		// Return the newly created connection
 		return connection;
 	}
-	
-	/*
-	public void addPort(Vector3 port, Vector3 replacednode){
 
-		ports.Add(port);
-		foreach (Vector3 element in nodes) {
-			if(element = replacednode){
-				nodes.Remove(element);
-			}
-		}
+	public void RemoveNode(Node node) {
+		node.Remove();
+		nodes.Remove(node);
 	}
-	*/
+	
+	public void AddDock(Node node, DockType type){
+		// Create dock object
+		GameObject dockObject = Instantiate(dockPreFab, node.Position, new Quaternion(0, 0, 0, 0)) as GameObject;
+		Dock dock = dockObject.GetComponent<Dock>();
+		docks.Add(dock);
 
+		// Setup dock information
+		dock.Node = node;
+		dock.Type = type;
+		dock.Map = this;
+
+		// Update dock apperance
+		dock.UpdateGameObject();
+	}
+
+	public void RemoveDock(Dock dock) {
+		docks.Remove(dock);
+		Destroy(dock.gameObject);
+	}
+
+	public void StartOver() {
+		throw new NotImplementedException();
+	}
 
 }

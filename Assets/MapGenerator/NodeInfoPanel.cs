@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BiDirenctionalTool : MonoBehaviour {
+public class NodeInfoPanel : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -11,5 +11,14 @@ public class BiDirenctionalTool : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void BindNode(Node node) { 
+	}
+
+	public void UpdatePanel() { 
+	}
+
+	public void UpdateNode() { 
 	}
 }

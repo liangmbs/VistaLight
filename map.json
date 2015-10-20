@@ -3,11 +3,16 @@
 "start_time": "2015-01-01 12:00:00",
 "network":{
 "nodes:":[
-
+{ "id":1, "position": { "x":47.81881, "y":-84.26151, "z":-1 } },
+{ "id":2, "position": { "x":76.17435, "y":-63.68039, "z":-1 } },
+{ "id":3, "position": { "x":72.53902, "y":-85.95642, "z":-1 } },
+{ "id":4, "position": { "x":63.29808, "y":-76.19411, "z":-1 } }
 ],
 "segments": 
 [
-
+{"src":1, "dst":2, "bidirectional":false },
+{"src":2, "dst":3, "bidirectional":false },
+{"src":3, "dst":4, "bidirectional":false }
 ]
 }
 }

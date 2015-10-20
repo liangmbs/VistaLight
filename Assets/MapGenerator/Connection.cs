@@ -40,4 +40,21 @@ public class Connection : MonoBehaviour
 		set {isBidirectional = value;}
 	}
 
+	public void UpdatePosition() {
+		Vector3 startPosition = startNode.gameObject.transform.position;
+		Vector3 endPosition = endNode.gameObject.transform.position;
+		gameObject.transform.position = (startPosition + endPosition) / 2.0f;
+		float distance = (Vector3.Distance(endPosition, startPosition));
+        gameObject.transform.localScale = new Vector3(distance, distance / 10, 0.01f);
+		gameObject.transform.rotation = Quaternion.FromToRotation(new Vector3(1, 0, 0), startPosition - endPosition);
+
+		if (isBidirectional) {
+			gameObject.transform.FindChild("Unidirectional").GetComponent<SpriteRenderer>().enabled = false;
+			gameObject.transform.FindChild("Bidirectional").GetComponent<SpriteRenderer>().enabled = true;
+		} else {
+			gameObject.transform.FindChild("Unidirectional").GetComponent<SpriteRenderer>().enabled = true;
+			gameObject.transform.FindChild("Bidirectional").GetComponent<SpriteRenderer>().enabled = false;
+		}
+	}
+
 }
