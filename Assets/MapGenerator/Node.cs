@@ -59,6 +59,9 @@ public class Node : MonoBehaviour
 
 			// Remove the connection gameobject
 			Destroy(connection.gameObject);
+
+			// Remove the connection in map
+			map.connections.Remove(connection);
 		}
 		
 		// Destroy the game object

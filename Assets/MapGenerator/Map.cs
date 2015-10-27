@@ -24,11 +24,13 @@ public class Map : MonoBehaviour {
 	}
 
 	public Node AddNode(Vector3 position){
-		GameObject node = Instantiate (nodePreFab, 
+		GameObject nodeObject = Instantiate (nodePreFab, 
 									   new Vector3(position.x, position.y, -1), 
 			                           transform.rotation) as GameObject;
-		nodes.Add (node.GetComponent<Node>());
-		node.GetComponent<Node> ().Id = nextNodeId;
+		Node node = nodeObject.GetComponent<Node>();
+		nodes.Add (node);
+		node.Id = nextNodeId;
+		node.Map = this;
 		nextNodeId ++;
 		return node.GetComponent<Node>();
 	}
