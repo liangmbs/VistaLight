@@ -3,11 +3,13 @@ using System.Collections;
 
 public class MovingScreen1 : MonoBehaviour {
 
-	protected float HorizontalSpeed =5.0f;
-	protected float VerticalSpeed =5.0f;
+	protected float HorizontalSpeed = 5.0f;
+	protected float VerticalSpeed = 5.0f;
 	
-	void LateUpdate(){
-		
+	public void Update(){
+		gameObject.GetComponent<Camera>().pixelRect = new Rect(0, 100, 
+			Screen.width - 200, Screen.height - 100);
+
 		if (Input.GetAxis ("Mouse ScrollWheel") >0 ) {
 			if(Camera.main.orthographicSize < 50000)
 				Camera.main.orthographicSize += 0.05f * Camera.main.orthographicSize;
