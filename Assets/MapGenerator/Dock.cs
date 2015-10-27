@@ -43,6 +43,10 @@ public class Dock : MonoBehaviour {
 				node.Position.x, 
 				node.Position.y, 
 				-2);
+		gameObject.transform.localScale = new Vector3(
+				Camera.main.orthographicSize / 10,
+				Camera.main.orthographicSize / 10,
+				1);
 		if (Input.GetMouseButtonDown(1)) {
 			RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 			if (ray.collider.gameObject == this.gameObject) {
