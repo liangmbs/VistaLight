@@ -19,7 +19,9 @@ public class MapEditorController : MonoBehaviour {
 	public Button BulkDock;
 	public Button Port;
 
-	public GameObject mapInfoPanel;
+	public GameObject mapInfoSidePanel;
+
+	public GameObject shipPanel;
 
 	public List<Button> buttons = new List<Button> (); 
 
@@ -68,7 +70,7 @@ public class MapEditorController : MonoBehaviour {
 		SelectTool("MoveCamera", MoveCameraButton);
 
 		// Set the panel to new map panel
-		mapInfoPanel.transform.SetAsLastSibling();
+		mapInfoSidePanel.transform.SetAsLastSibling();
 	}
 
 	// Update is called once per frame
@@ -172,6 +174,12 @@ public class MapEditorController : MonoBehaviour {
 		Map map = GameObject.Find ("Map").GetComponent<Map> ();
 		MapStringifier mapStringifier = new MapStringifier (map);
 		System.IO.File.WriteAllText ("map.json", mapStringifier.Stringify ());
+	}
+
+	public void SwitchToShipPanel() {
+		System.Console.Out.WriteLine("SwitchToShipPanel()");
+		GameObject.Find("MainPanel").GetComponent<Canvas>().enabled = false;
+		shipPanel.GetComponent<Canvas>().enabled = true;
 	}
 
 }
