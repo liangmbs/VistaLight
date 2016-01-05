@@ -21,6 +21,7 @@ public class MapEditorController : MonoBehaviour {
 
 	public GameObject mapInfoSidePanel;
 
+	public GameObject mainPanel;
 	public GameObject shipPanel;
 
 	public List<Button> buttons = new List<Button> (); 
@@ -176,10 +177,8 @@ public class MapEditorController : MonoBehaviour {
 		System.IO.File.WriteAllText ("map.json", mapStringifier.Stringify ());
 	}
 
-	public void SwitchToShipPanel() {
-		System.Console.Out.WriteLine("SwitchToShipPanel()");
-		GameObject.Find("MainPanel").GetComponent<Canvas>().enabled = false;
-		shipPanel.GetComponent<Canvas>().enabled = true;
+	public void ShowShipPanel() {
+		shipPanel.SetActive(true);
 	}
 
 }
