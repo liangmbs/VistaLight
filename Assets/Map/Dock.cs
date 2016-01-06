@@ -11,7 +11,7 @@ public enum DockType {
 public class Dock : MonoBehaviour {
 	private Node node;
 	private DockType type;
-	private Map map;
+	private MapController map;
 
 	public Node Node {
 		get { return node; }
@@ -23,7 +23,7 @@ public class Dock : MonoBehaviour {
 		set { type = value; }
 	}
 
-	public Map Map { 
+	public MapController Map { 
 		get { return map; }
 		set { map = value; }
 	}
@@ -50,7 +50,7 @@ public class Dock : MonoBehaviour {
 		if (Input.GetMouseButtonDown(1)) {
 			RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 			if (ray.collider.gameObject == this.gameObject) {
-				map.RemoveDock(this);
+				// map.RemoveDock(this);
 			}
 		}
 	}

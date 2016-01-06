@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class CreateDockTool : IMapEditorTool {
 	private DockType type;
-	private Map map;
+	private MapController mapController;
 
-	public CreateDockTool(Map map, DockType type) {
+	public CreateDockTool(MapController map, DockType type) {
 		this.type = type;
-		this.map = map;
+		this.mapController = map;
 	}
 
 	public DockType Type {
@@ -24,8 +24,7 @@ public class CreateDockTool : IMapEditorTool {
 	public void RespondMouseLeftClick() {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 		if (ray.collider != null && ray.collider.tag == "Node") {
-			Debug.Log(ray.collider.GetComponent<Node>());
-			map.AddDock(ray.collider.GetComponent<Node>(), type);
+			//mapController.AddDock(ray.collider.GetComponent<Node>(), type);
 		}
 	}
 
