@@ -21,7 +21,7 @@ public class MapController : MonoBehaviour {
 		Node node = new Node();
 		node.Id = nextNodeId;
 		node.Map = this;
-		node.Position = position;
+		node.Position = new Vector3(position.x, position.y, -1);
 		nextNodeId++;
 
 		// Instantiate connection gameobject
@@ -41,6 +41,7 @@ public class MapController : MonoBehaviour {
 
 		// Instantiate connection gameobject
 		GameObject connectionGO = Instantiate(connectionPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+		connectionGO.GetComponent<ConnectionVO>().connection = connection;
 
 		// Return the newly created connection
 		return connectionGO;

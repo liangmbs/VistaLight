@@ -16,13 +16,13 @@ public class NodeVO : MonoBehaviour {
 		if (node != null) {
 			gameObject.transform.position = node.Position;
 			gameObject.transform.localScale = new Vector3(
-				Camera.main.orthographicSize / 300, Camera.main.orthographicSize / 300, 1);
+				Camera.main.orthographicSize / 100, Camera.main.orthographicSize / 100, 1);
 		}
 	}
 
 	public void OnMouseDrag() {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		node.Position = new Vector3(ray.point.x, ray.point.y, 0);
+		node.Position = new Vector3(ray.point.x, ray.point.y, -1);
 	}
 
 }

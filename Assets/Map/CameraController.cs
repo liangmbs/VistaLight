@@ -15,11 +15,10 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void ZoomInAndOut(float mouseWheel) {
-		double scrollSpeed = 0.1;
+		double scrollSpeed = 1;
 		double minCameraSize = 100;
 		double maxCameraSize = 50000;
-		
-		print(mouseWheel);
+
 		if (mouseWheel != 0) {
 			double cameraSize = gameObject.GetComponent<Camera>().orthographicSize;
 			cameraSize = cameraSize - mouseWheel * cameraSize * scrollSpeed;
