@@ -38,7 +38,7 @@ public class ShipsManager : MonoBehaviour {
 	public void MoveShip(JSONNode json, int shipID){
 		
 		GameObject ship = GameObject.Find ("ship_" + shipID);
-		ship.GetComponent<Ship> ().Move (json);
+		// ship.GetComponent<Ship> ().Move (json);
 	}
 
 	/*
@@ -58,7 +58,7 @@ public class ShipsManager : MonoBehaviour {
 		int updateshipid = json["vehicle"]["vehicle_id"].AsInt;
 		GameObject ship = GameObject.Find ("ship_" + updateshipid);
 		UpdateStatustoLists (json,ship);
-		ship.GetComponent<Ship> ().updateInformation(json);
+		// ship.GetComponent<Ship> ().updateInformation(json);
 
 	}
 	
@@ -127,7 +127,7 @@ public class ShipsManager : MonoBehaviour {
 		print (shipID);
 
 		// Set up Ship Information to Prefab
-		ship.GetComponent<Ship>().SetupShip (json);
+		// ship.GetComponent<Ship>().SetupShip (json);
 
 		//adding ships to the shipmanager's list
 		ships.Add (shipID, ship);

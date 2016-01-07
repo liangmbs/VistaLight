@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 
 public class MapEditorController : MonoBehaviour {
 
+	public MapController mapController;
+
 	public int DotID = 0;
 	public List<GameObject> CreatedDots= new List<GameObject>();
 	
@@ -19,7 +21,10 @@ public class MapEditorController : MonoBehaviour {
 	public Button BulkDock;
 	public Button Port;
 
-	public GameObject mapInfoPanel;
+	public GameObject mapInfoSidePanel;
+
+	public GameObject mainPanel;
+	public GameObject shipPanel;
 
 	public List<Button> buttons = new List<Button> (); 
 
@@ -68,7 +73,7 @@ public class MapEditorController : MonoBehaviour {
 		SelectTool("MoveCamera", MoveCameraButton);
 
 		// Set the panel to new map panel
-		mapInfoPanel.transform.SetAsLastSibling();
+		mapInfoSidePanel.transform.SetAsLastSibling();
 	}
 
 	// Update is called once per frame
@@ -130,7 +135,7 @@ public class MapEditorController : MonoBehaviour {
 		switch(selected){
 		case "SingleDirectional":
 			// property = 1;
-			RoadTool unidirectionTool = new RoadTool(GameObject.Find("Map").GetComponent<Map>());
+			RoadTool unidirectionTool = new RoadTool(GameObject.Find("Map").GetComponent<MapController>());
 			mapEditorTool = unidirectionTool;
 			unidirectionTool.BiDirection = false;
 			break;
@@ -140,7 +145,7 @@ public class MapEditorController : MonoBehaviour {
 			break;
 			
 		case "BiDirectional":
-			RoadTool bidirectionTool = new RoadTool(GameObject.Find("Map").GetComponent<Map>());
+			RoadTool bidirectionTool = new RoadTool(GameObject.Find("Map").GetComponent<MapController>());
 			mapEditorTool = bidirectionTool;
 			bidirectionTool.BiDirection = true;
 			break;
@@ -150,28 +155,26 @@ public class MapEditorController : MonoBehaviour {
 			break;
 
 		case "Petro":
-			mapEditorTool = new CreateDockTool(GameObject.Find("Map").GetComponent<Map>(), DockType.Petro);
+			mapEditorTool = new CreateDockTool(mapController, DockType.Petro);
 			break;
 			
 		case "Break":
-			mapEditorTool = new CreateDockTool(GameObject.Find("Map").GetComponent<Map>(), DockType.BreakBulk);
+			mapEditorTool = new CreateDockTool(mapController, DockType.BreakBulk);
 			break;
 			
 		case "Bulk":
-			mapEditorTool = new CreateDockTool(GameObject.Find("Map").GetComponent<Map>(), DockType.Bulk);
+			mapEditorTool = new CreateDockTool(mapController, DockType.Bulk);
 			break;
 			
 		case "Port":
-			mapEditorTool = new CreateDockTool(GameObject.Find("Map").GetComponent<Map>(), DockType.Port);
+			mapEditorTool = new CreateDockTool(mapController, DockType.Port);
 			break;
 		}
 
 	}
 
-	public void SaveMap() {
-		Map map = GameObject.Find ("Map").GetComponent<Map> ();
-		MapStringifier mapStringifier = new MapStringifier (map);
-		System.IO.File.WriteAllText ("map.json", mapStringifier.Stringify ());
+	public void ShowShipPanel() {
+		shipPanel.SetActive(true);
 	}
 
 }
