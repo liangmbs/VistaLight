@@ -2,15 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Xml.Serialization;
 
 [Serializable()]
+[XmlRoot(ElementName = "Map")]
 public class Map {
 
 	private string mapName = "map";
 	private DateTime startTime = new DateTime(2016, 1, 1, 12, 0, 0);
 	public static readonly string DateTimeFormat = "yyyy-MM-dd HH-mm-ss";
 
+	[XmlArrayItem("nodes")]
 	public List<Node> nodes = new List<Node>();
+
+	[XmlArrayItem("connections")]
 	public List<Connection> connections = new List<Connection>();
 	// public List<Dock> docks = new List<Dock>();
 

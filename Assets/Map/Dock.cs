@@ -40,8 +40,8 @@ public class Dock : MonoBehaviour {
 
 	public void Update() {
 		gameObject.transform.position = new Vector3(
-				node.Position.x, 
-				node.Position.y, 
+				(float)node.X, 
+				(float)node.Y, 
 				-2);
 		gameObject.transform.localScale = new Vector3(
 				Camera.main.orthographicSize / 10,
@@ -57,7 +57,8 @@ public class Dock : MonoBehaviour {
 
 	public void OnMouseDrag() {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		node.Position = new Vector3(ray.point.x, ray.point.y, -1);
+		node.X = ray.point.x;
+		node.Y = ray.point.y;
 	}
 
 

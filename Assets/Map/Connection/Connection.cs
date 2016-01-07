@@ -8,8 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 using System;
+using System.Xml.Serialization;
 using UnityEngine;
 
+[Serializable()]
+[XmlRoot(ElementName = "Node")]
 public class Connection
 {
 	private Node startNode;

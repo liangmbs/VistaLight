@@ -10,36 +10,29 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
+[Serializable()]
+[XmlRoot(ElementName = "Node")]
 public class Node
 {
 	private int id;
-	private MapController map;
-	private Vector3 position;
-	private List<Connection> connections = new List<Connection>();
+	private double x, y;
 
 	public int Id {
 		get {return id;}
 		set {id = value;}
 	}
 
-	public MapController Map {
-		get { return map; }
-		set { map = value; }
+	public double X {
+		get { return x; }
+		set { x = value; }
 	}
 
-	public Vector3 Position {
-		get {return position;}
-		set {position = value;}
-	}
-
-	public void AddConnection(Connection connection) {
-		connections.Add(connection); 
-	}
-
-	public void RemoveConnection(Connection connection) {
-		connections.Remove(connection); 
+	public double Y { 
+		get { return y; }
+		set { y = value; }
 	}
 }
 

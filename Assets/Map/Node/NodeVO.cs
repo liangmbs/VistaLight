@@ -14,7 +14,7 @@ public class NodeVO : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (node != null) {
-			gameObject.transform.position = node.Position;
+			gameObject.transform.position = new Vector3((float)node.X, (float)node.Y, (float)MapController.MapZIndex);
 			gameObject.transform.localScale = new Vector3(
 				Camera.main.orthographicSize / 100, Camera.main.orthographicSize / 100, 1);
 		}
@@ -22,7 +22,8 @@ public class NodeVO : MonoBehaviour {
 
 	public void OnMouseDrag() {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		node.Position = new Vector3(ray.point.x, ray.point.y, -1);
+		node.X = ray.point.x;
+		node.Y = ray.point.y;
 	}
 
 }

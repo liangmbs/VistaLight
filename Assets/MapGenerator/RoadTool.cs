@@ -90,7 +90,6 @@ public class RoadTool : IMapEditorTool
 
 	public void RespondMouseLeftClick() {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		Debug.Log(ray.collider);
 
 		if (currentNode == null) {
 			if (ray.collider != null) {

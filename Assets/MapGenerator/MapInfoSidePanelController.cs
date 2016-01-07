@@ -5,12 +5,15 @@ using UnityEngine.UI;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
 using System.IO;
+using System.Xml.Serialization;
 
 public class MapInfoSidePanelController : MonoBehaviour {
 
 	public GameObject mapInformationSetting;
 	public MapController mapController;
 	public Map map;
+	public bool hasModification = false;
+	public string path = "";
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +25,7 @@ public class MapInfoSidePanelController : MonoBehaviour {
 		
 	}
 
-	private void updateMapInforDisplay() {
+	private void updateMapInformationDisplay() {
 		if (map != null) {
 			GameObject.Find("MapNameInput").GetComponent<InputField>().text = map.Name;
 			GameObject.Find("StartTimeInput").GetComponent<InputField>().text = 
@@ -35,10 +38,11 @@ public class MapInfoSidePanelController : MonoBehaviour {
 			CloseMap();
 		}
 		map = new Map();
-		mapController.Map = map;
+		mapController.RegenerateMap(map);
+		hasModification = false;
 
 		mapInformationSetting.SetActive(true);
-		updateMapInforDisplay();
+		updateMapInformationDisplay();
 	}
 
 	public void LoadMap() {
@@ -49,10 +53,10 @@ public class MapInfoSidePanelController : MonoBehaviour {
 			"VistaLights Map Files", "vlmap",
 			"All Files", "*"
 		};
-		var path = EditorUtility.OpenFilePanel("Load map", "", "vlmap");
+		path = EditorUtility.OpenFilePanel("Load map", "", "vlmap");
 
 		try {
-			FileStream file = File.Open(path, System.IO.FileMode.Open);
+			FileStream file = File.Open(path, FileMode.Open);
 			BinaryFormatter deserializer = new BinaryFormatter();
 			this.map = (Map)deserializer.Deserialize(file);
 			file.Close();
@@ -62,24 +66,37 @@ public class MapInfoSidePanelController : MonoBehaviour {
 			Debug.Log(e.Message);
 		}
 
-		this.updateMapInforDisplay();
+		mapController.RegenerateMap(map);
+
+		mapInformationSetting.SetActive(true);
+		this.updateMapInformationDisplay();
+
+		Debug.Log(map.nodes.Count);
 	} 
 
 	public void SaveMap() {
-		var path = EditorUtility.SaveFilePanel("Select file location", "", "map", "vlmap");
+		if (path == "") {
+			path = EditorUtility.SaveFilePanel("Select file location", "", "map", "vlmap");
+		}
 
 		// Serialize
 		BinaryFormatter serializer = new BinaryFormatter();
-		System.IO.FileStream file = System.IO.File.Create(path);
+		FileStream file = File.Create(path);
 
 		serializer.Serialize(file, map);
 		file.Close();
-
 	}
 
 	public void SaveMapAs() {
 	}
 
 	public void CloseMap() {
+		map = null;
+		mapController.CloseMap();
+
+		mapInformationSetting.SetActive(false);
+
+		path = "";
+		hasModification = false;
 	}
 }

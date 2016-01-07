@@ -12,8 +12,12 @@ public class ConnectionVO : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 startPosition = connection.StartNode.Position;
-		Vector3 endPosition = connection.EndNode.Position;
+		Node startNode = connection.StartNode;
+		Node endNode = connection.EndNode;
+
+		Vector3 startPosition = new Vector3((float)startNode.X, (float)startNode.Y, (float)MapController.MapZIndex);
+		Vector3 endPosition = new Vector3((float)endNode.X, (float)endNode.Y, (float)MapController.MapZIndex);
+
 		gameObject.transform.position = (startPosition + endPosition) / 2.0f;
 		float distance = (Vector3.Distance(endPosition, startPosition));
 		gameObject.transform.localScale = new Vector3(distance, distance / 10, 0.01f);

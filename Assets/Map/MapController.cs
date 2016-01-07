@@ -4,6 +4,8 @@ using System;
 
 public class MapController : MonoBehaviour {
 
+	public static readonly double MapZIndex = -1;
+
 	private Map map;
 
 	public GameObject nodePrefab;
@@ -14,19 +16,27 @@ public class MapController : MonoBehaviour {
 
 	public Map Map { 
 		get { return map; }
-		set { map = value; }
+		private set { map = value; }
 	}
 
 	public GameObject AddNode(Vector3 position) {
 		Node node = new Node();
 		node.Id = nextNodeId;
-		node.Map = this;
-		node.Position = new Vector3(position.x, position.y, -1);
+		node.X = position.x;
+		node.Y = position.y;
 		nextNodeId++;
+		map.AddNode(node);
 
 		// Instantiate connection gameobject
+		GameObject nodeGO = CreateNodeGameObject(node);
+
+		return nodeGO;
+	}
+
+	private GameObject CreateNodeGameObject(Node node) {
 		GameObject nodeGO = Instantiate(nodePrefab, Vector3.zero, Quaternion.identity) as GameObject;
 		nodeGO.GetComponent<NodeVO>().node = node;
+		nodeGO.transform.parent = GameObject.Find("Map").transform;
 
 		return nodeGO;
 	}
@@ -38,10 +48,20 @@ public class MapController : MonoBehaviour {
 		connection.StartNode = start.GetComponent<NodeVO>().node;
 		connection.EndNode = end.GetComponent<NodeVO>().node;
 		connection.Bidirectional = isBidirectional;
+		map.AddConnection(connection);
 
+		// Instantiate connection gameobject
+		GameObject connectionGO = CreateConnectionGameObject(connection);
+		
+		// Return the newly created connection
+		return connectionGO;
+	}
+
+	private GameObject CreateConnectionGameObject(Connection connection) { 
 		// Instantiate connection gameobject
 		GameObject connectionGO = Instantiate(connectionPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 		connectionGO.GetComponent<ConnectionVO>().connection = connection;
+		connectionGO.transform.parent = GameObject.Find("Map").transform;
 
 		// Return the newly created connection
 		return connectionGO;
@@ -58,9 +78,32 @@ public class MapController : MonoBehaviour {
 			node.transform.FindChild("NodeDotSelected").GetComponent<SpriteRenderer>().enabled = false;
 		}
 	}
-
-	internal void RemoveNode(GameObject gameObject) {
+	
+	public void RemoveNode(GameObject gameObject) {
 		throw new NotImplementedException();
+	}
+
+
+	public void RegenerateMap(Map map) {
+		this.map = map;
+
+		// Regenerate all nodes
+		foreach (Node node in map.nodes) {
+			CreateNodeGameObject(node);
+		}
+
+		// Regenerate all connections
+		foreach (Connection connection in map.connections) {
+			CreateConnectionGameObject(connection);
+		}
+		
+    }
+
+	public void CloseMap() {
+		// Clean all game objects
+		foreach (Transform child in GameObject.Find("Map").transform) {
+			Destroy(child.gameObject);
+		}
 	}
 }
 
