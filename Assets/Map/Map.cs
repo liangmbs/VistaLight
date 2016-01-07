@@ -3,17 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
+[Serializable()]
 public class Map {
 
 	private string mapName = "map";
+	private DateTime startTime = new DateTime(2016, 1, 1, 12, 0, 0);
+	public static readonly string DateTimeFormat = "yyyy-MM-dd HH-mm-ss";
 
 	public List<Node> nodes = new List<Node>();
 	public List<Connection> connections = new List<Connection>();
-	public List<Dock> docks = new List<Dock>();
+	// public List<Dock> docks = new List<Dock>();
 
-	public string Name { 
-		get { return mapName;  }
+	public string Name {
+		get { return mapName; }
 		set { mapName = value; }
+	}
+
+	public DateTime StartTime {
+		get { return startTime; }
+		set { startTime = value; }
 	}
 
 	public void AddNode(Node node){
@@ -48,12 +56,7 @@ public class Map {
 	}
 
 	public void RemoveDock(Dock dock) {
-		docks.Remove(dock);
-		GameObject.Destroy(dock.gameObject);
+		// docks.Remove(dock);
+		// GameObject.Destroy(dock.gameObject);
 	}
-
-	public void StartOver() {
-		throw new NotImplementedException();
-	}
-
 }

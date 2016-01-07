@@ -173,12 +173,6 @@ public class MapEditorController : MonoBehaviour {
 
 	}
 
-	public void SaveMap() {
-		// MapController map = GameObject.Find ("Map").GetComponent<MapController> ();
-		// MapStringifier mapStringifier = new MapStringifier (map);
-		// System.IO.File.WriteAllText ("map.json", mapStringifier.Stringify ());
-	}
-
 	public void ShowShipPanel() {
 		shipPanel.SetActive(true);
 	}

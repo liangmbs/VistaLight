@@ -16,15 +16,6 @@ public class Connection
 	private Node endNode;
 	private bool isBidirectional;
 
-	/*
-	public Connection (Node startNode, Node endNode, bool isBidirectional)
-	{
-		this.startNode = startNode;
-		this.endNode = endNode;
-		this.isBidirectional = isBidirectional;
-	}
-	*/
-
 	public Node StartNode {
 		get {return startNode;}
 		set {startNode = value;}
