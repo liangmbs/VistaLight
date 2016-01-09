@@ -55,23 +55,13 @@ public class MapInfoSidePanelController : MonoBehaviour {
 		};
 		path = EditorUtility.OpenFilePanel("Load map", "", "vlmap");
 
-		try {
-			FileStream file = File.Open(path, FileMode.Open);
-			BinaryFormatter deserializer = new BinaryFormatter();
-			this.map = (Map)deserializer.Deserialize(file);
-			file.Close();
-		} catch (FileNotFoundException e) {
-			Debug.Log(e.Message);
-		} catch (IOException e) {
-			Debug.Log(e.Message);
-		}
+		MapSerializer mapSerializer = new MapSerializer();
+		this.map = mapSerializer.LoadMap(path);
 
 		mapController.RegenerateMap(map);
 
 		mapInformationSetting.SetActive(true);
 		this.updateMapInformationDisplay();
-
-		Debug.Log(map.nodes.Count);
 	} 
 
 	public void SaveMap() {
@@ -79,12 +69,8 @@ public class MapInfoSidePanelController : MonoBehaviour {
 			path = EditorUtility.SaveFilePanel("Select file location", "", "map", "vlmap");
 		}
 
-		// Serialize
-		BinaryFormatter serializer = new BinaryFormatter();
-		FileStream file = File.Create(path);
-
-		serializer.Serialize(file, map);
-		file.Close();
+		MapSerializer mapSerializer = new MapSerializer();
+		mapSerializer.SaveMap(map, path);
 	}
 
 	public void SaveMapAs() {

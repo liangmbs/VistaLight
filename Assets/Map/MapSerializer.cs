@@ -3,7 +3,7 @@ using System.Collections;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-public class MapSerialzer {
+public class MapSerializer {
 
 	public void SaveMap(Map map, string path) {
 		BinaryFormatter serializer = new BinaryFormatter();

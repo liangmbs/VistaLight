@@ -5,6 +5,7 @@ using System;
 public class MapController : MonoBehaviour {
 
 	public static readonly double MapZIndex = -1;
+	public static readonly double BuildingZIndex = -2;
 
 	private Map map;
 
@@ -57,6 +58,27 @@ public class MapController : MonoBehaviour {
 		return connectionGO;
 	}
 
+	public GameObject AddDock(GameObject node, DockType type) {
+		Dock dock = new Dock();
+		dock.Node = node.GetComponent<NodeVO>().node;
+		dock.Type = type;
+		map.AddDock(dock);
+
+		// Create dock object
+		GameObject dockObject = CreateDockGameObject(dock);
+
+		return dockObject;
+	}
+
+	public GameObject CreateDockGameObject(Dock dock) {
+		GameObject dockObject = GameObject.Instantiate(dockPrefab,
+				new Vector3((float)dock.Node.X, (float)dock.Node.Y, (float)MapController.BuildingZIndex),
+				Quaternion.identity) as GameObject;
+		dockObject.GetComponent<DockVO>().Dock = dock;
+		dockObject.transform.parent = GameObject.Find("Map").transform;
+		return dockObject;
+	}
+
 	private GameObject CreateConnectionGameObject(Connection connection) { 
 		// Instantiate connection gameobject
 		GameObject connectionGO = Instantiate(connectionPrefab, Vector3.zero, Quaternion.identity) as GameObject;
@@ -95,6 +117,11 @@ public class MapController : MonoBehaviour {
 		// Regenerate all connections
 		foreach (Connection connection in map.connections) {
 			CreateConnectionGameObject(connection);
+		}
+
+		// Regenerate all docks
+		foreach (Dock dock in map.docks) {
+			CreateDockGameObject(dock);
 		}
 		
     }

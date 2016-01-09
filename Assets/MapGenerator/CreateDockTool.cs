@@ -24,7 +24,7 @@ public class CreateDockTool : IMapEditorTool {
 	public void RespondMouseLeftClick() {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 		if (ray.collider != null && ray.collider.tag == "Node") {
-			//mapController.AddDock(ray.collider.GetComponent<Node>(), type);
+			mapController.AddDock(ray.collider.gameObject, type);
 		}
 	}
 
