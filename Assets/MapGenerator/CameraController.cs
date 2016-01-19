@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour {
 
@@ -15,6 +16,12 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void ZoomInAndOut(float mouseWheel) {
+
+		// If over gui, do not zoom
+		if (EventSystem.current.IsPointerOverGameObject()) {
+			return;
+		}
+
 		double scrollSpeed = 1;
 		double minCameraSize = 100;
 		double maxCameraSize = 50000;

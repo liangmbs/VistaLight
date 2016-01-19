@@ -14,6 +14,7 @@ public class MapController : MonoBehaviour {
 	public GameObject dockPrefab;
 
 	private int nextNodeId = 1;
+	private int nextDockId = 1;
 
 	public Map Map { 
 		get { return map; }
@@ -60,8 +61,10 @@ public class MapController : MonoBehaviour {
 
 	public GameObject AddDock(GameObject node, DockType type) {
 		Dock dock = new Dock();
-		dock.Node = node.GetComponent<NodeVO>().node;
-		dock.Type = type;
+		dock.node = node.GetComponent<NodeVO>().node;
+		dock.type = type;
+		dock.name = type.ToString() + nextDockId.ToString();
+		nextDockId++;
 		map.AddDock(dock);
 
 		// Create dock object
@@ -72,7 +75,7 @@ public class MapController : MonoBehaviour {
 
 	public GameObject CreateDockGameObject(Dock dock) {
 		GameObject dockObject = GameObject.Instantiate(dockPrefab,
-				new Vector3((float)dock.Node.X, (float)dock.Node.Y, (float)MapController.BuildingZIndex),
+				new Vector3((float)dock.node.X, (float)dock.node.Y, (float)MapController.BuildingZIndex),
 				Quaternion.identity) as GameObject;
 		dockObject.GetComponent<DockVO>().Dock = dock;
 		dockObject.transform.parent = GameObject.Find("Map").transform;

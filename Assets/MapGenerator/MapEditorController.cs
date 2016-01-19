@@ -64,7 +64,7 @@ public class MapEditorController : MonoBehaviour {
 		buttons.Add (SingleDirectionLane);
 		buttons.Add (BiDirectionalLane);
 		buttons.Add (Intersection);
-		buttons.Add(MoveCameraButton);
+		buttons.Add (MoveCameraButton);
 		buttons.Add (PetroDock);
 		buttons.Add (BreakbulkDock);
 		buttons.Add (BulkDock);
@@ -175,6 +175,11 @@ public class MapEditorController : MonoBehaviour {
 
 	public void ShowShipPanel() {
 		shipPanel.SetActive(true);
+		shipPanel.GetComponent<ShipPanelController>().map = mapController.Map;
+	}
+
+	public void CloseShipPanel() {
+		shipPanel.SetActive(false);
 	}
 
 }

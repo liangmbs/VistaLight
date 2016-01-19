@@ -13,6 +13,7 @@ public class Map {
 	public List<Node> nodes = new List<Node>();
 	public List<Connection> connections = new List<Connection>();
 	public List<Dock> docks = new List<Dock>();
+	public List<Ship> ships = new List<Ship>();
 
 	public string Name {
 		get { return mapName; }
@@ -44,5 +45,13 @@ public class Map {
 	public void RemoveDock(Dock dock) {
 		// docks.Remove(dock);
 		// GameObject.Destroy(dock.gameObject);
+	}
+
+	public void AddShip(Ship ship) {
+		this.ships.Add(ship);
+	}
+
+	public void RemoveShip(Ship ship) {
+		this.ships.Remove(ship);
 	}
 }

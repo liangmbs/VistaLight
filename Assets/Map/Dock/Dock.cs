@@ -10,17 +10,7 @@ public enum DockType {
 
 [Serializable()]
 public class Dock {
-	private Node node;
-	private DockType type;
-
-	public Node Node {
-		get { return node; }
-		set { node = value;  }
-	}
-
-	public DockType Type { 
-		get { return type; }
-		set { type = value; }
-	}
-
+	public Node node;
+	public string name = "";
+	public DockType type;
 }

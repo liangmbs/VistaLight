@@ -4,42 +4,16 @@ using System;
 using SimpleJSON;
 
 public enum IndustryType {
-	BULK, BREAKBULK, PORT, PETRO
+	Bulk, BreakBulk, Port, Petro
 }
 
 [Serializable]
 public class Ship {
+	public int shipID = 0;
+	public string Name = "Ship";
 
-	/*
-	 * Location
-	 */
-	public float x;
-	public float y;
-	public float z;
-
-	/*
-	 * Heading Rotation
-	 */
-	public float rZ;
-
-	/*
-	 * Vehicle
-	 */
-	public int shipID;
-	public int priority;
-	public string Type;
-	public double Heading;
-	public double cargo;
-	public float destinationX;
-	public float destinationY;
-	public string remainTime;
-	public string status;
-
-	/*
-	 * Company
-	 */
-	public IndustryType Industry;
-	public string Name;
- 
-
+	public double cargo = 100;
+	public double value = 100;
+	public IndustryType Industry = IndustryType.Bulk;
+	public DateTime dueTime = new DateTime(2016, 1, 1, 12, 0, 0);
 }

@@ -4,7 +4,7 @@ using System;
 
 public class DockVO : MonoBehaviour {
 
-	private Dock dock;
+	public Dock dock;
 
 	public Dock Dock { 
 		get { return dock; }
@@ -19,8 +19,8 @@ public class DockVO : MonoBehaviour {
 	// Update is called once per frame
 	public void Update() {
 		gameObject.transform.position = new Vector3(
-				(float)dock.Node.X,
-				(float)dock.Node.Y,
+				(float)dock.node.X,
+				(float)dock.node.Y,
 				-2);
 		gameObject.transform.localScale = new Vector3(
 				(float)(Camera.main.orthographicSize / 5),
@@ -28,7 +28,7 @@ public class DockVO : MonoBehaviour {
 				(float)1);
 
 		foreach (DockType type in Enum.GetValues(typeof(DockType))) {
-			if (type == dock.Type) {
+			if (type == dock.type) {
 				gameObject.transform.FindChild(type.ToString()).GetComponent<SpriteRenderer>().enabled = true;
 			} else {
 				gameObject.transform.FindChild(type.ToString()).GetComponent<SpriteRenderer>().enabled = false;
@@ -46,7 +46,7 @@ public class DockVO : MonoBehaviour {
 
 	public void OnMouseDrag() {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		dock.Node.X = ray.point.x;
-		dock.Node.Y = ray.point.y;
+		dock.node.X = ray.point.x;
+		dock.node.Y = ray.point.y;
 	}
 }
