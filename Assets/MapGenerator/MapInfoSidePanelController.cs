@@ -11,6 +11,7 @@ public class MapInfoSidePanelController : MonoBehaviour {
 
 	public GameObject mapInformationSetting;
 	public MapController mapController;
+	public ShipPanelController shipPannelController;
 	public Map map;
 	public bool hasModification = false;
 	public string path = "";
@@ -59,6 +60,7 @@ public class MapInfoSidePanelController : MonoBehaviour {
 		this.map = mapSerializer.LoadMap(path);
 
 		mapController.RegenerateMap(map);
+		shipPannelController.RegenerateShip(map.ships);
 
 		mapInformationSetting.SetActive(true);
 		this.updateMapInformationDisplay();
@@ -79,6 +81,7 @@ public class MapInfoSidePanelController : MonoBehaviour {
 	public void CloseMap() {
 		map = null;
 		mapController.CloseMap();
+		shipPannelController.ClearShips();
 
 		mapInformationSetting.SetActive(false);
 

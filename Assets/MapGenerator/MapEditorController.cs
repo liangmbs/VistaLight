@@ -8,9 +8,6 @@ public class MapEditorController : MonoBehaviour {
 
 	public MapController mapController;
 
-	public int DotID = 0;
-	public List<GameObject> CreatedDots= new List<GameObject>();
-	
 	public Button SingleDirectionLane;
 	public Button BiDirectionalLane;
 	public Button Intersection;
@@ -30,8 +27,6 @@ public class MapEditorController : MonoBehaviour {
 
 	public int property;
 	public int dock;
-
-	// public SingleDirectionTool singleDirectionTool;
 
 	public IMapEditorTool mapEditorTool;
 
@@ -175,7 +170,6 @@ public class MapEditorController : MonoBehaviour {
 
 	public void ShowShipPanel() {
 		shipPanel.SetActive(true);
-		shipPanel.GetComponent<ShipPanelController>().map = mapController.Map;
 	}
 
 	public void CloseShipPanel() {

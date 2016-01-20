@@ -45,29 +45,25 @@ public class MapController : MonoBehaviour {
 
 	public GameObject AddConnection(GameObject start, GameObject end, bool isBidirectional) {
 		Connection connection = new Connection();
-
-		// Set the parameters of the connection
 		connection.StartNode = start.GetComponent<NodeVO>().node;
 		connection.EndNode = end.GetComponent<NodeVO>().node;
 		connection.Bidirectional = isBidirectional;
 		map.AddConnection(connection);
 
-		// Instantiate connection gameobject
 		GameObject connectionGO = CreateConnectionGameObject(connection);
 		
-		// Return the newly created connection
 		return connectionGO;
 	}
 
 	public GameObject AddDock(GameObject node, DockType type) {
 		Dock dock = new Dock();
+		dock.id = nextDockId;
 		dock.node = node.GetComponent<NodeVO>().node;
 		dock.type = type;
 		dock.name = type.ToString() + nextDockId.ToString();
 		nextDockId++;
 		map.AddDock(dock);
 
-		// Create dock object
 		GameObject dockObject = CreateDockGameObject(dock);
 
 		return dockObject;
@@ -83,12 +79,9 @@ public class MapController : MonoBehaviour {
 	}
 
 	private GameObject CreateConnectionGameObject(Connection connection) { 
-		// Instantiate connection gameobject
 		GameObject connectionGO = Instantiate(connectionPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 		connectionGO.GetComponent<ConnectionVO>().connection = connection;
 		connectionGO.transform.parent = GameObject.Find("Map").transform;
-
-		// Return the newly created connection
 		return connectionGO;
 	}
 
@@ -115,6 +108,9 @@ public class MapController : MonoBehaviour {
 		// Regenerate all nodes
 		foreach (Node node in map.nodes) {
 			CreateNodeGameObject(node);
+			if(nextNodeId <= node.Id) {
+				this.nextNodeId = node.Id + 1;
+			}
 		}
 
 		// Regenerate all connections
@@ -125,15 +121,19 @@ public class MapController : MonoBehaviour {
 		// Regenerate all docks
 		foreach (Dock dock in map.docks) {
 			CreateDockGameObject(dock);
+			if (nextDockId <= dock.id) {
+				nextDockId = dock.id + 1;
+			}
 		}
 		
     }
 
 	public void CloseMap() {
-		// Clean all game objects
 		foreach (Transform child in GameObject.Find("Map").transform) {
 			Destroy(child.gameObject);
 		}
+		nextNodeId = 1;
+		nextDockId = 1;
 	}
 }
 

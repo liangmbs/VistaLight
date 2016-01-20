@@ -10,6 +10,7 @@ public enum DockType {
 
 [Serializable()]
 public class Dock {
+	public int id;
 	public Node node;
 	public string name = "";
 	public DockType type;

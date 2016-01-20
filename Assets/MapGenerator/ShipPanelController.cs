@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class ShipPanelController : MonoBehaviour, IShipListController {
+public class ShipPanelController : MonoBehaviour {
 
 	public GameObject shipGenreateEntryPrefab;
 	public GameObject shipListPanel;
-	public Map map = null;
+	public MapController mapController;
+
 	private int nextShipId = 1;
 
 	// Use this for initialization
@@ -21,10 +22,6 @@ public class ShipPanelController : MonoBehaviour, IShipListController {
 	}
 
 	public void AddShip() {
-		if (map == null) {
-			return;
-		}
-
 		// Create new ship
 		Ship ship = new Ship();
 		ship.shipID = nextShipId;
@@ -32,10 +29,9 @@ public class ShipPanelController : MonoBehaviour, IShipListController {
 
 		// Create Entry
 		GameObject entry = CreateShipEntry(ship);
-		
 
 		// Add ship to map
-		map.AddShip(ship);
+		mapController.Map.AddShip(ship);
 	}
 
 	public GameObject CreateShipEntry(Ship ship) {
@@ -66,7 +62,11 @@ public class ShipPanelController : MonoBehaviour, IShipListController {
 	public void RegenerateShip(List<Ship> ships) {
 		foreach(Ship ship in ships) {
 			CreateShipEntry(ship);
+			if (nextShipId <= ship.shipID) {
+				nextShipId = ship.shipID + 1;
+			}
 		}
+		
 	}
 
 	public void ClearShips() {
@@ -77,6 +77,13 @@ public class ShipPanelController : MonoBehaviour, IShipListController {
 				Destroy(entry);
 			}
 		}
+
+		// Reduce the window size
+		RectTransform transform = shipListPanel.GetComponent<RectTransform>();
+		transform.sizeDelta = new Vector2(transform.sizeDelta.x, 30);
+
+		// Reset the nextShipId
+		nextShipId = 1;
 	}
 
 	public void UpdateDockInformation(List<Dock> docks) {
@@ -89,11 +96,4 @@ public class ShipPanelController : MonoBehaviour, IShipListController {
 		}
 	}
 
-	public void AddShip(Ship ship) {
-		throw new NotImplementedException();
-	}
-
-	public void ClearList() {
-		throw new NotImplementedException();
-	}
 }
