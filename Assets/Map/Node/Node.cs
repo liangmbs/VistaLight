@@ -14,7 +14,6 @@ using System.Xml.Serialization;
 using UnityEngine;
 
 [Serializable()]
-[XmlRoot(ElementName = "Node")]
 public class Node
 {
 	private int id;

@@ -14,6 +14,7 @@ public class Map {
 	public List<Connection> connections = new List<Connection>();
 	public List<Dock> docks = new List<Dock>();
 	public List<Ship> ships = new List<Ship>();
+	public List<MapEvent> events = new List<MapEvent>();
 
 	public string Name {
 		get { return mapName; }
