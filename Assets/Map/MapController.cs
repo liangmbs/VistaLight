@@ -18,6 +18,8 @@ public class MapController : MonoBehaviour {
 	private int nextNodeId = 1;
 	private int nextDockId = 1;
 
+	
+
 	public Map Map { 
 		get { return map; }
 		private set { map = value; }
@@ -115,7 +117,17 @@ public class MapController : MonoBehaviour {
 			node.transform.FindChild("NodeDotSelected").GetComponent<SpriteRenderer>().enabled = false;
 		}
 	}
-	
+
+	public void SelectMapEvent(GameObject mapEvent) {
+		mapEvent.transform.FindChild("EventSelected").gameObject.SetActive(false);	
+		mapEvent.transform.FindChild("Event").gameObject.SetActive(true);	
+	}
+
+	public void DeselectMapEvent(GameObject mapEvent) { 
+		mapEvent.transform.FindChild("EventSelected").gameObject.SetActive(true);	
+		mapEvent.transform.FindChild("Event").gameObject.SetActive(false);	
+	}
+
 	public void RemoveNode(GameObject gameObject) {
 		throw new NotImplementedException();
 	}
