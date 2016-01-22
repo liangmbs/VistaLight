@@ -6,12 +6,14 @@ public class MapController : MonoBehaviour {
 
 	public static readonly double MapZIndex = -1;
 	public static readonly double BuildingZIndex = -2;
+	public static readonly double MapEventZIndex = -3;
 
 	private Map map;
 
 	public GameObject nodePrefab;
 	public GameObject connectionPrefab;
 	public GameObject dockPrefab;
+	public GameObject mapEventPrefab;
 
 	private int nextNodeId = 1;
 	private int nextDockId = 1;
@@ -83,6 +85,23 @@ public class MapController : MonoBehaviour {
 		connectionGO.GetComponent<ConnectionVO>().connection = connection;
 		connectionGO.transform.parent = GameObject.Find("Map").transform;
 		return connectionGO;
+	}
+
+	public GameObject CreateMapEvent(Vector3 position) {
+		MapEvent mapEvent = new MapEvent();
+		mapEvent.X = position.x;
+		mapEvent.Y = position.y;
+		mapEvent.Time = map.StartTime;
+		GameObject mapEventGO = CreateMapEventGameObject(mapEvent);
+		return mapEventGO;
+	}
+
+	public GameObject CreateMapEventGameObject(MapEvent mapEvent) {
+		GameObject mapEventGO = Instantiate(mapEventPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+		MapEventVO mapEventVO = mapEventGO.GetComponent<MapEventVO>();
+		mapEventVO.MapEvent = mapEvent;
+		mapEventGO.transform.SetParent(GameObject.Find("Map").transform);
+		return mapEventGO;
 	}
 
 	public void SelectNode(GameObject node) {

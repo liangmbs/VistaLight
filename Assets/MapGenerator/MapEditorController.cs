@@ -8,67 +8,36 @@ public class MapEditorController : MonoBehaviour {
 
 	public MapController mapController;
 
-	public Button SingleDirectionLane;
-	public Button BiDirectionalLane;
-	public Button Intersection;
+	private List<Button> ToolButtons = new List<Button>();
 	public Button MoveCameraButton;
+	public Button UnidirectionalLaneButton;
+	public Button BidirectionalLaneButton;
+	public Button PetroButton;
+	public Button BreakBulkButton;
+	public Button BulkButton;
+	public Button PortButton;
+	public Button EventButton;
 
-	public Button PetroDock;
-	public Button BreakbulkDock;
-	public Button BulkDock;
-	public Button Port;
 
 	public GameObject mapInfoSidePanel;
 
-	public GameObject mainPanel;
 	public GameObject shipPanel;
-
-	public List<Button> buttons = new List<Button> (); 
-
-	public int property;
-	public int dock;
 
 	public IMapEditorTool mapEditorTool;
 
 
-	enum Dockstypes{
-		Petro, Breakbulk, Bulk, Port
-	}
-
-
 	// Use this for initialization
-	void Start () {
+	void Start() {
+		ToolButtons.Add(MoveCameraButton);
+		ToolButtons.Add(UnidirectionalLaneButton);
+		ToolButtons.Add(BidirectionalLaneButton);
+		ToolButtons.Add(PetroButton);
+		ToolButtons.Add(BreakBulkButton);
+		ToolButtons.Add(BulkButton);
+		ToolButtons.Add(PortButton);
+		ToolButtons.Add(EventButton);
 
-		MoveCameraButton.GetComponent<Button>().onClick.AddListener(() => {
-			SelectTool("MoveCamera", MoveCameraButton);});
-		SingleDirectionLane.GetComponent<Button> ().onClick.AddListener (() => {
-			SelectTool("SingleDirectional",SingleDirectionLane);});
-		BiDirectionalLane.GetComponent<Button> ().onClick.AddListener (() => {
-			SelectTool ("BiDirectional",BiDirectionalLane);});
-		Intersection.GetComponent<Button> ().onClick.AddListener (() => {
-			SelectTool ("Intersection",Intersection);});
-		PetroDock.GetComponent<Button> ().onClick.AddListener (() => {
-			SelectTool ("Petro",PetroDock);});
-		BreakbulkDock.GetComponent<Button> ().onClick.AddListener (() => {
-			SelectTool ("Break",BreakbulkDock);});
-		BulkDock.GetComponent<Button> ().onClick.AddListener (() => {
-			SelectTool ("Bulk",BulkDock);});
-		Port.GetComponent<Button> ().onClick.AddListener (() => {
-			SelectTool ("Port",Port);});
-
-		buttons.Add (SingleDirectionLane);
-		buttons.Add (BiDirectionalLane);
-		buttons.Add (Intersection);
-		buttons.Add (MoveCameraButton);
-		buttons.Add (PetroDock);
-		buttons.Add (BreakbulkDock);
-		buttons.Add (BulkDock);
-		buttons.Add (Port);
-
-		SelectTool("MoveCamera", MoveCameraButton);
-
-		// Set the panel to new map panel
-		mapInfoSidePanel.transform.SetAsLastSibling();
+		SelectTool("MoveCamera");
 	}
 
 	// Update is called once per frame
@@ -115,57 +84,74 @@ public class MapEditorController : MonoBehaviour {
 		}
 	}
 
-
-	public void SelectTool(string selected, Button selectedButton){
-		foreach (Button element in buttons) {
-			element.image.color = Color.gray;
+	public void DeselectAllToolButtons() {
+		foreach (Button button in ToolButtons) {
+			button.image.color = Color.gray;
 		}
-		selectedButton.image.color = Color.white;
+	}
 
-		// Destory the tool if it is initialized
+	public void SelectButton(Button button) {
+		button.image.color = Color.white;	
+	}
+
+	public void DestroyCurrentTool() { 
 		if (mapEditorTool != null) {
 			mapEditorTool.Destory();
+			mapEditorTool = null;
 		}
+	}
 
-		switch(selected){
-		case "SingleDirectional":
-			// property = 1;
-			RoadTool unidirectionTool = new RoadTool(GameObject.Find("Map").GetComponent<MapController>());
-			mapEditorTool = unidirectionTool;
-			unidirectionTool.BiDirection = false;
-			break;
+	public void SelectTool(string toolName) {
+		DeselectAllToolButtons();
+		DestroyCurrentTool();
+
+		switch (toolName) {
 
 		case "MoveCamera":
 			mapEditorTool = new MoveTool();
+			SelectButton(MoveCameraButton);
 			break;
-			
-		case "BiDirectional":
+
+		case "UnidirectionalLane":
+			RoadTool unidirectionTool = new RoadTool(GameObject.Find("Map").GetComponent<MapController>());
+			mapEditorTool = unidirectionTool;
+			unidirectionTool.BiDirection = false;
+			SelectButton(UnidirectionalLaneButton);
+			break;
+
+
+		case "BidirectionalLane":
 			RoadTool bidirectionTool = new RoadTool(GameObject.Find("Map").GetComponent<MapController>());
 			mapEditorTool = bidirectionTool;
 			bidirectionTool.BiDirection = true;
-			break;
-			
-		case "Intersection":
-			property = 3;
+			SelectButton(BidirectionalLaneButton);
 			break;
 
 		case "Petro":
 			mapEditorTool = new CreateDockTool(mapController, DockType.Petro);
+			SelectButton(PetroButton);
 			break;
-			
-		case "Break":
+
+		case "BreakBulk":
 			mapEditorTool = new CreateDockTool(mapController, DockType.BreakBulk);
+			SelectButton(BreakBulkButton);
 			break;
-			
+
 		case "Bulk":
 			mapEditorTool = new CreateDockTool(mapController, DockType.Bulk);
+			SelectButton(BulkButton);
 			break;
-			
+
 		case "Port":
 			mapEditorTool = new CreateDockTool(mapController, DockType.Port);
+			SelectButton(PortButton);
+			break;
+
+		case "Event":
+			mapEditorTool = new MapEventTool(mapController);
+			SelectButton(EventButton);
 			break;
 		}
-
 	}
 
 	public void ShowShipPanel() {

@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using System.Runtime.Serialization;
 
-public abstract class MapEvent : ISerializable{
+public class MapEvent : ISerializable{
 
 	public double X;
 	public double Y;
