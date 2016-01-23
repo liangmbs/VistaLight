@@ -14,7 +14,7 @@ public class Map {
 	public List<Connection> connections = new List<Connection>();
 	public List<Dock> docks = new List<Dock>();
 	public List<Ship> ships = new List<Ship>();
-	public List<MapEvent> events = new List<MapEvent>();
+	public List<MapEvent> mapEvents = new List<MapEvent>();
 
 	public string Name {
 		get { return mapName; }
@@ -54,5 +54,13 @@ public class Map {
 
 	public void RemoveShip(Ship ship) {
 		this.ships.Remove(ship);
+	}
+
+	public void AddMapEvent(MapEvent mapEvent) {
+		mapEvents.Add(mapEvent);
+	}
+
+	public void RemoveMapEvent(MapEvent mapEvent) {
+		mapEvents.Remove(mapEvent);
 	}
 }

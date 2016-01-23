@@ -12,7 +12,8 @@ public class CameraController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		float mouseWheel = Input.GetAxis("Mouse ScrollWheel");
-		ZoomInAndOut(mouseWheel);	
+		ZoomInAndOut(mouseWheel);
+		gameObject.GetComponent<Camera>().rect = new Rect(0, 0, (float)(((double)Screen.width - 200.0)/(double)Screen.width), 1);
 	}
 
 	void ZoomInAndOut(float mouseWheel) {

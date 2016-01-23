@@ -31,7 +31,7 @@ class MapEventTool : IMapEditorTool {
 		if (ray.collider != null && ray.collider.tag == "Event") {
 			SelectMapEvent(ray.collider.gameObject);
 		} else if (ray.collider.tag == "Background") {
-			GameObject mapEvent = mapController.CreateMapEvent(ray.point);
+			GameObject mapEvent = mapController.AddMapEvent(ray.point);
 			SelectMapEvent(mapEvent);
 		}
 	}

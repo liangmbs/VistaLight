@@ -61,10 +61,13 @@ public class MapInfoSidePanelController : MonoBehaviour {
 
 		mapController.RegenerateMap(map);
 		shipPannelController.RegenerateShip(map.ships);
+		mapController.RegenerateMapEvents();
 
 		mapInformationSetting.SetActive(true);
 		this.updateMapInformationDisplay();
 	} 
+
+	
 
 	public void SaveMap() {
 		if (path == "") {

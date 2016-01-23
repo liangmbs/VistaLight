@@ -89,11 +89,12 @@ public class MapController : MonoBehaviour {
 		return connectionGO;
 	}
 
-	public GameObject CreateMapEvent(Vector3 position) {
+	public GameObject AddMapEvent(Vector3 position) {
 		MapEvent mapEvent = new MapEvent();
 		mapEvent.X = position.x;
 		mapEvent.Y = position.y;
 		mapEvent.Time = map.StartTime;
+		map.AddMapEvent(mapEvent);
 		GameObject mapEventGO = CreateMapEventGameObject(mapEvent);
 		return mapEventGO;
 	}
@@ -158,6 +159,14 @@ public class MapController : MonoBehaviour {
 		}
 		
     }
+
+	public void RegenerateMapEvents() {
+		// Regenerate all map events
+		Debug.Log(map.mapEvents.Count);
+		foreach (MapEvent mapEvent in map.mapEvents) {
+			CreateMapEventGameObject(mapEvent);
+		}
+	}
 
 	public void CloseMap() {
 		foreach (Transform child in GameObject.Find("Map").transform) {
