@@ -24,6 +24,7 @@ class MapEventTool : IMapEditorTool {
 	}
 
 	public void Destory() {
+		DeselectMapEvent();
 	}
 
 	public void RespondMouseLeftClick() {
