@@ -20,6 +20,7 @@ public class ToolSelector : MonoBehaviour {
 	}
 
 	private void CloseAllSubTrays() {
+		DeselectCurrentTool();
 		RoadSubTray.SetActive(false);
 		DockSubTray.SetActive(false);
 		EventSubTray.SetActive(false);
@@ -41,16 +42,20 @@ public class ToolSelector : MonoBehaviour {
 	}
 
 	public void SelectTool(IMapEditorTool tool) {
+		DeselectCurrentTool();		
+
+		toolSelected = tool;
+	}
+
+	private void DeselectCurrentTool() {
 		// Destory previous tool
 		if (toolSelected != null) {
 			toolSelected.Destory();
 		}
+		toolSelected = null;
 
 		// Make all other buttons gray
 		GrayOutAllToolButtons();
-
-		// Select the new tool
-		toolSelected = tool;
 	}
 
 	private void GrayOutAllToolButtons() {

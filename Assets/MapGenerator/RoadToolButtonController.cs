@@ -3,14 +3,18 @@ using System.Collections;
 using System;
 using UnityEngine.UI;
 
-public class BidirectionButtonController : ToolButtonController {
+public class RoadToolButtonController : ToolButtonController {
 
 	public MapController mapController;
 	public ToolSelector toolSelector;
 
-	public override void SelectTool() {
+	public override void SelectTool(string setting) {
 		RoadTool tool = new RoadTool(mapController);
-		tool.BiDirection = true;
+		if (setting == "unidirectional") {
+			tool.BiDirection = false;
+		} else {
+			tool.BiDirection = true;
+		}
 		toolSelector.SelectTool(tool);
 		gameObject.GetComponent<Button>().image.color = Color.white;
 	}

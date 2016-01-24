@@ -13,5 +13,5 @@ public abstract class ToolButtonController : MonoBehaviour {
 	
 	}
 
-	abstract public void SelectTool();
+	abstract public void SelectTool(string setting);
 }

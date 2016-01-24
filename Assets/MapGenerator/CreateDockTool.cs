@@ -8,9 +8,9 @@ public class CreateDockTool : IMapEditorTool {
 	private DockType type;
 	private MapController mapController;
 
-	public CreateDockTool(MapController map, DockType type) {
+	public CreateDockTool(MapController mapController, DockType type) {
 		this.type = type;
-		this.mapController = map;
+		this.mapController = mapController;
 	}
 
 	public DockType Type {
