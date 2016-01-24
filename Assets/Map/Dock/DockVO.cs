@@ -23,8 +23,8 @@ public class DockVO : MonoBehaviour {
 				(float)dock.node.Y,
 				-2);
 		gameObject.transform.localScale = new Vector3(
-				(float)(Camera.main.orthographicSize / 5),
-				(float)(Camera.main.orthographicSize / 5),
+				(float)(Camera.main.orthographicSize / 10),
+				(float)(Camera.main.orthographicSize / 10),
 				(float)1);
 
 		foreach (DockType type in Enum.GetValues(typeof(DockType))) {

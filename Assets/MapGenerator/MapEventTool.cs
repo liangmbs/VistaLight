@@ -15,8 +15,10 @@ class MapEventTool : IMapEditorTool {
 	}
 
 	private void DeselectMapEvent() {
-		selectedMapEvent.GetComponent<MapEventVO>().IsSelected = false;
-		selectedMapEvent = null;
+		if (selectedMapEvent != null) {
+			selectedMapEvent.GetComponent<MapEventVO>().IsSelected = false;
+			selectedMapEvent = null;
+		}
 	}
 
 	public MapEventTool(MapController mapController) {

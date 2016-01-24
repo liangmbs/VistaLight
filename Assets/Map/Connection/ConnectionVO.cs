@@ -21,6 +21,10 @@ public class ConnectionVO : MonoBehaviour {
 		gameObject.transform.position = (startPosition + endPosition) / 2.0f;
 		float distance = (Vector3.Distance(endPosition, startPosition));
 		gameObject.transform.localScale = new Vector3(distance, distance / 10, 0.01f);
+		gameObject.transform.localScale = new Vector3(
+				(float)(distance * Camera.main.orthographicSize / 10000),
+				(float)(distance / 10 * Camera.main.orthographicSize / 10000),
+				(float)1);
 		gameObject.transform.rotation = Quaternion.FromToRotation(new Vector3(1, 0, 0), startPosition - endPosition);
 
 		if (connection.Bidirectional) {
