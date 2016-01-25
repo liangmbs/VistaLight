@@ -93,8 +93,13 @@ public class RoadTool : IMapEditorTool
 	}
 
 	private void UpdateTemporaryNodePosition() {
-		Node node = tempNode.GetComponent<NodeVO>().node;
 		Vector2 mousePosition = MousePosition();
+		GameObject nodeMouseOn = MouseOnNode();
+		if (nodeMouseOn != null) {
+			mousePosition.x = nodeMouseOn.transform.position.x;
+			mousePosition.y = nodeMouseOn.transform.position.y;
+		}
+		Node node = tempNode.GetComponent<NodeVO>().node;
 		node.X = mousePosition.x;
 		node.Y = mousePosition.y;
 	}
@@ -190,7 +195,8 @@ public class RoadTool : IMapEditorTool
 	public void RespondMouseRightClick() {
 		this.isStarted = false;
 		this.tempRoad.SetActive(false);
-		tempNode.SetActive(true);
+		UpdateTemporaryNodePosition();
+        tempNode.SetActive(true);
 	}
 }
 
