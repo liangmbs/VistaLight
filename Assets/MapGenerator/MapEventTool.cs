@@ -6,6 +6,10 @@ class MapEventTool : IMapEditorTool {
 	private MapController mapController;
 	private GameObject selectedMapEvent = null;
 
+	public enum MapEventType {
+		ShipGeneration, OilSpilling
+	}
+
 	private void SelectMapEvent(GameObject mapEvent) {
 		if(selectedMapEvent != null) {
 			selectedMapEvent.GetComponent<MapEventVO>().IsSelected = false;
