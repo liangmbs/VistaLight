@@ -40,6 +40,14 @@ public class RoadTool : IMapEditorTool
 		return ray.point;
 	}
 
+	private GameObject MouseOnNode() {
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+		if (ray.collider != null && ray.collider.tag == "Node") {
+			return ray.collider.gameObject;
+		}
+		return null;
+	}
+
 	public void Destory() {
 		UnityEngine.Object.Destroy(tempRoad);
 		UnityEngine.Object.Destroy(tempNode);
@@ -47,8 +55,14 @@ public class RoadTool : IMapEditorTool
 
 	public void RespondMouseLeftClick() {
 		if (!isStarted) {
-			PutNode();
+			GameObject nodeMouseOn = MouseOnNode();
+			if (nodeMouseOn != null) {
+				currentNode = nodeMouseOn;
+			} else {
+				PutNode();
+			}
 			isStarted = true;
+			tempNode.SetActive(false);
 			tempRoad.SetActive(true);
 			UpdateTemporaryRoad();
 		} else {
@@ -73,6 +87,8 @@ public class RoadTool : IMapEditorTool
 
 	private void ShowTemporaryNode() {
 		tempNode = GameObject.Instantiate(nodePrefab);
+		tempNode.tag = "Untagged";
+		tempNode.GetComponent<CircleCollider2D>().enabled = false;
 		tempNode.transform.FindChild("NodeDot").GetComponent<SpriteRenderer>().color = Color.blue;
 	}
 
@@ -174,6 +190,7 @@ public class RoadTool : IMapEditorTool
 	public void RespondMouseRightClick() {
 		this.isStarted = false;
 		this.tempRoad.SetActive(false);
+		tempNode.SetActive(true);
 	}
 }
 
