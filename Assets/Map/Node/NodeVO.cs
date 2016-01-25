@@ -7,12 +7,12 @@ public class NodeVO : MonoBehaviour {
 	public Node node;
 
 	// Use this for initialization
-	void Start () {
+	public void Start () {
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public void Update () {
 		if (node != null) {
 			gameObject.transform.position = new Vector3((float)node.X, (float)node.Y, (float)MapController.MapZIndex);
 			gameObject.transform.localScale = new Vector3(
