@@ -41,12 +41,16 @@ public class RoadTool : IMapEditorTool
 	}
 
 	public void Destory() {
+		UnityEngine.Object.Destroy(tempRoad);
+		UnityEngine.Object.Destroy(tempNode);
 	}
 
 	public void RespondMouseLeftClick() {
 		if (!isStarted) {
 			PutNode();
 			isStarted = true;
+			tempRoad.SetActive(true);
+			UpdateTemporaryRoad();
 		} else {
 			PutRoad(false, PutNodeOnRoad, PutConnectionOnRoad);
 		}
@@ -168,7 +172,8 @@ public class RoadTool : IMapEditorTool
 	}
 
 	public void RespondMouseRightClick() {
-		throw new NotImplementedException();
+		this.isStarted = false;
+		this.tempRoad.SetActive(false);
 	}
 }
 

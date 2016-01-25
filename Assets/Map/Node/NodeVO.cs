@@ -16,7 +16,7 @@ public class NodeVO : MonoBehaviour {
 		if (node != null) {
 			gameObject.transform.position = new Vector3((float)node.X, (float)node.Y, (float)MapController.MapZIndex);
 			gameObject.transform.localScale = new Vector3(
-				Camera.main.orthographicSize / 400, Camera.main.orthographicSize / 400, 1);
+				Camera.main.orthographicSize / 200, Camera.main.orthographicSize / 200, 1);
 		}
 	}
 
