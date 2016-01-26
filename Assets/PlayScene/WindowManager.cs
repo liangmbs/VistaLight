@@ -14,7 +14,13 @@ public class WindowManager: MonoBehaviour {
 	public void ToggleBottomInformationPanel(){
 		open = !open;
 		if (open) {
-			infoBar.GetComponent<RectTransform> ().localPosition= new Vector3(0,0,0);
+			float slidetime = 10.0f;
+			infoBar.GetComponent<RectTransform> ().transform.Translate (0, 200, 0);
+			toggleButton.transform.rotation= Quaternion.Euler(0,0,180);
+		} else {
+			infoBar.GetComponent<RectTransform> ().transform.Translate (0, -200, 0);
+			toggleButton.transform.rotation= Quaternion.Euler(0,0,0);
+
 		}
 	}
 
