@@ -75,6 +75,10 @@ public class RoadTool : IMapEditorTool
 		GameObject.Find("MapEditorController").GetComponent<MapEditorController>().SelectOne(node.GetComponent<NodeVO>());
 	}
 
+	private void DeselectNode() {
+		GameObject.Find("MapEditorController").GetComponent<MapEditorController>().DeselectAll();
+    }
+
 	private void PutNode() {
 		currentNode = mapController.AddNode(MousePosition());
 		SelectNode(currentNode);
@@ -202,6 +206,7 @@ public class RoadTool : IMapEditorTool
 	public void RespondMouseRightClick() {
 		this.isStarted = false;
 		this.tempRoad.SetActive(false);
+		this.DeselectNode();
 		UpdateTemporaryNodePosition();
         tempNode.SetActive(true);
 	}
