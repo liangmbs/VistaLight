@@ -58,6 +58,7 @@ public class RoadTool : IMapEditorTool
 			GameObject nodeMouseOn = MouseOnNode();
 			if (nodeMouseOn != null) {
 				currentNode = nodeMouseOn;
+				SelectNode(currentNode);
 			} else {
 				PutNode();
 			}
@@ -70,8 +71,13 @@ public class RoadTool : IMapEditorTool
 		}
 	}
 
+	private void SelectNode(GameObject node) { 
+		GameObject.Find("MapEditorController").GetComponent<MapEditorController>().SelectOne(node.GetComponent<NodeVO>());
+	}
+
 	private void PutNode() {
 		currentNode = mapController.AddNode(MousePosition());
+		SelectNode(currentNode);
 	}
 
 	public void RespondMouseLeftUp() {
@@ -142,6 +148,7 @@ public class RoadTool : IMapEditorTool
 	private GameObject PutNodeOnRoad(Vector2 position, int index) {
 		GameObject node = mapController.AddNode(position);
 		currentNode = node;
+		SelectNode(node);
 		return node;
 	}
 
@@ -188,6 +195,7 @@ public class RoadTool : IMapEditorTool
 			putConnection(previousNode, endNode);
 			if (!isTemp) {
 				currentNode = endNode;
+				SelectNode(currentNode);
 			}
 		}
 	}
@@ -197,6 +205,14 @@ public class RoadTool : IMapEditorTool
 		this.tempRoad.SetActive(false);
 		UpdateTemporaryNodePosition();
         tempNode.SetActive(true);
+	}
+
+	public bool CanDestroy() {
+		if(isStarted) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
 

@@ -9,6 +9,10 @@ class MoveTool : IMapEditorTool {
 	private bool isDragging = false;
 	private Vector2 previousPoint = new Vector2(0, 0);
 
+	public bool CanDestroy() {
+		throw new NotImplementedException();
+	}
+
 	public void Destory() {
 		// Nothing to do in this function
 	}

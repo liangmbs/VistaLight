@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class NodeVO : MonoBehaviour {
+public class NodeVO : MonoBehaviour, MapSelectableVO {
 
 	public Node node;
 
@@ -26,4 +26,13 @@ public class NodeVO : MonoBehaviour {
 		node.Y = ray.point.y;
 	}
 
+	public void Select() {
+		gameObject.transform.FindChild("NodeDot").gameObject.SetActive(false);
+		gameObject.transform.FindChild("NodeDotSelected").gameObject.SetActive(true);
+	}
+
+	public void Deselect() {
+		gameObject.transform.FindChild("NodeDot").gameObject.SetActive(true);
+		gameObject.transform.FindChild("NodeDotSelected").gameObject.SetActive(false);
+	}
 }

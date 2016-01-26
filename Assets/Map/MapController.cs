@@ -89,11 +89,7 @@ public class MapController : MonoBehaviour {
 		return connectionGO;
 	}
 
-	public GameObject AddMapEvent(Vector3 position) {
-		MapEvent mapEvent = new MapEvent();
-		mapEvent.X = position.x;
-		mapEvent.Y = position.y;
-		mapEvent.Time = map.StartTime;
+	public GameObject AddMapEvent(MapEvent mapEvent) {
 		map.AddMapEvent(mapEvent);
 		GameObject mapEventGO = CreateMapEventGameObject(mapEvent);
 		return mapEventGO;

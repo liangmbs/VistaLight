@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class DockVO : MonoBehaviour {
+public class DockVO : MonoBehaviour, MapSelectableVO {
 
 	public Dock dock;
 
@@ -48,5 +48,13 @@ public class DockVO : MonoBehaviour {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 		dock.node.X = ray.point.x;
 		dock.node.Y = ray.point.y;
+	}
+
+	public void Select() {
+		gameObject.transform.FindChild("SelectCircle").gameObject.SetActive(true);
+	}
+
+	public void Deselect() {
+		gameObject.transform.FindChild("SelectCircle").gameObject.SetActive(false);
 	}
 }

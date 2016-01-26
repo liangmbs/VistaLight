@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class MapEventVO : MonoBehaviour {
+public class MapEventVO : MonoBehaviour, MapSelectableVO {
 
 	public MapEvent MapEvent;
 	public bool IsSelected = false;
@@ -19,20 +20,21 @@ public class MapEventVO : MonoBehaviour {
 			(float)(Camera.main.orthographicSize / 20),
 			(float)(Camera.main.orthographicSize / 20),
 			(float)1);
-
-		if (IsSelected) {
-			gameObject.transform.FindChild("EventSelected").gameObject.SetActive(true);
-			gameObject.transform.FindChild("Event").gameObject.SetActive(false);
-		} else { 
-			gameObject.transform.FindChild("EventSelected").gameObject.SetActive(false);
-			gameObject.transform.FindChild("Event").gameObject.SetActive(true);
-
-		}
 	}
 
 	public void OnMouseDrag() {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 		MapEvent.X = ray.point.x;
 		MapEvent.Y = ray.point.y;
+	}
+
+	public void Select() {
+		gameObject.transform.FindChild("EventSelected").gameObject.SetActive(true);
+		gameObject.transform.FindChild("Event").gameObject.SetActive(false);
+	}
+
+	public void Deselect() {
+		gameObject.transform.FindChild("EventSelected").gameObject.SetActive(false);
+		gameObject.transform.FindChild("Event").gameObject.SetActive(true);
 	}
 }

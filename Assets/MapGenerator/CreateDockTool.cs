@@ -24,7 +24,8 @@ public class CreateDockTool : IMapEditorTool {
 	public void RespondMouseLeftClick() {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 		if (ray.collider != null && ray.collider.tag == "Node") {
-			mapController.AddDock(ray.collider.gameObject, type);
+			GameObject dockGO = mapController.AddDock(ray.collider.gameObject, type);
+			GameObject.Find("MapEditorController").GetComponent<MapEditorController>().SelectOne(dockGO.GetComponent<DockVO>());
 		}
 	}
 
@@ -35,6 +36,10 @@ public class CreateDockTool : IMapEditorTool {
 	}
 
 	public void RespondMouseRightClick() {
+	}
+
+	public bool CanDestroy() {
+		return true;
 	}
 }
 
