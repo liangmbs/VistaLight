@@ -170,7 +170,6 @@ public class RoadTool : IMapEditorTool
 			endNode = ray.collider.gameObject;
 			mousePosition = new Vector2(endNode.transform.position.x, endNode.transform.position.y);
 		}
-		Debug.Log(endOnNode);
 
 		Node node = currentNode.GetComponent<NodeVO>().node;
 		Vector2 currentPosition = new Vector2((float)node.X, (float)node.Y);
