@@ -28,7 +28,8 @@ public class MapInfoSidePanelController : MonoBehaviour {
 
 	private void updateMapInformationDisplay() {
 		if (map != null) {
-			GameObject.Find("MapNameInput").GetComponent<InputField>().text = map.Name;
+			GameObject.Find("MapNameInput").GetComponent<InputField>().text = 
+                map.Name;
 			GameObject.Find("StartTimeInput").GetComponent<InputField>().text = 
 				map.StartTime.ToString(Map.DateTimeFormat);
 		}

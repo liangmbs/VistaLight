@@ -8,7 +8,7 @@ public class Map {
 
 	private string mapName = "map";
 	private DateTime startTime = new DateTime(2016, 1, 1, 12, 0, 0);
-	public static readonly string DateTimeFormat = "yyyy-MM-dd HH-mm-ss";
+	public static readonly string DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
 
 	public List<Node> nodes = new List<Node>();
 	public List<Connection> connections = new List<Connection>();

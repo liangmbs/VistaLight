@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
 public class ShipGenerationEventSidePanelController : MonoBehaviour {
 
@@ -21,5 +22,10 @@ public class ShipGenerationEventSidePanelController : MonoBehaviour {
         if (shipGenerationEvent == null) return;
 
         timeInput.text = shipGenerationEvent.Time.ToString(Map.DateTimeFormat);
+    }
+
+    public void UpdateData() {
+        shipGenerationEvent.Time = DateTime.Parse(timeInput.text);
+        UpdateDisplay();
     }
 }
