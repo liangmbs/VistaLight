@@ -11,6 +11,12 @@ public class WindowManager: MonoBehaviour {
 	public GameObject infoBar;
 	public bool open = false;
 
+	public GameObject tab1;
+	public GameObject tab2;
+	public GameObject tab3;
+
+
+
 	public void ToggleBottomInformationPanel(){
 		open = !open;
 		if (open) {
@@ -25,5 +31,22 @@ public class WindowManager: MonoBehaviour {
 	}
 
 
+	public void ShowTab1(){
+		tab1.transform.FindChild ("Panel").gameObject.SetActive(true);
+		tab2.transform.FindChild ("Panel").gameObject.SetActive(false);
+		tab3.transform.FindChild ("Panel").gameObject.SetActive(false);
+	}
+
+	public void ShowTab2(){
+		tab1.transform.FindChild ("Panel").gameObject.SetActive(false);
+		tab2.transform.FindChild ("Panel").gameObject.SetActive(true);
+		tab3.transform.FindChild ("Panel").gameObject.SetActive(false);
+	}
+
+	public void ShowTab3(){
+		tab1.transform.FindChild ("Panel").gameObject.SetActive(false);
+		tab2.transform.FindChild ("Panel").gameObject.SetActive(false);
+		tab3.transform.FindChild ("Panel").gameObject.SetActive(true);
+	}
 }
 		
