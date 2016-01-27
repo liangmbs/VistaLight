@@ -57,4 +57,9 @@ public class DockVO : MonoBehaviour, MapSelectableVO {
 	public void Deselect() {
 		gameObject.transform.FindChild("SelectCircle").gameObject.SetActive(false);
 	}
+
+    public GameObject GetSidePanel()
+    {
+        return null;
+    }
 }

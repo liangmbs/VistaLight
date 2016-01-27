@@ -37,4 +37,17 @@ public class MapEventVO : MonoBehaviour, MapSelectableVO {
 		gameObject.transform.FindChild("EventSelected").gameObject.SetActive(false);
 		gameObject.transform.FindChild("Event").gameObject.SetActive(true);
 	}
+
+    public GameObject GetSidePanel()
+    {
+        if (MapEvent is ShipGenerationEvent) {
+            GameObject sidePanel = GameObject.Find("SidePanels").transform.FindChild("ShipGenerationMapEventSidePanel").gameObject;
+            ShipGenerationEventSidePanelController controller = sidePanel.GetComponent<ShipGenerationEventSidePanelController>();
+            controller.shipGenerationEvent = (ShipGenerationEvent)MapEvent;
+            controller.UpdateDisplay();
+            return sidePanel;
+        }
+
+        return null;
+    }
 }

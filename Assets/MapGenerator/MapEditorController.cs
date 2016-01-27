@@ -15,6 +15,7 @@ public class MapEditorController : MonoBehaviour {
 	public ToolSelector toolSelector;
 
 	private MapSelectableVO selected;
+    private GameObject sidePanelInDisplay;
 
 	// Use this for initialization
 	void Start() {
@@ -97,13 +98,24 @@ public class MapEditorController : MonoBehaviour {
 		DeselectAll();
 		vo.Select();
 		selected = vo;
+
+        GameObject sidePanel = vo.GetSidePanel();
+        if (sidePanel != null) {
+            sidePanel.SetActive(true);
+            sidePanelInDisplay = sidePanel;
+        }
 	}
 
 	public void DeselectAll() {
 		if (selected != null) {
 			selected.Deselect();
-			selected = null;	
+			selected = null;
 		}
+
+        if (sidePanelInDisplay != null) {
+            sidePanelInDisplay.SetActive(false);
+            sidePanelInDisplay = null;
+        }
 	}
 
 	public void ShowShipPanel() {

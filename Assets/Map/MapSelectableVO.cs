@@ -7,4 +7,6 @@ public interface MapSelectableVO {
 
 	void Deselect();
 
+    GameObject GetSidePanel();
+
 }

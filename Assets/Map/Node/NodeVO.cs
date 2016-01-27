@@ -5,6 +5,7 @@ using System;
 public class NodeVO : MonoBehaviour, MapSelectableVO {
 
 	public Node node;
+    public GameObject sidePanel;
 
 	// Use this for initialization
 	public void Start () {
@@ -35,4 +36,9 @@ public class NodeVO : MonoBehaviour, MapSelectableVO {
 		gameObject.transform.FindChild("NodeDot").gameObject.SetActive(true);
 		gameObject.transform.FindChild("NodeDotSelected").gameObject.SetActive(false);
 	}
+
+    public GameObject GetSidePanel()
+    {
+        return sidePanel;
+    }
 }
