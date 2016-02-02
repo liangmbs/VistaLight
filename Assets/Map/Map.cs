@@ -56,6 +56,15 @@ public class Map {
 		this.ships.Remove(ship);
 	}
 
+	public Ship GetShipById(int id) {
+		foreach (Ship ship in ships) {
+			if (ship.shipID == id) {
+				return ship;
+			}
+		}
+		throw new KeyNotFoundException();
+	}
+
 	public void AddMapEvent(MapEvent mapEvent) {
 		mapEvents.Add(mapEvent);
 	}

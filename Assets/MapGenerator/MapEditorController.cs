@@ -31,8 +31,6 @@ public class MapEditorController : MonoBehaviour {
 			if (EventSystem.current.IsPointerOverGameObject())
 				return;
 
-			
-
 			// Respond click
 			if (mapEditorTool != null) {
 				mapEditorTool.RespondMouseLeftClick();
@@ -83,6 +81,7 @@ public class MapEditorController : MonoBehaviour {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
 		if (ray.collider == null) return;
+		Debug.Log(ray.collider.tag);
 
 		// Select thing
 		if (ray.collider.tag == "Node") {

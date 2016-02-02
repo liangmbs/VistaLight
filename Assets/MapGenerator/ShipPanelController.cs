@@ -31,7 +31,7 @@ public class ShipPanelController : MonoBehaviour {
 		GameObject entry = CreateShipEntry(ship);
 
 		// Add ship to map
-		mapController.Map.AddShip(ship);
+		mapController.AddShip(ship);
 	}
 
 	public GameObject CreateShipEntry(Ship ship) {

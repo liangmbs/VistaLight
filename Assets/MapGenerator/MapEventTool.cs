@@ -57,6 +57,8 @@ class MapEventTool : IMapEditorTool {
 			MapEvent mapEvent = CreateMapEvent(ray.point);
 			GameObject mapEventGO = mapController.AddMapEvent(mapEvent);
 			GameObject.Find("MapEditorController").GetComponent<MapEditorController>().SelectOne(mapEventGO.GetComponent<MapEventVO>());
+		} else if (ray.collider != null && ray.collider.tag == "Event") {
+			GameObject.Find("MapEditorController").GetComponent<MapEditorController>().SelectOne(ray.collider.gameObject.GetComponent<MapEventVO>());
 		}
 	}
 

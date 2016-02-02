@@ -39,6 +39,14 @@ public class MapController : MonoBehaviour {
 		return nodeGO;
 	}
 
+	public void AddShip(Ship ship) {
+		map.AddShip(ship);
+	}
+
+	public Ship GetShipById(int id) {
+		return map.GetShipById(id);
+	}
+
 	private GameObject CreateNodeGameObject(Node node) {
 		GameObject nodeGO = Instantiate(nodePrefab, Vector3.zero, Quaternion.identity) as GameObject;
 		nodeGO.GetComponent<NodeVO>().node = node;
