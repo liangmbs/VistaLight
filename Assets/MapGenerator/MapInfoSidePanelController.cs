@@ -13,6 +13,7 @@ public class MapInfoSidePanelController : MonoBehaviour {
 	public MapController mapController;
 	public ShipPanelController shipPannelController;
 	public Map map;
+    public ToolSelector toolSelector;
 	public bool hasModification = false;
 	public string path = "";
 
@@ -91,5 +92,7 @@ public class MapInfoSidePanelController : MonoBehaviour {
 
 		path = "";
 		hasModification = false;
+
+        toolSelector.DeselectCurrentTool();
 	}
 }
