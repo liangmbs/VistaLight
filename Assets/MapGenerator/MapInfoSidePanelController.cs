@@ -14,6 +14,8 @@ public class MapInfoSidePanelController : MonoBehaviour {
 	public ShipPanelController shipPannelController;
 	public Map map;
     public ToolSelector toolSelector;
+	public InputField mapNameInput;
+	public InputField startTimeInput;
 	public bool hasModification = false;
 	public string path = "";
 
@@ -49,7 +51,6 @@ public class MapInfoSidePanelController : MonoBehaviour {
 	}
 
 	public void LoadMap() {
-
 		CloseMap();
 
 		string[] mapTypes = {
@@ -94,5 +95,17 @@ public class MapInfoSidePanelController : MonoBehaviour {
 		hasModification = false;
 
         toolSelector.DeselectCurrentTool();
+	}
+
+	public void UpdateData() {
+		map.Name = mapNameInput.text;
+		map.StartTime = DateTime.Parse(startTimeInput.text);
+
+		UpdateDisplay();
+	}
+
+	public void UpdateDisplay() {
+		mapNameInput.text = map.Name;
+		startTimeInput.text = map.StartTime.ToString(Map.DateTimeFormat);
 	}
 }

@@ -72,4 +72,8 @@ public class Map {
 	public void RemoveMapEvent(MapEvent mapEvent) {
 		mapEvents.Remove(mapEvent);
 	}
+
+	public void RemoveConnection(Connection connection) {
+		connections.Remove(connection);
+	}
 }

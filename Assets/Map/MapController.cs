@@ -133,8 +133,32 @@ public class MapController : MonoBehaviour {
 		mapEvent.transform.FindChild("Event").gameObject.SetActive(false);	
 	}
 
-	public void RemoveNode(GameObject gameObject) {
-		throw new NotImplementedException();
+	public void RemoveNode(GameObject nodeGO) {
+		Node node = nodeGO.GetComponent<NodeVO>().node;
+		foreach (Connection connection in map.connections) {
+			if (connection.StartNode == node || connection.EndNode == node) {
+				GameObject connectionGO = GetConnectionGO(connection);
+				if (connectionGO != null) {
+					RemoveConnection(connectionGO);
+				}
+			}
+		}
+	}
+
+	private GameObject GetConnectionGO(Connection connection) {
+		foreach (Transform child in GameObject.Find("Map").transform) {
+			GameObject go = child.gameObject;
+			if (go.GetComponent<ConnectionVO>() != null &&
+				go.GetComponent<ConnectionVO>().connection == connection) {
+				return go;
+			}
+		}
+		return null;
+	}
+
+	public void RemoveConnection(GameObject connection) {
+		map.RemoveConnection(connection.GetComponent<ConnectionVO>().connection);
+		GameObject.Destroy(connection);
 	}
 
 

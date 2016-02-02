@@ -204,15 +204,27 @@ public class RoadTool : IMapEditorTool
 	}
 
 	public void RespondMouseRightClick() {
-		this.isStarted = false;
-		this.tempRoad.SetActive(false);
-		this.DeselectNode();
-		UpdateTemporaryNodePosition();
-        tempNode.SetActive(true);
+		if (isStarted) {
+			this.isStarted = false;
+			this.tempRoad.SetActive(false);
+			this.DeselectNode();
+			UpdateTemporaryNodePosition();
+			tempNode.SetActive(true);
+		} else {
+			RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+			if (ray.collider != null && ray.collider.tag == "Node") {
+				mapController.RemoveNode(ray.collider.gameObject);
+			}
+		}
 	}
 
 	public bool CanDestroy() {
-		if(isStarted) {
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+		Debug.Log(ray.collider);
+		if (isStarted) {
+			return false;
+		} else if (ray.collider != null && ray.collider.tag == "Node"){
+			Debug.Log("On node");
 			return false;
 		} else {
 			return true;

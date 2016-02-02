@@ -58,7 +58,7 @@ public class MapEditorController : MonoBehaviour {
 
 			// Respond click
 			if (mapEditorTool != null) {
-				if(mapEditorTool.CanDestroy()) {
+				if (mapEditorTool.CanDestroy()) {
 					toolSelector.DeselectCurrentTool();
 				} else {
 					mapEditorTool.RespondMouseRightClick();
