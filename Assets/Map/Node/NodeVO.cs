@@ -7,12 +7,10 @@ public class NodeVO : MonoBehaviour, MapSelectableVO {
 	public Node node;
     public GameObject sidePanel;
 
-	// Use this for initialization
 	public void Start () {
 	
 	}
 	
-	// Update is called once per frame
 	public void Update () {
 		if (node != null) {
 			gameObject.transform.position = new Vector3((float)node.X, (float)node.Y, (float)MapController.MapZIndex);
@@ -23,6 +21,8 @@ public class NodeVO : MonoBehaviour, MapSelectableVO {
 
 	public void OnMouseDrag() {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+		if (ray.point.x == 0 && ray.point.y == 0) return;
+		Debug.Log(String.Format("Ray.point = ({0}, {1})", ray.point.x, ray.point.y));
 		node.X = ray.point.x;
 		node.Y = ray.point.y;
 	}
