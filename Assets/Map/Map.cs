@@ -2,22 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using System.Xml.Serialization;
 
 [Serializable()]
-[XmlRoot(ElementName = "Map")]
 public class Map {
 
 	private string mapName = "map";
 	private DateTime startTime = new DateTime(2016, 1, 1, 12, 0, 0);
-	public static readonly string DateTimeFormat = "yyyy-MM-dd HH-mm-ss";
+	public static readonly string DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
 
-	[XmlArrayItem("nodes")]
 	public List<Node> nodes = new List<Node>();
-
-	[XmlArrayItem("connections")]
 	public List<Connection> connections = new List<Connection>();
-	// public List<Dock> docks = new List<Dock>();
+	public List<Dock> docks = new List<Dock>();
+	public List<Ship> ships = new List<Ship>();
+	public List<MapEvent> mapEvents = new List<MapEvent>();
 
 	public string Name {
 		get { return mapName; }
@@ -38,30 +35,44 @@ public class Map {
 	}
 
 	public void RemoveNode(Node node) {
-		// node.Remove();
-		// nodes.Remove(node);
+		nodes.Remove(node);
 	}
 	
-	public void AddDock(Node node, DockType type){
-		/*
-		// Create dock object
-		GameObject dockObject = GameObject.Instantiate(dockPreFab, 
-			node.Position, Quaternion.identity) as GameObject;
-		Dock dock = dockObject.GetComponent<Dock>();
-		docks.Add(dock);
-
-		// Setup dock information
-		dock.Node = node;
-		dock.Type = type;
-		dock.Map = this;
-
-		// Update dock apperance
-		dock.UpdateGameObject();
-		*/
+	public void AddDock(Dock dock){
+		this.docks.Add(dock);
 	}
 
 	public void RemoveDock(Dock dock) {
 		// docks.Remove(dock);
 		// GameObject.Destroy(dock.gameObject);
+	}
+
+	public void AddShip(Ship ship) {
+		this.ships.Add(ship);
+	}
+
+	public void RemoveShip(Ship ship) {
+		this.ships.Remove(ship);
+	}
+
+	public Ship GetShipById(int id) {
+		foreach (Ship ship in ships) {
+			if (ship.shipID == id) {
+				return ship;
+			}
+		}
+		throw new KeyNotFoundException();
+	}
+
+	public void AddMapEvent(MapEvent mapEvent) {
+		mapEvents.Add(mapEvent);
+	}
+
+	public void RemoveMapEvent(MapEvent mapEvent) {
+		mapEvents.Remove(mapEvent);
+	}
+
+	public void RemoveConnection(Connection connection) {
+		connections.Remove(connection);
 	}
 }

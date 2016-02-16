@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class RoadTool : IMapEditorTool
@@ -8,10 +9,25 @@ public class RoadTool : IMapEditorTool
 
 	private GameObject currentNode = null;
 	private bool isBiDirection = true;
+	private bool isStarted = false;
+
+	private GameObject nodePrefab;
+	private GameObject connectionPrefab;
+	private GameObject tempNode;
+
+	private GameObject tempRoad;
+	private List<GameObject> nodeInTempRoad = new List<GameObject>();
+	private List<GameObject> connectionInTempRoad = new List<GameObject>(); 
+
 
 	public RoadTool (MapController mapController)
 	{
 		this.mapController = mapController;
+		nodePrefab = Resources.Load("Node", typeof(GameObject)) as GameObject;
+		connectionPrefab = Resources.Load("Connection", typeof(GameObject)) as GameObject;
+		
+		this.ShowTemporaryNode();
+		tempRoad = new GameObject();
 	}
 
 	public bool BiDirection {
@@ -19,124 +35,197 @@ public class RoadTool : IMapEditorTool
 		set { isBiDirection = value;  }
 	}
 
-
-	private void CreateNewRoad(Vector3 startPosition, Vector3 targetPosition) {
-		mapController.DeselectNode(currentNode);
-		float remainingDistance = Vector3.Distance(startPosition, targetPosition);
-
-		// Get the direction from the start point to the destination
-		Vector3 vector = (targetPosition - startPosition).normalized;
-
-		// Create a series of nodes towards the destination
-		Vector3 previousPosition = startPosition;
-		GameObject nextNode;
-		while (remainingDistance > 2 * segmentLength) {
-			// Create next node
-			Vector3 nextPosition = previousPosition + vector * segmentLength;
-			nextNode = mapController.AddNode(nextPosition);
-
-			// Create connection
-			GameObject connection = mapController.AddConnection(currentNode, nextNode, isBiDirection);
-
-			// Update for the next iteration
-			currentNode = nextNode;
-			previousPosition = nextPosition;
-			remainingDistance = (targetPosition - previousPosition).magnitude;
-		}
-
-		// At the end, create a node at the target position
-		nextNode = mapController.AddNode(targetPosition);
-		mapController.AddConnection(currentNode, nextNode, isBiDirection);
-		previousPosition = nextNode.gameObject.transform.position;
-
-		
-        currentNode = nextNode;
-		mapController.SelectNode(nextNode);
+	private Vector2 MousePosition() {
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+		return ray.point;
 	}
 
-	private void CreateNewRoad(Vector3 startPosition, GameObject targetNode) {
-		mapController.DeselectNode(currentNode);
-		float remainingDistance = Vector3.Distance(startPosition, targetNode.transform.position);
-
-		// Get the direction from the start point to the destination
-		Vector3 vector = (targetNode.transform.position - startPosition).normalized;
-
-		// Create a series of nodes towards the destination
-		Vector3 previousPosition = startPosition;
-		GameObject nextNode;
-		while (remainingDistance > 2 * segmentLength) {
-			// Create next node
-			Vector3 nextPosition = previousPosition + vector * segmentLength;
-			nextNode = mapController.AddNode(nextPosition);
-
-			// Create connection
-			GameObject connection = mapController.AddConnection(currentNode, nextNode, isBiDirection);
-
-			// Update for the next iteration
-			currentNode = nextNode;
-			previousPosition = nextPosition;
-			remainingDistance = (targetNode.transform.position - previousPosition).magnitude;
+	private GameObject MouseOnNode() {
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+		if (ray.collider != null && ray.collider.tag == "Node") {
+			return ray.collider.gameObject;
 		}
+		return null;
+	}
 
-		// At the end, do not create node, but use the target node
-		// nextNode = map.AddNode(targetNode.Position);
-		mapController.AddConnection(currentNode, targetNode, isBiDirection);
-		previousPosition = targetNode.gameObject.transform.position;
-
-
-		currentNode = targetNode;
-		mapController.SelectNode(targetNode);
+	public void Destory() {
+		UnityEngine.Object.Destroy(tempRoad);
+		UnityEngine.Object.Destroy(tempNode);
 	}
 
 	public void RespondMouseLeftClick() {
-		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-
-		if (currentNode == null) {
-			if (ray.collider != null) {
-				if (ray.collider.tag == "Background") {
-					currentNode = mapController.AddNode(ray.point);
-					mapController.SelectNode(currentNode);
-				} else if (ray.collider.tag == "Node") {
-					currentNode = ray.collider.gameObject;
-					mapController.SelectNode(currentNode);
-				}
+		if (!isStarted) {
+			GameObject nodeMouseOn = MouseOnNode();
+			if (nodeMouseOn != null) {
+				currentNode = nodeMouseOn;
+				SelectNode(currentNode);
+			} else {
+				PutNode();
 			}
+			isStarted = true;
+			tempNode.SetActive(false);
+			tempRoad.SetActive(true);
+			UpdateTemporaryRoad();
 		} else {
-			if (ray.collider != null && ray.collider.tag == "Background") {
-				Vector3 targetPosition = ray.point;
-				Vector3 startPosition = currentNode.transform.position;
-				this.CreateNewRoad(startPosition, targetPosition);
-			} else if (ray.collider != null && ray.collider.tag == "Node") {
-				if (ray.collider.gameObject != currentNode) {
-					Vector3 startPosition = currentNode.transform.position;
-					this.CreateNewRoad(startPosition, ray.collider.gameObject);
-				}
-			}
+			PutRoad(false, PutNodeOnRoad, PutConnectionOnRoad);
 		}
-
 	}
 
-    public void RespondMouseMove(float x, float y) {
+	private void SelectNode(GameObject node) { 
+		GameObject.Find("MapEditorController").GetComponent<MapEditorController>().SelectOne(node.GetComponent<NodeVO>());
+	}
+
+	private void DeselectNode() {
+		GameObject.Find("MapEditorController").GetComponent<MapEditorController>().DeselectAll();
     }
 
-	public void Destory() {
-		mapController.DeselectNode(currentNode);
+	private void PutNode() {
+		currentNode = mapController.AddNode(MousePosition());
+		SelectNode(currentNode);
 	}
 
 	public void RespondMouseLeftUp() {
 	}
 
-	public void RespondMouseRightClick() {
-		// Right click on a node, remove it
-		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		if (ray.collider != null && ray.collider.tag == "Node") {
-			if (ray.collider.gameObject == currentNode) {
-				currentNode = null;
-			}
-			mapController.RemoveNode(ray.collider.gameObject);
+	public void RespondMouseMove(float x, float y) {
+		if (!isStarted) {
+			UpdateTemporaryNodePosition();
 		} else {
-			mapController.DeselectNode(currentNode);
-			currentNode = null;
+			UpdateTemporaryRoad();
+		}
+	}
+
+	private void ShowTemporaryNode() {
+		tempNode = GameObject.Instantiate(nodePrefab);
+		tempNode.tag = "Untagged";
+		tempNode.GetComponent<CircleCollider2D>().enabled = false;
+		tempNode.transform.FindChild("NodeDot").GetComponent<SpriteRenderer>().color = Color.blue;
+	}
+
+	private void UpdateTemporaryNodePosition() {
+		Vector2 mousePosition = MousePosition();
+		GameObject nodeMouseOn = MouseOnNode();
+		if (nodeMouseOn != null) {
+			mousePosition.x = nodeMouseOn.transform.position.x;
+			mousePosition.y = nodeMouseOn.transform.position.y;
+		}
+		Node node = tempNode.GetComponent<NodeVO>().node;
+		node.X = mousePosition.x;
+		node.Y = mousePosition.y;
+	}
+
+	private void UpdateTemporaryRoad() {
+		foreach (Transform child in tempRoad.transform) {
+			child.gameObject.SetActive(false);	
+		}
+
+		PutRoad(true, PutTempNodeOnRoad, PutTempConnectionOnRoad);
+	}
+
+	private GameObject PutTempNodeOnRoad(Vector2 position, int index) {
+		GameObject nodeGO = null;
+		if (index < nodeInTempRoad.Count) {
+			nodeGO = nodeInTempRoad[index]; 
+		} else {
+			nodeGO = GameObject.Instantiate(nodePrefab);
+			nodeInTempRoad.Add(nodeGO);
+		}
+
+		nodeGO.SetActive(true);
+		NodeVO nodeVO = nodeGO.GetComponent<NodeVO>();
+		Node node = new Node();
+		nodeVO.node = node;
+		node.X = position.x;
+		node.Y = position.y;
+		nodeVO.Update();
+		nodeGO.tag = "Untagged";
+		nodeGO.transform.SetParent(tempRoad.transform);
+		nodeGO.transform.FindChild("NodeDot").GetComponent<SpriteRenderer>().color = Color.blue;
+		
+		return nodeGO;
+	}
+
+	private GameObject PutTempConnectionOnRoad(GameObject fromNode, GameObject toNode) {
+		return null;	
+	}
+
+	private GameObject PutNodeOnRoad(Vector2 position, int index) {
+		GameObject node = mapController.AddNode(position);
+		currentNode = node;
+		SelectNode(node);
+		return node;
+	}
+
+	private GameObject PutConnectionOnRoad(GameObject fromNode, GameObject toNode) {
+		GameObject connection = mapController.AddConnection(fromNode, toNode, isBiDirection);
+		return connection;
+	}
+
+	private void PutRoad(bool isTemp, Func<Vector2, int, GameObject> putNodeOnRoad, Func<GameObject, GameObject, GameObject> putConnection) {
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+		bool endOnNode = false;
+		GameObject endNode = null;
+		Vector2 mousePosition = MousePosition();
+
+		if (ray.collider != null && ray.collider.tag == "Background") {
+
+		} else if (ray.collider != null && ray.collider.tag == "Node") {
+			endOnNode = true;
+			endNode = ray.collider.gameObject;
+			mousePosition = new Vector2(endNode.transform.position.x, endNode.transform.position.y);
+		}
+
+		Node node = currentNode.GetComponent<NodeVO>().node;
+		Vector2 currentPosition = new Vector2((float)node.X, (float)node.Y);
+		Vector2 vector = mousePosition - currentPosition;
+		double distance = vector.magnitude;
+		int numSegment = (int)Math.Ceiling(distance / segmentLength);
+		double lengthPerSegment = distance / numSegment;
+		GameObject previousNode = currentNode;
+
+		if (endOnNode) {
+			numSegment = numSegment - 1;		
+		}
+
+		for (int i = 0; i < numSegment; i++) {
+			currentPosition = Vector2.MoveTowards(currentPosition, mousePosition, (float)lengthPerSegment);
+			GameObject nextNode = putNodeOnRoad(currentPosition, i);
+			putConnection(previousNode, nextNode);
+			previousNode = nextNode;
+		}
+
+		if (endOnNode) {
+			putConnection(previousNode, endNode);
+			if (!isTemp) {
+				currentNode = endNode;
+				SelectNode(currentNode);
+			}
+		}
+	}
+
+	public void RespondMouseRightClick() {
+		if (isStarted) {
+			this.isStarted = false;
+			this.tempRoad.SetActive(false);
+			this.DeselectNode();
+			UpdateTemporaryNodePosition();
+			tempNode.SetActive(true);
+		} else {
+			RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+			if (ray.collider != null && ray.collider.tag == "Node") {
+				mapController.RemoveNode(ray.collider.gameObject);
+			}
+		}
+	}
+
+	public bool CanDestroy() {
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+		if (isStarted) {
+			return false;
+		} else if (ray.collider != null && ray.collider.tag == "Node"){
+			return false;
+		} else {
+			return true;
 		}
 	}
 }

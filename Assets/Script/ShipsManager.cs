@@ -139,7 +139,7 @@ public class ShipsManager : MonoBehaviour {
 
 	
 	public void UpdateStatustoLists(JSONNode json, GameObject ship){
-
+		/*
 		string currentstatus = ship.GetComponent<Ship> ().status;
 		string updatedstatus = json["vehicle"]["status"];
 		int priority = ship.GetComponent<Ship> ().priority;
@@ -151,6 +151,7 @@ public class ShipsManager : MonoBehaviour {
 			print ("freemoving" + freemovingships.Count );
 			print ("moored" + mooredships.Count);
 		}
+		*/
 	}
 
 

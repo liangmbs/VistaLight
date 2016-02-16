@@ -11,7 +11,11 @@ public class MapInfoSidePanelController : MonoBehaviour {
 
 	public GameObject mapInformationSetting;
 	public MapController mapController;
+	public ShipPanelController shipPannelController;
 	public Map map;
+    public ToolSelector toolSelector;
+	public InputField mapNameInput;
+	public InputField startTimeInput;
 	public bool hasModification = false;
 	public string path = "";
 
@@ -27,7 +31,8 @@ public class MapInfoSidePanelController : MonoBehaviour {
 
 	private void updateMapInformationDisplay() {
 		if (map != null) {
-			GameObject.Find("MapNameInput").GetComponent<InputField>().text = map.Name;
+			GameObject.Find("MapNameInput").GetComponent<InputField>().text = 
+                map.Name;
 			GameObject.Find("StartTimeInput").GetComponent<InputField>().text = 
 				map.StartTime.ToString(Map.DateTimeFormat);
 		}
@@ -46,7 +51,6 @@ public class MapInfoSidePanelController : MonoBehaviour {
 	}
 
 	public void LoadMap() {
-
 		CloseMap();
 
 		string[] mapTypes = {
@@ -55,36 +59,26 @@ public class MapInfoSidePanelController : MonoBehaviour {
 		};
 		path = EditorUtility.OpenFilePanel("Load map", "", "vlmap");
 
-		try {
-			FileStream file = File.Open(path, FileMode.Open);
-			BinaryFormatter deserializer = new BinaryFormatter();
-			this.map = (Map)deserializer.Deserialize(file);
-			file.Close();
-		} catch (FileNotFoundException e) {
-			Debug.Log(e.Message);
-		} catch (IOException e) {
-			Debug.Log(e.Message);
-		}
+		MapSerializer mapSerializer = new MapSerializer();
+		this.map = mapSerializer.LoadMap(path);
 
 		mapController.RegenerateMap(map);
+		shipPannelController.RegenerateShip(map.ships);
+		mapController.RegenerateMapEvents();
 
 		mapInformationSetting.SetActive(true);
 		this.updateMapInformationDisplay();
-
-		Debug.Log(map.nodes.Count);
 	} 
+
+	
 
 	public void SaveMap() {
 		if (path == "") {
 			path = EditorUtility.SaveFilePanel("Select file location", "", "map", "vlmap");
 		}
 
-		// Serialize
-		BinaryFormatter serializer = new BinaryFormatter();
-		FileStream file = File.Create(path);
-
-		serializer.Serialize(file, map);
-		file.Close();
+		MapSerializer mapSerializer = new MapSerializer();
+		mapSerializer.SaveMap(map, path);
 	}
 
 	public void SaveMapAs() {
@@ -93,10 +87,25 @@ public class MapInfoSidePanelController : MonoBehaviour {
 	public void CloseMap() {
 		map = null;
 		mapController.CloseMap();
+		shipPannelController.ClearShips();
 
 		mapInformationSetting.SetActive(false);
 
 		path = "";
 		hasModification = false;
+
+        toolSelector.DeselectCurrentTool();
+	}
+
+	public void UpdateData() {
+		map.Name = mapNameInput.text;
+		map.StartTime = DateTime.Parse(startTimeInput.text);
+
+		UpdateDisplay();
+	}
+
+	public void UpdateDisplay() {
+		mapNameInput.text = map.Name;
+		startTimeInput.text = map.StartTime.ToString(Map.DateTimeFormat);
 	}
 }
