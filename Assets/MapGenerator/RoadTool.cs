@@ -220,11 +220,9 @@ public class RoadTool : IMapEditorTool
 
 	public bool CanDestroy() {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		Debug.Log(ray.collider);
 		if (isStarted) {
 			return false;
 		} else if (ray.collider != null && ray.collider.tag == "Node"){
-			Debug.Log("On node");
 			return false;
 		} else {
 			return true;

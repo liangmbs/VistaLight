@@ -135,14 +135,22 @@ public class MapController : MonoBehaviour {
 
 	public void RemoveNode(GameObject nodeGO) {
 		Node node = nodeGO.GetComponent<NodeVO>().node;
-		foreach (Connection connection in map.connections) {
+
+		// First remove all related connections
+		for (int i = map.connections.Count - 1; i >= 0; i--) {
+			Connection connection = map.connections[i];
 			if (connection.StartNode == node || connection.EndNode == node) {
 				GameObject connectionGO = GetConnectionGO(connection);
 				if (connectionGO != null) {
-					RemoveConnection(connectionGO);
+					GameObject.Destroy(connectionGO);
+					map.connections.RemoveAt(i);
 				}
 			}
 		}
+
+		// Remove the node itself
+		GameObject.Destroy(nodeGO);
+		map.RemoveNode(node);
 	}
 
 	private GameObject GetConnectionGO(Connection connection) {

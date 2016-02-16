@@ -35,8 +35,7 @@ public class Map {
 	}
 
 	public void RemoveNode(Node node) {
-		// node.Remove();
-		// nodes.Remove(node);
+		nodes.Remove(node);
 	}
 	
 	public void AddDock(Dock dock){
