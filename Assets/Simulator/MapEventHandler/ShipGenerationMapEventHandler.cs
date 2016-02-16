@@ -21,6 +21,8 @@ public class ShipGenerationMapEventHandler : MonoBehaviour, IMapEventHandler {
 		ship.X = shipGenerationEvent.X;
 		ship.Y = shipGenerationEvent.Y;
 		shipVO.ship = ship;
+
+		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().EnqueueShip(ship);
 	}
 
 }

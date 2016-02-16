@@ -60,7 +60,6 @@ public class ShipVO : MonoBehaviour {
 
 	private void ChangeThumbnailColorByIndustry() {
 		Color color = IndustryColor.GetIndustryColor(ship.Industry);
-		Debug.Log(color);
         Thumbnail.GetComponent<SpriteRenderer>().color = color;	
 	}
 }
