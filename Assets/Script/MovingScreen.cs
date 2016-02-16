@@ -53,7 +53,6 @@ public class MovingScreen : MonoBehaviour {
 	bool ViewingPosCheck ()
 	{
 		RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		print (hit.collider);
 
 		if (hit.collider != null) {
 			// This position isn't appropriate.

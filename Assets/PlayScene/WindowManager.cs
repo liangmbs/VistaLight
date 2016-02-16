@@ -8,12 +8,14 @@ using System.Collections.Generic;
 public class WindowManager: MonoBehaviour {
 
 	public Button toggleButton;
+
 	public GameObject infoBar;
 	public bool open = false;
 
 	public GameObject tab1;
 	public GameObject tab2;
 	public GameObject tab3;
+
 
 
 
@@ -26,10 +28,9 @@ public class WindowManager: MonoBehaviour {
 		} else {
 			infoBar.GetComponent<RectTransform> ().transform.Translate (0, -200, 0);
 			toggleButton.transform.rotation= Quaternion.Euler(0,0,0);
-
 		}
 	}
-
+		
 
 	public void ShowTab1(){
 		tab1.transform.FindChild ("Panel").gameObject.SetActive(true);
@@ -48,5 +49,9 @@ public class WindowManager: MonoBehaviour {
 		tab2.transform.FindChild ("Panel").gameObject.SetActive(false);
 		tab3.transform.FindChild ("Panel").gameObject.SetActive(true);
 	}
+
+
+
+
 }
 		
