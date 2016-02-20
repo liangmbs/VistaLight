@@ -16,4 +16,18 @@ public class ShipScheduler {
 		Debug.Log("Reserver that path");
 	}
 
+	private void FindAllPaths() {
+		if (ship.cargo == 0) {
+			FindAllPathsToLeaveMap();
+        } else {
+			FindAllPathsToUnloadAndLeaveMap();
+		}
+	}
+
+	private void FindAllPathsToLeaveMap() { 
+	}
+
+	private void FindAllPathsToUnloadAndLeaveMap() { 
+	}
+
 }

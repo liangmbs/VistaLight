@@ -18,6 +18,8 @@ public class Node
 {
 	private int id;
 	private double x, y;
+	private bool anchor;
+	private bool exit;
 
 	public int Id {
 		get {return id;}
@@ -32,6 +34,16 @@ public class Node
 	public double Y { 
 		get { return y; }
 		set { y = value; }
+	}
+
+	public bool IsAnchor {
+		get { return anchor; }
+		set { anchor = value; }
+	}
+
+	public bool IsExit {
+		get { return exit; }
+		set { exit = value; }
 	}
 }
 
