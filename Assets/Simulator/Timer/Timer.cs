@@ -6,8 +6,10 @@ public class Timer : MonoBehaviour {
 
 	public double speed;
 	public DateTime virtualTime = new DateTime(2015, 10, 10, 10, 10, 10);
+	private TimeSpan timeElapsed = new TimeSpan(0, 0, 0);
 
 	private double previousTime;
+
 
 	// Use this for initialization
 	void Start () {
@@ -20,12 +22,17 @@ public class Timer : MonoBehaviour {
 
 		double virtualTimeAdvance = (currentTime - previousTime) * speed;
 		virtualTime = virtualTime.AddSeconds(virtualTimeAdvance);
+		timeElapsed = TimeSpan.FromSeconds(virtualTimeAdvance);
 
 		previousTime = currentTime;
 	}
 
 	public DateTime VirtualTime {
 		get { return virtualTime; }
+	}
+
+	public TimeSpan TimeElapsed {
+		get { return timeElapsed; }
 	}
 
 	public double Speed {

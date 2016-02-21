@@ -16,13 +16,18 @@ public class ShipGenerationMapEventHandler : MonoBehaviour, IMapEventHandler {
 		
 		GameObject shipGO = GameObject.Instantiate(shipPrefab);
 		ShipVO shipVO = shipGO.GetComponent<ShipVO>();
+		ShipController shipController = shipGO.GetComponent<ShipController>();
 
 		Ship ship = shipGenerationEvent.Ship;
 		ship.X = shipGenerationEvent.X;
 		ship.Y = shipGenerationEvent.Y;
+		Debug.Log(String.Format("Ship created at {0}, {1}", ship.X, ship.Y));
 		shipVO.ship = ship;
+		shipController.ship = ship;
+		shipController.shipGO = shipGO;
+		shipController.shipVO = shipVO;
 
-		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().EnqueueShip(ship);
+		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().EnqueueShip(shipController);
 	}
 
 }
