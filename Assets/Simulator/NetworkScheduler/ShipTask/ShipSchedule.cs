@@ -16,7 +16,10 @@ public class ShipSchedule {
 	}
 
 	public void Postpone(TimeSpan time) {
-		tasks.ForEach(task => Postpone(time));
+		foreach (ShipTask task in tasks) {
+			task.StartTime += time;
+			task.EndTime += time;
+		}
 	}
 
 	public ShipTask GetNextTask() {

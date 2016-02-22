@@ -4,4 +4,5 @@ using System.Linq;
 using System.Text;
 
 public class UnloadingTask : ShipTask {
+	public Dock dock;
 }

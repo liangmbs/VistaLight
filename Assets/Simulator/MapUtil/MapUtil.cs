@@ -85,6 +85,17 @@ public class MapUtil : MonoBehaviour {
 		return false;
 	}
 
+	public Connection GetConnection(Node previousNode, Node node) {
+		foreach (Connection connection in previousNode.connections) {
+			if (connection.StartNode == previousNode && connection.EndNode == node) {
+				return connection;
+			} else if (connection.StartNode == node && connection.EndNode == previousNode) {
+				return connection;
+			}
+		}
+		return null;
+	}
+
 	public List<Node> GetAllConnectedNode(Node from) {
 		List<Node> connectedNodes = new List<Node>();
 		foreach(Connection connection in from.connections) {

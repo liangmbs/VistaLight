@@ -33,14 +33,18 @@ public class ShipScheduler {
 		}
 
 		ship.schedule = bestSchedule;
+		ReservationManager reservationManager = GameObject.Find("MapUtil").GetComponent<ReservationManager>();
+		reservationManager.Reserve(bestSchedule);
 	}
 
 	private void ResolveConflict() {
-		// Currently not doing anything
+		ReservationManager reservationManager = GameObject.Find("MapUtil").GetComponent<ReservationManager>();
+		foreach (ShipSchedule schedule in schedules) {
+			reservationManager.PostponeScheduleToResolveConflict(schedule);
+		}
 	}
 
 	private void PathsToSchedules() {
-		Debug.Log(String.Format("{0} candidate paths found", paths.Count));
 		foreach (Path path in paths) {
 			schedules.Add(PathToSchedule(path));
 		}
@@ -53,7 +57,9 @@ public class ShipScheduler {
 
 		DateTime currentTime = GameObject.Find("Timer").GetComponent<Timer>().VirtualTime;
 		Vector2 currentPosition = new Vector2((float)ship.ship.X, (float)ship.ship.Y);
+		bool unloadingScheduled = false;
 
+		Node previousNode = null;
 		foreach (Node node in path.path) {
 			ShipMoveTask moveTask = new ShipMoveTask();
 			moveTask.Position = new Vector2((float)node.X, (float)node.Y);
@@ -63,6 +69,11 @@ public class ShipScheduler {
 			moveTask.StartTime = currentTime;
 			moveTask.EndTime = currentTime.Add(duration);
 
+			if (previousNode != null) {
+				moveTask.connection = mapUtil.GetConnection(previousNode, node);
+            }
+			previousNode = node;
+
 			currentTime = currentTime.Add(duration);
 			currentPosition = new Vector2((float)node.X, (float)node.Y);
 
@@ -70,14 +81,17 @@ public class ShipScheduler {
 
 			// Unloading task
 			double unloadingSpeed = 0.01;
-			if (mapUtil.GetDockByNode(node) != null) {
+			Dock dock = mapUtil.GetDockByNode(node);
+            if (!unloadingScheduled && dock != null) {
 				TimeSpan unloadingDuration = new TimeSpan(0, 0, (int)Math.Round(ship.ship.cargo / unloadingSpeed));
 				UnloadingTask unloadingTask = new UnloadingTask();
 				unloadingTask.Position = currentPosition;
 				unloadingTask.StartTime = currentTime;
 				unloadingTask.EndTime = currentTime.Add(unloadingDuration);
+				unloadingTask.dock = dock;
 				currentTime = currentTime.Add(unloadingDuration);
 				schedule.AppendTask(unloadingTask);
+				unloadingScheduled = true;
 			}
 
 			// Task
