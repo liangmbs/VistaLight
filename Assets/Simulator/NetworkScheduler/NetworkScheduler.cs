@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Threading;
 
 public class NetworkScheduler : MonoBehaviour {
 
 	private bool rescheduleRequested = false;
 
 	public PriorityQueue priorityQueue;
+	public bool Scheduling = false;
 
 	public void RequestReschedule() {
 		rescheduleRequested = true;	
@@ -19,7 +21,8 @@ public class NetworkScheduler : MonoBehaviour {
 			ShipController ship = priorityQueue.GetShipWithPriority(i);
 			shipScheduler.Ship = ship;
 			shipScheduler.Schedule();
-		} 
+		}
+		Scheduling = false;
 	}
 
 	public void EnqueueShip(ShipController ship) {
@@ -42,8 +45,15 @@ public class NetworkScheduler : MonoBehaviour {
 
 	void Update() {
 		if (rescheduleRequested) {
+			Scheduling = true;
 			Schedule();
+		
 			rescheduleRequested = false;
+		}
+
+		if (Scheduling) {
+			Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
+			timer.Pause();
 		}
 	}
 	
