@@ -9,6 +9,8 @@ public class ShipController : MonoBehaviour {
 	public GameObject shipGO;
 	public ShipVO shipVO;
 
+	public double heading = 0;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -67,5 +69,22 @@ public class ShipController : MonoBehaviour {
 		ship.X = nextX;
 		ship.Y = nextY;
 
+		// Update the heading of the ship
+		double turnSpeed = 0.5;
+		double targetHeading = Math.Atan2(-vectorToMove.x, vectorToMove.y) / Math.PI * 180;
+		Debug.Log(String.Format("Target heading: {0}", targetHeading));
+		Debug.Log(String.Format("Current heading: {0}", heading));
+		double angleDiff = targetHeading - heading;
+		Debug.Log(String.Format("Angle diff: {0}", angleDiff));
+		double angleCanTurn = timeElapsed.TotalSeconds * turnSpeed * Math.Sign(angleDiff);
+		if (Math.Abs(angleCanTurn) > Math.Abs(angleDiff)) {
+			angleCanTurn = angleDiff;
+		}
+		Debug.Log(String.Format("Angle can turn: {0}", angleCanTurn));
+		heading += angleCanTurn;
+		if (heading >= 360) heading %= 360;
+		Debug.Log(String.Format("New heading: {0}", heading));
+
+		
     }
 }
