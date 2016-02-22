@@ -83,7 +83,6 @@ public class ShipScheduler {
 			// Task
 			List<Node> exits = mapUtil.ExitNodes();
 			if (exits.Contains(node)) {
-				Debug.Log("Adding vanish task.");
 				VanishTask vanishTask = new VanishTask();
 				vanishTask.StartTime = currentTime;
 				vanishTask.EndTime = currentTime;

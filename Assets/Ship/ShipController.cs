@@ -33,7 +33,25 @@ public class ShipController : MonoBehaviour {
 			}
 		}
 
+		CalculateCargoMaintainenceCost();
+		CalculateCargoOverDueCost();
+	}
 
+	private void CalculateCargoOverDueCost() {
+		double cargoOverDueCost = 0.05;
+		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
+		if (timer.VirtualTime >= ship.dueTime) {
+			double moneyToSpend = cargoOverDueCost * timer.TimeElapsed.TotalSeconds;
+			GameObject.Find("BudgetCounter").GetComponent<BudgetCounter>().SpendMoney(moneyToSpend);
+		}
+	}
+
+	private void CalculateCargoMaintainenceCost() {
+		double cargoMaintainenceCost = 0.002;
+		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
+		double moneyToSpend = cargoMaintainenceCost * timer.TimeElapsed.TotalSeconds;
+
+		GameObject.Find("BudgetCounter").GetComponent<BudgetCounter>().SpendMoney(moneyToSpend);
 	}
 
 	private void ForceComplete(ShipTask task) {
@@ -51,7 +69,13 @@ public class ShipController : MonoBehaviour {
 	}
 
 	private void ForceCompleteUnloadingTask(UnloadingTask task) {
-		ship.cargo = 0;
+		Unload(ship.cargo);
+	}
+
+	private void Unload(double cargo) {
+		ship.cargo -= cargo;
+		double moneyToEarn = cargo * ship.value;
+        GameObject.Find("BudgetCounter").GetComponent<BudgetCounter>().EarnMoney(moneyToEarn);
 	}
 
 	private void ForceCompleteShipMoveTask(ShipMoveTask task) {
@@ -85,7 +109,7 @@ public class ShipController : MonoBehaviour {
 			cargoCanUnload = cargoRemaining;
 		}
 
-		ship.cargo -= cargoCanUnload;	
+		Unload(cargoCanUnload);
 	}
 
 	private void processShipMoveTask(ShipMoveTask task) {
