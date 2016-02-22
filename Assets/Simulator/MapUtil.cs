@@ -31,6 +31,8 @@ public class MapUtil : MonoBehaviour {
 	};
 
 	public List<Path> FindPath(Node from, Node to) {
+		int maxNumPaths = 3;
+		int numPaths = 0;
 		List<Path> allPaths = new List<Path>();
 		List<TreeNode> nodesToExpand = new List<TreeNode>();
 
@@ -50,6 +52,10 @@ public class MapUtil : MonoBehaviour {
 
 				if (connectedNode == to) {
 					allPaths.Add(GetPathFromTreeNode(child));
+					numPaths++;
+					if (numPaths > maxNumPaths) {
+						return allPaths;
+					}
 				} else {
 					nodesToExpand.Add(child);
 				}
@@ -81,7 +87,7 @@ public class MapUtil : MonoBehaviour {
 
 	public List<Node> GetAllConnectedNode(Node from) {
 		List<Node> connectedNodes = new List<Node>();
-		foreach(Connection connection in MapController.Map.connections) {
+		foreach(Connection connection in from.connections) {
 			if (IsOutGoingLink(from, connection)) {
 				connectedNodes.Add(TheOtherEndOfConnection(from, connection));
 			}
@@ -116,6 +122,25 @@ public class MapUtil : MonoBehaviour {
 			}
 		}
 		return selectedNode;
+	}
+
+	public List<Dock> GetAllDocksOfType(IndustryType industry) {
+		List<Dock> docks = new List<Dock>();
+		foreach (Dock dock in MapController.Map.docks) {
+			if (dock.type == industry) {
+				docks.Add(dock);
+			}
+		}
+		return docks;
+	}
+
+	public Dock GetDockByNode(Node node) {
+		foreach (Dock dock in MapController.Map.docks) {
+			if (dock.node == node) {
+				return dock;	
+			}	
+		}
+		return null;
 	}
 
 }

@@ -19,26 +19,73 @@ public class ShipController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if (schedule != null) {
+		if (schedule != null && schedule.tasks.Count > 0) {
 			DateTime currentTime = GameObject.Find("Timer").GetComponent<Timer>().VirtualTime;
 			ShipTask task = schedule.GetNextTask();
 
 			if (task.isOverDue(currentTime)) {
+				ForceComplete(task);
 				schedule.CompleteNextTask();
 			}
 
 			if (task.isInTaskTime(currentTime)) {
 				ProcessTask(task);
 			}
-					
 		}
+
+
+	}
+
+	private void ForceComplete(ShipTask task) {
+		if (task is ShipMoveTask) {
+			ForceCompleteShipMoveTask((ShipMoveTask)task);
+		} else if (task is UnloadingTask) {
+			ForceCompleteUnloadingTask((UnloadingTask)task);
+		} else if (task is VanishTask) {
+			ForceCompleteVanishTask((VanishTask)task);
+		};
+	}
+
+	private void ForceCompleteVanishTask(VanishTask task) {
+		GameObject.Destroy(shipGO);
+	}
+
+	private void ForceCompleteUnloadingTask(UnloadingTask task) {
+		ship.cargo = 0;
+	}
+
+	private void ForceCompleteShipMoveTask(ShipMoveTask task) {
+        ship.X = task.Position.x;
+		ship.Y = task.Position.y;
 	}
 
 	private void ProcessTask(ShipTask task) {
 		if (task is ShipMoveTask) {
 			processShipMoveTask((ShipMoveTask)task);
-			
+		} else if (task is UnloadingTask) {
+			processUnloadingTask((UnloadingTask)task);
+		} else if (task is VanishTask) {
+			processVanishTask((VanishTask)task);
 		}
+	}
+
+	private void processVanishTask(VanishTask task) {
+	}
+
+	private void processUnloadingTask(UnloadingTask task) {
+		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
+		DateTime currentTime = timer.VirtualTime;
+		TimeSpan timeElapsed = timer.TimeElapsed;
+
+		double cargoRemaining = ship.cargo;
+		TimeSpan timeRemaining = task.EndTime.Subtract(currentTime);
+		double speedRequired = cargoRemaining / timeRemaining.TotalSeconds;
+		double cargoCanUnload = timeElapsed.TotalSeconds * speedRequired;
+		if (cargoCanUnload > cargoRemaining) {
+			cargoCanUnload = cargoRemaining;
+		}
+
+		ship.cargo -= cargoCanUnload;	
 	}
 
 	private void processShipMoveTask(ShipMoveTask task) {
@@ -72,19 +119,12 @@ public class ShipController : MonoBehaviour {
 		// Update the heading of the ship
 		double turnSpeed = 0.5;
 		double targetHeading = Math.Atan2(-vectorToMove.x, vectorToMove.y) / Math.PI * 180;
-		Debug.Log(String.Format("Target heading: {0}", targetHeading));
-		Debug.Log(String.Format("Current heading: {0}", heading));
 		double angleDiff = targetHeading - heading;
-		Debug.Log(String.Format("Angle diff: {0}", angleDiff));
 		double angleCanTurn = timeElapsed.TotalSeconds * turnSpeed * Math.Sign(angleDiff);
 		if (Math.Abs(angleCanTurn) > Math.Abs(angleDiff)) {
 			angleCanTurn = angleDiff;
 		}
-		Debug.Log(String.Format("Angle can turn: {0}", angleCanTurn));
 		heading += angleCanTurn;
 		if (heading >= 360) heading %= 360;
-		Debug.Log(String.Format("New heading: {0}", heading));
-
-		
     }
 }

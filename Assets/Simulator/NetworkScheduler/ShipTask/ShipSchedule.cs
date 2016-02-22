@@ -20,6 +20,7 @@ public class ShipSchedule {
 	}
 
 	public ShipTask GetNextTask() {
+		if (tasks.Count == 0) return null;
 		return tasks[0];
 	}
 

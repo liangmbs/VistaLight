@@ -27,7 +27,7 @@ public class DockVO : MonoBehaviour, MapSelectableVO {
 				(float)(Camera.main.orthographicSize / 10),
 				(float)1);
 
-		foreach (DockType type in Enum.GetValues(typeof(DockType))) {
+		foreach (IndustryType type in Enum.GetValues(typeof(IndustryType))) {
 			if (type == dock.type) {
 				gameObject.transform.FindChild(type.ToString()).GetComponent<SpriteRenderer>().enabled = true;
 			} else {
@@ -37,7 +37,7 @@ public class DockVO : MonoBehaviour, MapSelectableVO {
 
 		if (Input.GetMouseButtonDown(1)) {
 			RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-			if (ray.collider.gameObject == this.gameObject) {
+			if (ray.collider != null && ray.collider.gameObject == this.gameObject) {
 				// map.RemoveDock(this);
 			}
 		}

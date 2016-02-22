@@ -5,15 +5,15 @@ using System.Text;
 using UnityEngine;
 
 public class CreateDockTool : IMapEditorTool {
-	private DockType type;
+	private IndustryType type;
 	private MapController mapController;
 
-	public CreateDockTool(MapController mapController, DockType type) {
+	public CreateDockTool(MapController mapController, IndustryType type) {
 		this.type = type;
 		this.mapController = mapController;
 	}
 
-	public DockType Type {
+	public IndustryType Type {
 		get { return type; }
 		set { type = value; }
 	}

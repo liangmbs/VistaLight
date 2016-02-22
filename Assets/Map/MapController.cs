@@ -63,11 +63,14 @@ public class MapController : MonoBehaviour {
 		map.AddConnection(connection);
 
 		GameObject connectionGO = CreateConnectionGameObject(connection);
+
+		connection.StartNode.AddConnection(connection);
+		connection.EndNode.AddConnection(connection);
 		
 		return connectionGO;
 	}
 
-	public GameObject AddDock(GameObject node, DockType type) {
+	public GameObject AddDock(GameObject node, IndustryType type) {
 		Dock dock = new Dock();
 		dock.id = nextDockId;
 		dock.node = node.GetComponent<NodeVO>().node;
@@ -142,8 +145,7 @@ public class MapController : MonoBehaviour {
 			if (connection.StartNode == node || connection.EndNode == node) {
 				GameObject connectionGO = GetConnectionGO(connection);
 				if (connectionGO != null) {
-					GameObject.Destroy(connectionGO);
-					map.connections.RemoveAt(i);
+					RemoveConnection(connectionGO);
 				}
 			}
 		}
@@ -164,9 +166,14 @@ public class MapController : MonoBehaviour {
 		return null;
 	}
 
-	public void RemoveConnection(GameObject connection) {
-		map.RemoveConnection(connection.GetComponent<ConnectionVO>().connection);
-		GameObject.Destroy(connection);
+	public void RemoveConnection(GameObject connectionGO) {
+		Connection connection = connectionGO.GetComponent<ConnectionVO>().connection;
+        map.RemoveConnection(connection);
+		GameObject.Destroy(connectionGO);
+
+		foreach (Node node in map.nodes) {
+			node.RemoveConnection(connection);
+		}
 	}
 
 
