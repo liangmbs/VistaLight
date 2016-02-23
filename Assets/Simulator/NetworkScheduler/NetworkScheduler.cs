@@ -7,6 +7,7 @@ public class NetworkScheduler : MonoBehaviour {
 	private bool rescheduleRequested = false;
 
 	public PriorityQueue priorityQueue;
+	public PriorityQueue waitList;
 	public bool Scheduling = false;
 
 	public void RequestReschedule() {
@@ -14,12 +15,7 @@ public class NetworkScheduler : MonoBehaviour {
 	}
 
 	private void Schedule() {
-		ReservationManager reservationManager = GameObject.Find("MapUtil").GetComponent<ReservationManager>();
-		reservationManager.ClearAll();
-
-		foreach (ShipController ship in priorityQueue.queue) {
-			ship.schedule = null;
-		}
+		ClearAllSchedule();
 
 		for (int i = 0; i < priorityQueue.GetCount(); i++) {
 			ShipScheduler shipScheduler = new ShipScheduler();
@@ -28,6 +24,19 @@ public class NetworkScheduler : MonoBehaviour {
 			shipScheduler.Schedule();
 		}
 		Scheduling = false;
+	}
+
+	private void ClearAllSchedule() { 
+		ReservationManager reservationManager = GameObject.Find("MapUtil").GetComponent<ReservationManager>();
+		reservationManager.ClearAll();
+
+		foreach (ShipController ship in priorityQueue.queue) {
+			ship.schedule = null;
+		}
+
+		foreach (ShipController ship in waitList.queue) {
+			ship.schedule = null;
+		}
 	}
 
 	public void EnqueueShip(ShipController ship) {
@@ -60,6 +69,26 @@ public class NetworkScheduler : MonoBehaviour {
 			Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
 			timer.Pause();
 		}
+	}
+
+	public void MoveShipToWaitList(ShipController ship) {
+		priorityQueue.RemoveShip(ship);
+		waitList.EnqueueShip(ship);
+		RequestReschedule();
+	}
+
+	public void MoveShipToPriorityQueue(ShipController ship) { 
+		waitList.RemoveShip(ship);
+		priorityQueue.EnqueueShip(ship);
+		RequestReschedule();
+	}
+
+	public int PriorityQueueLength() {
+		return priorityQueue.queue.Count;
+	}
+
+	public int ShipPositionInWaitList(ShipController ship) {
+		return waitList.GetPriority(ship);
 	}
 	
 }

@@ -22,26 +22,24 @@ public class ShipListEntryController : MonoBehaviour {
 	public Text eta;
 
 	public bool enterPriorityMode = false;
+	public bool isGreenSignal = true;
 
 	// Use this for initialization
 	void Start () {
-		greenButton = transform.FindChild("GreenLight").gameObject.GetComponent<Button>();	
-		redButton = transform.FindChild("RedLight").gameObject.GetComponent<Button>();	
-		id = transform.FindChild("Id").gameObject.GetComponent<Text>();	
-		priority = transform.FindChild("PriorityLabel").gameObject.GetComponent<Text>();	
-		priorityButton = transform.FindChild("PriorityButton").gameObject.GetComponent<Button>();	
-		priorityInput = transform.FindChild("Priority").gameObject.GetComponent<InputField>();	
-		shipName = transform.FindChild("Name").gameObject.GetComponent<Text>();	
-		type = transform.FindChild("Type").gameObject.GetComponent<Text>();	
-		amount = transform.FindChild("Amount").gameObject.GetComponent<Text>();	
-		value = transform.FindChild("UnitValue").gameObject.GetComponent<Text>();	
-		dueTime = transform.FindChild("DueTime").gameObject.GetComponent<Text>();	
-		eta = transform.FindChild("ETA").gameObject.GetComponent<Text>();	
+			
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (shipController == null) return;
+
+		if (isGreenSignal) {
+			greenButton.gameObject.SetActive(true);
+			redButton.gameObject.SetActive(false);
+		} else { 
+			greenButton.gameObject.SetActive(false);
+			redButton.gameObject.SetActive(true);
+		}
 
 		Ship ship = shipController.ship;
 		id.text = ship.shipID.ToString();
@@ -49,7 +47,7 @@ public class ShipListEntryController : MonoBehaviour {
 		int priorityValue = shipController.GetShipPriority() + 1;
 		priority.text = priorityValue.ToString();
 		gameObject.GetComponent<RectTransform>().anchoredPosition =
-			new Vector3(0, -priorityValue * 30, 0);
+			new Vector3(0, GetEntryYPos(), 0);
 
 		shipName.text = ship.Name;
 
@@ -102,6 +100,28 @@ public class ShipListEntryController : MonoBehaviour {
 			shipName.fontStyle = FontStyle.Bold;
 		} else {
 			shipName.fontStyle = FontStyle.Normal;
+		}
+	}
+
+	private int GetEntryYPos() {
+		NetworkScheduler networkScheduler = GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>();
+		if (isGreenSignal) {
+			int priorityValue = shipController.GetShipPriority() + 1;
+			return -30 * priorityValue;
+		} else {
+			int priorityQueueSize = networkScheduler.PriorityQueueLength();
+			int positionInWaitList = networkScheduler.ShipPositionInWaitList(shipController);
+			return -30 * (priorityQueueSize + positionInWaitList + 1) - 10;
+		}
+	}
+
+	public void ToggleSignal() {
+		isGreenSignal = !isGreenSignal;
+		NetworkScheduler networkScheduler = GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>();
+		if (isGreenSignal) {
+			networkScheduler.MoveShipToPriorityQueue(shipController);
+		} else { 
+			networkScheduler.MoveShipToWaitList(shipController);
 		}
 	}
 }
