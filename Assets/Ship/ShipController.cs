@@ -34,23 +34,22 @@ public class ShipController : MonoBehaviour {
 		}
 
 		CalculateCargoMaintainenceCost();
-		CalculateCargoOverDueCost();
+		//CalculateCargoOverDueCost();
 	}
 
 	private void CalculateCargoOverDueCost() {
-		double cargoOverDueCost = 0.05;
+		double cargoOverDueCost = 0.005;
 		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
 		if (timer.VirtualTime >= ship.dueTime) {
-			double moneyToSpend = cargoOverDueCost * timer.TimeElapsed.TotalSeconds;
+			double moneyToSpend = ship.cargo * cargoOverDueCost * timer.TimeElapsed.TotalSeconds;
 			GameObject.Find("BudgetCounter").GetComponent<BudgetCounter>().SpendMoney(moneyToSpend);
 		}
 	}
 
 	private void CalculateCargoMaintainenceCost() {
-		double cargoMaintainenceCost = 0.002;
+		double cargoMaintainenceCost = 0.0002;
 		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
-		double moneyToSpend = cargoMaintainenceCost * timer.TimeElapsed.TotalSeconds;
-
+		double moneyToSpend = ship.cargo * cargoMaintainenceCost * timer.TimeElapsed.TotalSeconds;
 		GameObject.Find("BudgetCounter").GetComponent<BudgetCounter>().SpendMoney(moneyToSpend);
 	}
 

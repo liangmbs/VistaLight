@@ -14,12 +14,10 @@ public class ReservationManager : MonoBehaviour {
 	public void PostponeScheduleToResolveConflict(ShipSchedule schedule) {
 		bool conflict = hasConflict(schedule);
 		while (conflict) {
-			schedule.Postpone(new TimeSpan(1, 0, 0));
-			/*
+			// schedule.Postpone(new TimeSpan(1, 0, 0));
 			foreach (ShipTask task in schedule.tasks) {
 				ResolveConflictForTask(task, schedule);
 			}
-			*/
 			conflict = hasConflict(schedule);
 		}
 	}
@@ -45,7 +43,7 @@ public class ReservationManager : MonoBehaviour {
 				continue;
 			}
 
-			if (reservation.ConflictWithTask(task.StartTime + timeDiff, task.EndTime + timeDiff)) {
+			if (reservation.ConflictWithTask(task.StartTime + timeDiff, task.EndTime + timeDiff, safetyTime)) {
 				continue;
 			}
 
@@ -55,7 +53,7 @@ public class ReservationManager : MonoBehaviour {
 		}
 
 		Debug.Log(String.Format("Postpont unloading task for {0}", minTimeSpan.ToString()));
-		schedule.Postpone(minTimeSpan);
+		schedule.Postpone(minTimeSpan + safetyTime);
 
 	}
 
@@ -72,7 +70,7 @@ public class ReservationManager : MonoBehaviour {
 				continue;
 			}
 
-			if (reservation.ConflictWithTask(task.StartTime + timeDiff, task.EndTime + timeDiff)) {
+			if (reservation.ConflictWithTask(task.StartTime + timeDiff, task.EndTime + timeDiff, safetyTime)) {
 				continue;
 			}
 
@@ -82,7 +80,7 @@ public class ReservationManager : MonoBehaviour {
 		}
 
 		Debug.Log(string.Format("Postpont move task for {0}", minTimeSpan.ToString()));
-		schedule.Postpone(minTimeSpan);
+		schedule.Postpone(minTimeSpan + safetyTime);
 	}
 
 	public bool hasConflict(ShipSchedule schedule) {
@@ -110,7 +108,7 @@ public class ReservationManager : MonoBehaviour {
 		
 		List<Reservation> reservationList = reservationOnDocks[task.dock];
 		foreach (Reservation reservation in reservationList) {
-			if (reservation.ConflictWithTask(task.StartTime, task.EndTime)) {
+			if (reservation.ConflictWithTask(task.StartTime, task.EndTime, safetyTime)) {
 				return true;
 			}
 		}
@@ -127,7 +125,7 @@ public class ReservationManager : MonoBehaviour {
 
 		List<Reservation> reservationList = reservationOnConnections[task.connection];
 		foreach (Reservation reservation in reservationList) {
-			if (reservation.ConflictWithTask(task.StartTime, task.EndTime)) {
+			if (reservation.ConflictWithTask(task.StartTime, task.EndTime, safetyTime)) {
 				return true;
 			}
 		}

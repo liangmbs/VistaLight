@@ -36,6 +36,13 @@ public class MapUtil : MonoBehaviour {
 		List<Path> allPaths = new List<Path>();
 		List<TreeNode> nodesToExpand = new List<TreeNode>();
 
+		if (from == to) {
+			Path path = new Path();
+			path.AppendNode(to);
+			allPaths.Add(path);
+			return allPaths;
+		}
+
 		nodesToExpand.Add(new TreeNode(null, from));
 		while (nodesToExpand.Count > 0) {
 			TreeNode treeNodeToExpand = nodesToExpand[0];

@@ -80,7 +80,7 @@ public class ShipScheduler {
 			schedule.AppendTask(moveTask);
 
 			// Unloading task
-			double unloadingSpeed = 0.1;
+			double unloadingSpeed = 0.2;
 			Dock dock = mapUtil.GetDockByNode(node);
             if (!unloadingScheduled && dock != null) {
 				TimeSpan unloadingDuration = new TimeSpan(0, 0, (int)Math.Round(ship.ship.cargo / unloadingSpeed));
