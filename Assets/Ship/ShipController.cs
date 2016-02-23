@@ -66,6 +66,7 @@ public class ShipController : MonoBehaviour {
 
 	private void ForceCompleteVanishTask(VanishTask task) {
 		GameObject.Destroy(shipGO);
+		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().RemoveShip(this);
 	}
 
 	private void ForceCompleteUnloadingTask(UnloadingTask task) {

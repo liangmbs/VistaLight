@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class ShipGenerationMapEventHandler : MonoBehaviour, IMapEventHandler {
+public class ShipGenerationMapEventHandler : IMapEventHandler {
 
 	private ShipGenerationEvent shipGenerationEvent;
 

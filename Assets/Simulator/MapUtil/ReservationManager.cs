@@ -14,10 +14,12 @@ public class ReservationManager : MonoBehaviour {
 	public void PostponeScheduleToResolveConflict(ShipSchedule schedule) {
 		bool conflict = hasConflict(schedule);
 		while (conflict) {
-			// schedule.Postpone(safetyTime);
+			schedule.Postpone(new TimeSpan(1, 0, 0));
+			/*
 			foreach (ShipTask task in schedule.tasks) {
 				ResolveConflictForTask(task, schedule);
 			}
+			*/
 			conflict = hasConflict(schedule);
 		}
 	}
@@ -102,7 +104,6 @@ public class ReservationManager : MonoBehaviour {
 	}
 
 	private bool UnloadingTaskHasConflict(UnloadingTask task) {
-		return false;
 		if (!reservationOnDocks.ContainsKey(task.dock)) {
 			return false;	
 		} 

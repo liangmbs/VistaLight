@@ -16,6 +16,11 @@ public class NetworkScheduler : MonoBehaviour {
 	private void Schedule() {
 		ReservationManager reservationManager = GameObject.Find("MapUtil").GetComponent<ReservationManager>();
 		reservationManager.ClearAll();
+
+		foreach (ShipController ship in priorityQueue.queue) {
+			ship.schedule = null;
+		}
+
 		for (int i = 0; i < priorityQueue.GetCount(); i++) {
 			ShipScheduler shipScheduler = new ShipScheduler();
 			ShipController ship = priorityQueue.GetShipWithPriority(i);

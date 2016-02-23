@@ -80,7 +80,7 @@ public class ShipScheduler {
 			schedule.AppendTask(moveTask);
 
 			// Unloading task
-			double unloadingSpeed = 0.01;
+			double unloadingSpeed = 0.1;
 			Dock dock = mapUtil.GetDockByNode(node);
             if (!unloadingScheduled && dock != null) {
 				TimeSpan unloadingDuration = new TimeSpan(0, 0, (int)Math.Round(ship.ship.cargo / unloadingSpeed));
@@ -112,6 +112,10 @@ public class ShipScheduler {
         } else {
 			FindAllPathsToUnloadAndLeaveMap();
 		}
+
+		if (this.paths.Count == 0) {
+			Debug.LogError(String.Format("No path found for ship {0}", ship.name));
+		}
 	}
 
 	private void FindAllPathsToLeaveMap() {
@@ -134,14 +138,23 @@ public class ShipScheduler {
 		Node startNode = mapUtil.FindNearestNode(ship.ship.X, ship.ship.Y);
 		List<Node> exitNodes = mapUtil.ExitNodes();
 		List<Dock> docksToUnload = mapUtil.GetAllDocksOfType(ship.ship.Industry);
+		if (docksToUnload.Count == 0) {
+			Debug.LogError("No dock found!");
+		}
 
 		foreach (Dock dock in docksToUnload) {
 			List<Path> pathsToDock;
 			List<Path> pathsToExit;
 
 			pathsToDock = mapUtil.FindPath(startNode, dock.node);
+			if (pathsToDock.Count == 0) {
+				Debug.LogError("No path to dock found!");
+			}
 			foreach (Node exitNode in exitNodes) {
 				pathsToExit = mapUtil.FindPath(dock.node, exitNode);
+				if (pathsToExit.Count == 0) {
+					Debug.LogError(String.Format("No path from dock {0} to exit found!", dock.id));
+				}
 				foreach (Path pathToDock in pathsToDock) {
 					foreach (Path pathToExit in pathsToExit) {
 						paths.Add(pathToDock.ConcatenatePath(pathToExit));

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class PriorityQueue : MonoBehaviour {
 
-	private List<ShipController> queue = new List<ShipController>();
+	public List<ShipController> queue = new List<ShipController>();
 
 	public void EnqueueShip(ShipController ship) {
 		queue.Add(ship);

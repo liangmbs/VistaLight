@@ -53,10 +53,6 @@ public class MapInfoSidePanelController : MonoBehaviour {
 	public void LoadMap() {
 		CloseMap();
 
-		string[] mapTypes = {
-			"VistaLights Map Files", "vlmap",
-			"All Files", "*"
-		};
 		path = EditorUtility.OpenFilePanel("Load map", "", "vlmap");
 
 		MapSerializer mapSerializer = new MapSerializer();
