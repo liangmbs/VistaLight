@@ -74,7 +74,7 @@ public class MapUtil : MonoBehaviour {
 
 	private Path GetPathFromTreeNode(TreeNode leaf) {
 		Path path = new Path();
-		while (leaf != null) {
+		while (leaf.parent != null) {
 			path.AddNodeFromBeginning(leaf.node);
 			leaf = leaf.parent;
 		}
