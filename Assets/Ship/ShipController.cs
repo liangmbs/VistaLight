@@ -34,7 +34,12 @@ public class ShipController : MonoBehaviour {
 		}
 
 		CalculateCargoMaintainenceCost();
-		//CalculateCargoOverDueCost();
+		CalculateCargoOverDueCost();
+	}
+
+	public int GetShipPriority() {
+		NetworkScheduler networkScheduler = GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>();
+		return networkScheduler.priorityQueue.GetPriority(this);
 	}
 
 	private void CalculateCargoOverDueCost() {
@@ -53,6 +58,15 @@ public class ShipController : MonoBehaviour {
 		GameObject.Find("BudgetCounter").GetComponent<BudgetCounter>().SpendMoney(moneyToSpend);
 	}
 
+	public DateTime GetUnloadlingEta() {
+		foreach (ShipTask task in schedule.tasks) {
+			if (task is UnloadingTask) {
+				return task.EndTime;
+			}
+		}
+		return DateTime.MinValue;
+	}
+
 	private void ForceComplete(ShipTask task) {
 		if (task is ShipMoveTask) {
 			ForceCompleteShipMoveTask((ShipMoveTask)task);
@@ -66,6 +80,7 @@ public class ShipController : MonoBehaviour {
 	private void ForceCompleteVanishTask(VanishTask task) {
 		GameObject.Destroy(shipGO);
 		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().RemoveShip(this);
+		GameObject.Find("ShipList").GetComponent<ShipListController>().RemoveShip(this);
 	}
 
 	private void ForceCompleteUnloadingTask(UnloadingTask task) {
@@ -141,7 +156,7 @@ public class ShipController : MonoBehaviour {
 		ship.Y = nextY;
 
 		// Update the heading of the ship
-		double turnSpeed = 0.5;
+		double turnSpeed = 0.1;
 		double targetHeading = Math.Atan2(-vectorToMove.x, vectorToMove.y) / Math.PI * 180;
 		double angleDiff = targetHeading - heading;
 		double angleCanTurn = timeElapsed.TotalSeconds * turnSpeed * Math.Sign(angleDiff);

@@ -52,7 +52,6 @@ public class ReservationManager : MonoBehaviour {
 			}
 		}
 
-		Debug.Log(String.Format("Postpont unloading task for {0}", minTimeSpan.ToString()));
 		schedule.Postpone(minTimeSpan + safetyTime);
 
 	}
@@ -79,7 +78,6 @@ public class ReservationManager : MonoBehaviour {
 			}
 		}
 
-		Debug.Log(string.Format("Postpont move task for {0}", minTimeSpan.ToString()));
 		schedule.Postpone(minTimeSpan + safetyTime);
 	}
 
