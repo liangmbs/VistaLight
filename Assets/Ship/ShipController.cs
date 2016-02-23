@@ -11,6 +11,8 @@ public class ShipController : MonoBehaviour {
 
 	public double heading = 0;
 
+	public bool highLighted = false;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -31,6 +33,15 @@ public class ShipController : MonoBehaviour {
 			if (task.isInTaskTime(currentTime)) {
 				ProcessTask(task);
 			}
+		}
+
+		GameObject nameGO = transform.Find("Name").gameObject;
+		TextMesh textMesh = nameGO.GetComponent<TextMesh>();
+		if (this.highLighted) {
+			nameGO.SetActive(true);
+			textMesh.text = ship.Name;
+		} else {
+			nameGO.SetActive(false);
 		}
 
 		CalculateCargoMaintainenceCost();

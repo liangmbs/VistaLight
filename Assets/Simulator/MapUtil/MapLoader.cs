@@ -15,7 +15,7 @@ public class MapLoader : MonoBehaviour {
 		mapController.RegenerateMap(map);
 
 		timer.virtualTime = map.StartTime;
-		timer.Pause();
+		timer.SetSpeedOne();
 	}
 	
 	// Update is called once per frame
