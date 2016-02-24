@@ -25,8 +25,10 @@ public class ReservationManager : MonoBehaviour {
 	private void ResolveConflictForTask(ShipTask task, ShipSchedule schedule) {
 		if (task is ShipMoveTask) {
 			ResolveConflictForShipMoveTask((ShipMoveTask)task, schedule);
+			return;
 		} else if (task is UnloadingTask) {
 			ResolveConflictForUnloadingTask((UnloadingTask)task, schedule);
+			return;
 		}
 	}
 
@@ -43,7 +45,7 @@ public class ReservationManager : MonoBehaviour {
 				continue;
 			}
 
-			if (reservation.ConflictWithTask(task.StartTime + timeDiff, task.EndTime + timeDiff, safetyTime)) {
+			if (reservation.ConflictWithTask(task.StartTime + timeDiff, task.EndTime + timeDiff)) {
 				continue;
 			}
 
@@ -52,7 +54,7 @@ public class ReservationManager : MonoBehaviour {
 			}
 		}
 
-		schedule.Postpone(minTimeSpan + safetyTime);
+		schedule.Postpone(minTimeSpan);
 
 	}
 
@@ -65,11 +67,11 @@ public class ReservationManager : MonoBehaviour {
 		TimeSpan minTimeSpan = TimeSpan.MaxValue;
 		foreach (Reservation reservation in reservationList) {
 			TimeSpan timeDiff = reservation.EndTime + safetyTime - task.StartTime;
-			if (timeDiff.CompareTo(TimeSpan.Zero) < 0) {
+			if (timeDiff < TimeSpan.Zero) {
 				continue;
 			}
 
-			if (reservation.ConflictWithTask(task.StartTime + timeDiff, task.EndTime + timeDiff, safetyTime)) {
+			if (reservation.ConflictWithTask(task.StartTime + timeDiff, task.EndTime + timeDiff)) {
 				continue;
 			}
 
@@ -78,7 +80,7 @@ public class ReservationManager : MonoBehaviour {
 			}
 		}
 
-		schedule.Postpone(minTimeSpan + safetyTime);
+		schedule.Postpone(minTimeSpan);
 	}
 
 	public bool hasConflict(ShipSchedule schedule) {
@@ -106,7 +108,7 @@ public class ReservationManager : MonoBehaviour {
 		
 		List<Reservation> reservationList = reservationOnDocks[task.dock];
 		foreach (Reservation reservation in reservationList) {
-			if (reservation.ConflictWithTask(task.StartTime, task.EndTime, safetyTime)) {
+			if (reservation.ConflictWithTask(task.StartTime, task.EndTime)) {
 				return true;
 			}
 		}
@@ -123,7 +125,7 @@ public class ReservationManager : MonoBehaviour {
 
 		List<Reservation> reservationList = reservationOnConnections[task.connection];
 		foreach (Reservation reservation in reservationList) {
-			if (reservation.ConflictWithTask(task.StartTime, task.EndTime, safetyTime)) {
+			if (reservation.ConflictWithTask(task.StartTime, task.EndTime)) {
 				return true;
 			}
 		}
@@ -147,8 +149,8 @@ public class ReservationManager : MonoBehaviour {
 
 		List<Reservation> reservationList = reservationOnDocks[task.dock];
 		Reservation reservation = new Reservation();
-		reservation.StartTime = task.StartTime;
-		reservation.EndTime = task.EndTime;
+		reservation.StartTime = task.StartTime - safetyTime;
+		reservation.EndTime = task.EndTime + safetyTime;
 		reservationList.Add(reservation);
 	}
 
@@ -163,8 +165,8 @@ public class ReservationManager : MonoBehaviour {
 
 		List<Reservation> reservationList = reservationOnConnections[task.connection];
 		Reservation reservation = new Reservation();
-		reservation.StartTime = task.StartTime;
-		reservation.EndTime = task.EndTime;
+		reservation.StartTime = task.StartTime - safetyTime;
+		reservation.EndTime = task.EndTime + safetyTime;
 		reservationList.Add(reservation); ;
 	}
 
@@ -172,4 +174,5 @@ public class ReservationManager : MonoBehaviour {
 		reservationOnConnections = new Dictionary<Connection, List<Reservation>>();
 		reservationOnDocks = new Dictionary<Dock, List<Reservation>>();
 	}
+
 }

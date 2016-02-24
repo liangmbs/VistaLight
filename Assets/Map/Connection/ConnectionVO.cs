@@ -4,13 +4,15 @@ using System.Collections;
 public class ConnectionVO : MonoBehaviour {
 
 	public Connection connection;
+	public Vector3 startNodePosition = Vector3.zero;
+	public Vector3 endNodePositino = Vector3.zero;
 
 	// Use this for initialization
 	void Start () {
 	
 	}
 
-	public void UpdateConnection() {
+	public void Update() {
 		Node startNode = connection.StartNode;
 		Node endNode = connection.EndNode;
 
@@ -32,7 +34,4 @@ public class ConnectionVO : MonoBehaviour {
 		}
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	}
 }

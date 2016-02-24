@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Threading;
+using UnityEngine.UI;
 
 public class NetworkScheduler : MonoBehaviour {
 
@@ -10,21 +11,51 @@ public class NetworkScheduler : MonoBehaviour {
 	public PriorityQueue waitList;
 	public bool Scheduling = false;
 
+	public GameObject schedulingMask;
+	public Slider progressBar;
+
 	public void RequestReschedule() {
 		rescheduleRequested = true;	
 	}
 
 	private IEnumerator Schedule() {
+		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
+		double timerSpeed = timer.Speed;
+		timer.Pause();
+		int numberSteps = 2 + priorityQueue.GetCount();
+		int stepsCompleted = 1;
+		UpdateProgress(stepsCompleted, numberSteps);
+		yield return null;
+
+		ShowSchedulingMask();
 		ClearAllSchedule();
+		yield return null;
 
 		for (int i = 0; i < priorityQueue.GetCount(); i++) {
 			ShipScheduler shipScheduler = new ShipScheduler();
 			ShipController ship = priorityQueue.GetShipWithPriority(i);
 			shipScheduler.Ship = ship;
 			shipScheduler.Schedule();
+			stepsCompleted++;
+			UpdateProgress(stepsCompleted, numberSteps);
 			yield return null;
 		}
+
 		Scheduling = false;
+		timer.Speed = timerSpeed;
+		HideSchedulingMask();
+	}
+
+	private void ShowSchedulingMask() {
+		schedulingMask.SetActive(true);
+	}
+
+	private void HideSchedulingMask() {
+		schedulingMask.SetActive(false);
+	}
+
+	private void UpdateProgress(int currentStep, int totalStep) {
+		progressBar.value = currentStep * 100 / totalStep;
 	}
 
 	private void ClearAllSchedule() { 
@@ -65,12 +96,7 @@ public class NetworkScheduler : MonoBehaviour {
 			rescheduleRequested = false;
 		}
 
-		/*
-		if (Scheduling) {
-			Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
-			timer.Pause();
-		}
-		*/
+		
 	}
 
 	public void MoveShipToWaitList(ShipController ship) {

@@ -100,7 +100,6 @@ public class MapController : MonoBehaviour {
 		
 		ConnectionVO connectionVO = connectionGO.GetComponent<ConnectionVO>();
 		connectionVO.connection = connection;
-		connectionVO.UpdateConnection();
 
 		connectionGO.transform.parent = GameObject.Find("Map").transform;
 		return connectionGO;
