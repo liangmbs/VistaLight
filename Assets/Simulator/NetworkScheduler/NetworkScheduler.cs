@@ -14,7 +14,7 @@ public class NetworkScheduler : MonoBehaviour {
 		rescheduleRequested = true;	
 	}
 
-	private void Schedule() {
+	private IEnumerator Schedule() {
 		ClearAllSchedule();
 
 		for (int i = 0; i < priorityQueue.GetCount(); i++) {
@@ -22,6 +22,7 @@ public class NetworkScheduler : MonoBehaviour {
 			ShipController ship = priorityQueue.GetShipWithPriority(i);
 			shipScheduler.Ship = ship;
 			shipScheduler.Schedule();
+			yield return null;
 		}
 		Scheduling = false;
 	}
@@ -60,15 +61,16 @@ public class NetworkScheduler : MonoBehaviour {
 	void Update() {
 		if (rescheduleRequested) {
 			Scheduling = true;
-			Schedule();
-		
+			StartCoroutine(Schedule());
 			rescheduleRequested = false;
 		}
 
+		/*
 		if (Scheduling) {
 			Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
 			timer.Pause();
 		}
+		*/
 	}
 
 	public void MoveShipToWaitList(ShipController ship) {

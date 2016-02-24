@@ -28,6 +28,7 @@ public class NodeVO : MonoBehaviour, MapSelectableVO {
 		if (ray.point.x == 0 && ray.point.y == 0) return;
 		node.X = ray.point.x;
 		node.Y = ray.point.y;
+		gameObject.transform.position = new Vector3((float)node.X, (float)node.Y, (float)MapController.MapZIndex);
 	}
 
 	public void Select() {

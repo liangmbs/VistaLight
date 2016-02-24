@@ -66,6 +66,8 @@ public class MapController : MonoBehaviour {
 
 		connection.StartNode.AddConnection(connection);
 		connection.EndNode.AddConnection(connection);
+
+		
 		
 		return connectionGO;
 	}
@@ -95,7 +97,11 @@ public class MapController : MonoBehaviour {
 
 	private GameObject CreateConnectionGameObject(Connection connection) { 
 		GameObject connectionGO = Instantiate(connectionPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-		connectionGO.GetComponent<ConnectionVO>().connection = connection;
+		
+		ConnectionVO connectionVO = connectionGO.GetComponent<ConnectionVO>();
+		connectionVO.connection = connection;
+		connectionVO.UpdateConnection();
+
 		connectionGO.transform.parent = GameObject.Find("Map").transform;
 		return connectionGO;
 	}

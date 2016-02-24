@@ -70,6 +70,9 @@ public class ShipController : MonoBehaviour {
 	}
 
 	public DateTime GetUnloadlingEta() {
+		if (schedule == null) {
+			return DateTime.MinValue;
+		}
 		foreach (ShipTask task in schedule.tasks) {
 			if (task is UnloadingTask) {
 				return task.EndTime;
