@@ -15,7 +15,6 @@ public class ShipScheduler {
 	
 
 	public void Schedule() {
-		Debug.Log(string.Format("Scheduling ship {0}", ship.ship.Name));
 		FindAllPaths();
 		PathsToSchedules();
 		ResolveConflict();
