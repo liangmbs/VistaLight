@@ -95,7 +95,7 @@ public class MapController : MonoBehaviour {
 		return dockObject;
 	}
 
-	private GameObject CreateConnectionGameObject(Connection connection) { 
+	public GameObject CreateConnectionGameObject(Connection connection) { 
 		GameObject connectionGO = Instantiate(connectionPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 		
 		ConnectionVO connectionVO = connectionGO.GetComponent<ConnectionVO>();
@@ -160,7 +160,7 @@ public class MapController : MonoBehaviour {
 		map.RemoveNode(node);
 	}
 
-	private GameObject GetConnectionGO(Connection connection) {
+	public GameObject GetConnectionGO(Connection connection) {
 		foreach (Transform child in GameObject.Find("Map").transform) {
 			GameObject go = child.gameObject;
 			if (go.GetComponent<ConnectionVO>() != null &&

@@ -21,6 +21,10 @@ public class OilSpillingMapEventHandler : IMapEventHandler {
 		oilSpillingController.position = new Vector2((float)OilSpillingEvent.X, (float)OilSpillingEvent.Y);
 		oilSpillingController.Radius = OilSpillingEvent.Radius;
 		oilSpillingController.Amount = OilSpillingEvent.Amount;
+
+		OilSpillingAction action = GameObject.Find("OilSpillingAction").GetComponent<OilSpillingAction>();
+		action.OilSpillingController = oilSpillingController;
+		action.EnableAllToggles();
 	}
 
 }
