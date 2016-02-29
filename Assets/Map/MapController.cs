@@ -210,7 +210,6 @@ public class MapController : MonoBehaviour {
 
 	public void RegenerateMapEvents() {
 		// Regenerate all map events
-		Debug.Log(map.mapEvents.Count);
 		foreach (MapEvent mapEvent in map.mapEvents) {
 			CreateMapEventGameObject(mapEvent);
 		}
