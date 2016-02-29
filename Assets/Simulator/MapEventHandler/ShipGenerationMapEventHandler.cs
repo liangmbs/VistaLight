@@ -21,7 +21,7 @@ public class ShipGenerationMapEventHandler : IMapEventHandler {
 		Ship ship = shipGenerationEvent.Ship;
 		ship.X = shipGenerationEvent.X;
 		ship.Y = shipGenerationEvent.Y;
-		Debug.Log(String.Format("Ship created at {0}, {1}", ship.X, ship.Y));
+
 		shipVO.ship = ship;
 		shipController.ship = ship;
 		shipController.shipGO = shipGO;

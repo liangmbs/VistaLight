@@ -126,7 +126,6 @@ public class ShipScheduler {
 
 		foreach (Node exitNode in exitNodes) {
 			List<Path> pathsToExit = mapUtil.FindPath(startNode, exitNode);
-			Debug.Log(String.Format("{0} paths to exit found", pathsToExit.Count));
 			paths.AddRange(pathsToExit);
 		}
 	}
