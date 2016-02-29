@@ -64,10 +64,12 @@ public class NetworkScheduler : MonoBehaviour {
 
 		foreach (ShipController ship in priorityQueue.queue) {
 			ship.schedule = null;
+			ship.status = ShipStatus.Scheduling;
 		}
 
 		foreach (ShipController ship in waitList.queue) {
 			ship.schedule = null;
+			ship.status = ShipStatus.RedSignal;
 		}
 	}
 

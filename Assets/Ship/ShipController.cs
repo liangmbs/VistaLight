@@ -2,12 +2,24 @@
 using System.Collections;
 using System;
 
+public enum ShipStatus { 
+	Unloading,
+	Entering,
+	Leaving,
+	Waiting,
+	Blocked,
+	NoRoute,
+	Scheduling,
+	RedSignal
+}
+
 public class ShipController : MonoBehaviour {
 
 	public ShipSchedule schedule;
 	public Ship ship;
 	public GameObject shipGO;
 	public ShipVO shipVO;
+	public ShipStatus status = ShipStatus.Blocked;
 
 	public double heading = 0;
 
@@ -139,6 +151,8 @@ public class ShipController : MonoBehaviour {
 		}
 
 		Unload(cargoCanUnload);
+
+		this.status = ShipStatus.Unloading;
 	}
 
 	private void processShipMoveTask(ShipMoveTask task) {
@@ -179,5 +193,12 @@ public class ShipController : MonoBehaviour {
 		}
 		heading += angleCanTurn;
 		if (heading >= 360) heading %= 360;
+
+		if (ship.cargo == 0) {
+			this.status = ShipStatus.Leaving;
+		} else {
+			this.status = ShipStatus.Entering;
+		}
+		
     }
 }

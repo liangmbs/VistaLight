@@ -34,6 +34,8 @@ public class ShipScheduler {
 		ship.schedule = bestSchedule;
 		ReservationManager reservationManager = GameObject.Find("MapUtil").GetComponent<ReservationManager>();
 		reservationManager.Reserve(bestSchedule);
+
+		ship.status = ShipStatus.Waiting;
 	}
 
 	private void ResolveConflict() {

@@ -20,6 +20,7 @@ public class ShipListEntryController : MonoBehaviour {
 	public Text value;
 	public Text dueTime;
 	public Text eta;
+	public Text status;
 
 	public bool enterPriorityMode = false;
 	public bool isGreenSignal = true;
@@ -48,6 +49,8 @@ public class ShipListEntryController : MonoBehaviour {
 		priority.text = priorityValue.ToString();
 		gameObject.GetComponent<RectTransform>().anchoredPosition =
 			new Vector3(0, GetEntryYPos(), 0);
+
+		status.text = shipController.status.ToString();
 
 		shipName.text = ship.Name;
 
