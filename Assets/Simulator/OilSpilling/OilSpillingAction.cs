@@ -15,6 +15,7 @@ public class OilSpillingAction : MonoBehaviour {
 
 	public OilSpillingController OilSpillingController;
 	public MapController MapController;
+	public WelfareCounter WelfareCounter;
 
 	public OilSpillSolution solution = OilSpillSolution.None;
 
@@ -36,20 +37,24 @@ public class OilSpillingAction : MonoBehaviour {
 		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
 
 		double speed = 0;
+		double welfareImpact = 0;
 
 		switch (solution) {
 		case OilSpillSolution.Burn:
 			speed = 0.1;
+			welfareImpact = 1.5 / 10000;
 			break;
 		case OilSpillSolution.Dispersant:
 			speed = 0.01;
+			welfareImpact = 1 / 10000;
 			break;
 		case OilSpillSolution.Skimmers:
 			speed = 0.02;
 			break;
 		}
 
-		OilSpillingController.Amount -= timer.TimeElapsed.TotalSeconds * speed;
+		double oilCleaned = timer.TimeElapsed.TotalSeconds * speed;
+		OilSpillingController.Amount -= oilCleaned; 
 		if (OilSpillingController.Amount <= 0) {
 			OilSpillingController.Amount = 0;
 			if (solution == OilSpillSolution.Burn || solution == OilSpillSolution.Skimmers) {
@@ -57,6 +62,9 @@ public class OilSpillingAction : MonoBehaviour {
 			}
 			solution = OilSpillSolution.None;
 		}
+
+		double welfareChange = welfareImpact * oilCleaned;
+		WelfareCounter.ReduceWelfare(welfareChange);
 			
 	}
 
