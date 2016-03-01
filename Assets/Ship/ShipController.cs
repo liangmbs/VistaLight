@@ -187,6 +187,11 @@ public class ShipController : MonoBehaviour {
 		double turnSpeed = 0.1;
 		double targetHeading = Math.Atan2(-vectorToMove.x, vectorToMove.y) / Math.PI * 180;
 		double angleDiff = targetHeading - heading;
+		if (angleDiff > 180) {
+			angleDiff -= 360;
+		} else if (angleDiff < -180) {
+			angleDiff += 360;
+		}
 		double angleCanTurn = timeElapsed.TotalSeconds * turnSpeed * Math.Sign(angleDiff);
 		if (Math.Abs(angleCanTurn) > Math.Abs(angleDiff)) {
 			angleCanTurn = angleDiff;
