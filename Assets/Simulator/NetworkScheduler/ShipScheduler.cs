@@ -156,6 +156,9 @@ public class ShipScheduler {
 			foreach (Node exitNode in exitNodes) {
 				pathsToExit = mapUtil.FindPath(dock.node, exitNode);
 				if (pathsToExit.Count == 0) {
+					foreach (Path pathToDock in pathsToDock) {
+						paths.Add(pathToDock);	
+					}
 				}
 				foreach (Path pathToDock in pathsToDock) {
 					foreach (Path pathToExit in pathsToExit) {

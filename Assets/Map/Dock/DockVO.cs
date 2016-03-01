@@ -45,9 +45,12 @@ public class DockVO : MonoBehaviour, MapSelectableVO {
 
 
 	public void OnMouseDrag() {
-		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		dock.node.X = ray.point.x;
-		dock.node.Y = ray.point.y;
+		SceneSetting sceneSetting = GameObject.Find("SceneSetting").GetComponent<SceneSetting>();
+		if (sceneSetting.AllowMapEditing) {
+			RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+			dock.node.X = ray.point.x;
+			dock.node.Y = ray.point.y;
+		}
 	}
 
 	public void Select() {
