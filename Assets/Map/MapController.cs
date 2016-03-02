@@ -63,11 +63,16 @@ public class MapController : MonoBehaviour {
 		map.AddConnection(connection);
 
 		GameObject connectionGO = CreateConnectionGameObject(connection);
+
+		connection.StartNode.AddConnection(connection);
+		connection.EndNode.AddConnection(connection);
+
+		
 		
 		return connectionGO;
 	}
 
-	public GameObject AddDock(GameObject node, DockType type) {
+	public GameObject AddDock(GameObject node, IndustryType type) {
 		Dock dock = new Dock();
 		dock.id = nextDockId;
 		dock.node = node.GetComponent<NodeVO>().node;
@@ -90,9 +95,12 @@ public class MapController : MonoBehaviour {
 		return dockObject;
 	}
 
-	private GameObject CreateConnectionGameObject(Connection connection) { 
+	public GameObject CreateConnectionGameObject(Connection connection) { 
 		GameObject connectionGO = Instantiate(connectionPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-		connectionGO.GetComponent<ConnectionVO>().connection = connection;
+		
+		ConnectionVO connectionVO = connectionGO.GetComponent<ConnectionVO>();
+		connectionVO.connection = connection;
+
 		connectionGO.transform.parent = GameObject.Find("Map").transform;
 		return connectionGO;
 	}
@@ -142,8 +150,7 @@ public class MapController : MonoBehaviour {
 			if (connection.StartNode == node || connection.EndNode == node) {
 				GameObject connectionGO = GetConnectionGO(connection);
 				if (connectionGO != null) {
-					GameObject.Destroy(connectionGO);
-					map.connections.RemoveAt(i);
+					RemoveConnection(connectionGO);
 				}
 			}
 		}
@@ -153,7 +160,7 @@ public class MapController : MonoBehaviour {
 		map.RemoveNode(node);
 	}
 
-	private GameObject GetConnectionGO(Connection connection) {
+	public GameObject GetConnectionGO(Connection connection) {
 		foreach (Transform child in GameObject.Find("Map").transform) {
 			GameObject go = child.gameObject;
 			if (go.GetComponent<ConnectionVO>() != null &&
@@ -164,9 +171,14 @@ public class MapController : MonoBehaviour {
 		return null;
 	}
 
-	public void RemoveConnection(GameObject connection) {
-		map.RemoveConnection(connection.GetComponent<ConnectionVO>().connection);
-		GameObject.Destroy(connection);
+	public void RemoveConnection(GameObject connectionGO) {
+		Connection connection = connectionGO.GetComponent<ConnectionVO>().connection;
+        map.RemoveConnection(connection);
+		GameObject.Destroy(connectionGO);
+
+		foreach (Node node in map.nodes) {
+			node.RemoveConnection(connection);
+		}
 	}
 
 
@@ -198,7 +210,6 @@ public class MapController : MonoBehaviour {
 
 	public void RegenerateMapEvents() {
 		// Regenerate all map events
-		Debug.Log(map.mapEvents.Count);
 		foreach (MapEvent mapEvent in map.mapEvents) {
 			CreateMapEventGameObject(mapEvent);
 		}

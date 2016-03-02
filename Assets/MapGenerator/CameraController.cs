@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 public class CameraController : MonoBehaviour {
 
 	public double sensitivity = 30;
+	public int right_space = 0;
+	public int bottom_space = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -19,8 +21,8 @@ public class CameraController : MonoBehaviour {
 		MoveWithMouseMiddleButton();
 		MoveWithWASD();
 
-		double widthPercent = ((double)Screen.width - 200.0) / (double)Screen.width;
-		double heightPercent = ((double)Screen.height - 80.0) / (double)Screen.height;
+		double widthPercent = ((double)Screen.width - right_space) / (double)Screen.width;
+		double heightPercent = ((double)Screen.height - bottom_space) / (double)Screen.height;
 		gameObject.GetComponent<Camera>().rect = new Rect(
 			0, (float)(1-heightPercent), 
 			(float)widthPercent, 

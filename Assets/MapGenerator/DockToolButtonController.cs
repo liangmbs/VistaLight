@@ -12,19 +12,19 @@ public class DockToolButtonController : ToolButtonController {
 		CreateDockTool tool = null;
         switch (setting) {
 		case "Petro":
-			tool = new CreateDockTool(mapController, DockType.Petro);
+			tool = new CreateDockTool(mapController, IndustryType.Petro);
 			break;			
 
 		case "Breakbulk":
-			tool = new CreateDockTool(mapController, DockType.BreakBulk);
+			tool = new CreateDockTool(mapController, IndustryType.BreakBulk);
 			break;
 
 		case "Bulk":
-			tool = new CreateDockTool(mapController, DockType.Bulk);
+			tool = new CreateDockTool(mapController, IndustryType.Bulk);
 			break;
 
 		case "Port":
-			tool = new CreateDockTool(mapController, DockType.Port);
+			tool = new CreateDockTool(mapController, IndustryType.Port);
 			break;
 
 		default:

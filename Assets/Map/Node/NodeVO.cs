@@ -7,24 +7,35 @@ public class NodeVO : MonoBehaviour, MapSelectableVO {
 	public Node node;
     public GameObject sidePanel;
 
-	// Use this for initialization
+	private Camera mainCamera;
+
 	public void Start () {
-	
+		mainCamera = Camera.main;	
 	}
 	
-	// Update is called once per frame
 	public void Update () {
 		if (node != null) {
 			gameObject.transform.position = new Vector3((float)node.X, (float)node.Y, (float)MapController.MapZIndex);
 			gameObject.transform.localScale = new Vector3(
-				Camera.main.orthographicSize / 200, Camera.main.orthographicSize / 200, 1);
+				mainCamera.orthographicSize / 200, 
+				mainCamera.orthographicSize / 200, 
+				1);
+
+			if (node.IsExit) {
+				gameObject.transform.Find("Exit").gameObject.SetActive(true);
+			}
 		}
 	}
 
 	public void OnMouseDrag() {
-		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		node.X = ray.point.x;
-		node.Y = ray.point.y;
+		SceneSetting sceneSetting = GameObject.Find("SceneSetting").GetComponent<SceneSetting>();
+		if(sceneSetting.AllowMapEditing) {
+			RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+			if (ray.point.x == 0 && ray.point.y == 0) return;
+			node.X = ray.point.x;
+			node.Y = ray.point.y;
+			gameObject.transform.position = new Vector3((float)node.X, (float)node.Y, (float)MapController.MapZIndex);
+		}
 	}
 
 	public void Select() {
@@ -39,6 +50,10 @@ public class NodeVO : MonoBehaviour, MapSelectableVO {
 
     public GameObject GetSidePanel()
     {
-        return sidePanel;
-    }
+		GameObject sidePanel = GameObject.Find("SidePanels").transform.FindChild("NodeInformationSidePanel").gameObject;
+		NodeInformationSidePanelController controller = sidePanel.GetComponent<NodeInformationSidePanelController>();
+		controller.node= node;
+		controller.UpdateDisplay();
+		return sidePanel;
+	}
 }

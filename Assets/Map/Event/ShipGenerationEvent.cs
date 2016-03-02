@@ -21,6 +21,5 @@ public class ShipGenerationEvent : MapEvent {
 	public ShipGenerationEvent(SerializationInfo info, StreamingContext context) : 
 		base(info, context) {
 		this.Ship = (Ship) info.GetValue("Ship", typeof(Ship));
-		Debug.Log("ship generation event.");
 	}
 }

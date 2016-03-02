@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Collections;
 using UnityEngine.UI;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -53,11 +55,9 @@ public class MapInfoSidePanelController : MonoBehaviour {
 	public void LoadMap() {
 		CloseMap();
 
-		string[] mapTypes = {
-			"VistaLights Map Files", "vlmap",
-			"All Files", "*"
-		};
+		#if UNITY_EDITOR
 		path = EditorUtility.OpenFilePanel("Load map", "", "vlmap");
+		#endif
 
 		MapSerializer mapSerializer = new MapSerializer();
 		this.map = mapSerializer.LoadMap(path);
@@ -74,7 +74,9 @@ public class MapInfoSidePanelController : MonoBehaviour {
 
 	public void SaveMap() {
 		if (path == "") {
+			#if UNITY_EDITOR
 			path = EditorUtility.SaveFilePanel("Select file location", "", "map", "vlmap");
+			#endif
 		}
 
 		MapSerializer mapSerializer = new MapSerializer();
