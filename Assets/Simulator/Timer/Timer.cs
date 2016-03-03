@@ -7,6 +7,7 @@ public class Timer : MonoBehaviour {
 	public double speed;
 	public DateTime virtualTime = new DateTime(2015, 10, 10, 10, 10, 10);
 	private TimeSpan timeElapsed = new TimeSpan(0, 0, 0);
+	private Vector3 position;
 
 	private double previousTime;
 

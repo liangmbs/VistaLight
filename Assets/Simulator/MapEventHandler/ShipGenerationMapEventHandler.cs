@@ -29,6 +29,19 @@ public class ShipGenerationMapEventHandler : IMapEventHandler {
 
 		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().EnqueueShip(shipController);
 		GameObject.Find("ShipList").GetComponent<ShipListController>().AddShip(shipController);
+
+		CreateNotification();
+	}
+
+	private void CreateNotification() {
+		NotificationSystem notificationSystem = GameObject.Find("NotificationSystem").GetComponent<NotificationSystem>();
+
+		Notification notification = new Notification();
+		Ship ship = shipGenerationEvent.Ship;
+		notification.content = String.Format("{0} ship {1} arrives and waiting for scheduling.",
+			ship.Industry.ToString(), ship.Name);
+
+		notificationSystem.AddNotification(notification);
 	}
 
 }
