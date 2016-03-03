@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OilSpillingMapEventHandler : IMapEventHandler {
 
@@ -25,6 +26,30 @@ public class OilSpillingMapEventHandler : IMapEventHandler {
 		OilSpillingAction action = GameObject.Find("OilSpillingAction").GetComponent<OilSpillingAction>();
 		action.OilSpillingController = oilSpillingController;
 		action.EnableAllToggles();
+
+		ShowAlarm();
+
+		ShowNotification();
+
+		PauseGame();
+	}
+
+	private void ShowAlarm() {
+		GameObject.Find("Alarm").GetComponent<Image>().enabled = true;
+	}
+
+	private void ShowNotification() {
+		NotificationSystem notificationSystem = GameObject.Find("NotificationSystem").GetComponent<NotificationSystem>();
+
+		Notification notification = new Notification();
+		notification.content = "Oil spilling happens";
+
+		notificationSystem.AddNotification(notification);
+	}
+
+	private void PauseGame() {
+		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
+		timer.Pause();
 	}
 
 }

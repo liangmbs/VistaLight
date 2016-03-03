@@ -18,7 +18,7 @@ public class NotificationSystem : MonoBehaviour {
 		int currentY = -10;	
 		foreach (NotificationBox notificatinoBox in NotificationBoxes) {
 			notificatinoBox.gameObject.GetComponent<RectTransform>().localPosition = new Vector3(10, currentY, 0);
-			currentY -= 100 + 10;
+			currentY -= 90 + 10;
 		}
 
 		// Remove expired notifications

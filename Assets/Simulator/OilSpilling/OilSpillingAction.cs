@@ -61,6 +61,7 @@ public class OilSpillingAction : MonoBehaviour {
 				RestartTraffic();
 			}
 			solution = OilSpillSolution.None;
+			GameObject.Find("Alarm").GetComponent<Image>().enabled = false;
 		}
 
 		double welfareChange = welfareImpact * oilCleaned;
