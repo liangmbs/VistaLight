@@ -73,7 +73,6 @@ public class ShipListEntryController : MonoBehaviour {
 	public void EnterPriorityMode() {
 		this.enterPriorityMode = true;
 
-		Debug.Log("Focus");
 		priority.gameObject.SetActive(false);
 		priorityButton.gameObject.SetActive(false);
 		priorityInput.gameObject.SetActive(true);

@@ -1,0 +1,20 @@
+# version:1
+{"type":"session_begin", "data":{"game_id":"VistaLights", "player_id":"b1e07aa6-8a6b-4e57-b31e-c73cda53728b", "session_id":"b0baf67f-12f1-4dc9-9428-23e3e2e4e081", "build_id":"", "version":"2.0", "condition":"", "client_time":"1457978126.16076", "details":{}}}
+{"type":"run_begin", "auto":"true", "data":{"session_id":"b0baf67f-12f1-4dc9-9428-23e3e2e4e081", "run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "run_seqno":"0", "client_time":"1457978126.31274", "details":{}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"0", "type":"1", "client_time":"1457978126.31274", "details":{"timer":"100"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"1", "type":"1", "client_time":"1457978127.16328", "details":{"keystroke":"Mouse2", "mouse_x":"759", "mouse_y":"211"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"2", "type":"1", "client_time":"1457978134.00409", "details":{"keystroke":"Mouse2", "mouse_x":"672", "mouse_y":"207"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"3", "type":"1", "client_time":"1457978134.89836", "details":{"keystroke":"Mouse2", "mouse_x":"566", "mouse_y":"149"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"4", "type":"1", "client_time":"1457978135.49498", "details":{"keystroke":"Mouse2", "mouse_x":"567", "mouse_y":"142"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"5", "type":"1", "client_time":"1457978138.38983", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"6", "type":"1", "client_time":"1457978140.47572", "details":{"keystroke":"Mouse2", "mouse_x":"563", "mouse_y":"297"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"7", "type":"1", "client_time":"1457978141.51882", "details":{"keystroke":"Mouse2", "mouse_x":"595", "mouse_y":"167"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"8", "type":"1", "client_time":"1457978144.2024", "details":{"keystroke":"Mouse2", "mouse_x":"569", "mouse_y":"216"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"9", "type":"1", "client_time":"1457978150.15155", "details":{"keystroke":"Mouse0", "mouse_x":"25", "mouse_y":"66"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"10", "type":"1", "client_time":"1457978150.23414", "details":{"timer":"1000"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"11", "type":"1", "client_time":"1457978150.2718", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"12", "type":"1", "client_time":"1457978151.49125", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"13", "type":"1", "client_time":"1457978151.639", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"14", "type":"1", "client_time":"1457978155.37147", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"15", "type":"1", "client_time":"1457978156.33529", "details":{"keystroke":"Mouse0", "mouse_x":"59", "mouse_y":"46"}}}
+{"type":"action", "data":{"run_id":"3b07daa6-d3c3-4e41-83c6-6f48b97edf38", "action_seqno":"16", "type":"1", "client_time":"1457978156.41732", "details":{"timer":"100"}}}

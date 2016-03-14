@@ -1,0 +1,38 @@
+# version:1
+{"type":"session_begin", "data":{"game_id":"VistaLights", "player_id":"b1e07aa6-8a6b-4e57-b31e-c73cda53728b", "session_id":"24caa364-18bf-400e-8e1f-3435e9239b4c", "build_id":"", "version":"2.0", "condition":"", "client_time":"1457979072.88055", "details":{}}}
+{"type":"run_begin", "data":{"session_id":"24caa364-18bf-400e-8e1f-3435e9239b4c", "run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "run_seqno":"0", "client_time":"1457979072.88456", "details":{}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"0", "type":"1", "client_time":"1457979073.0255", "details":{"timer":"100"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"1", "type":"1", "client_time":"1457979074.56298", "details":{"keystroke":"Mouse0", "mouse_x":"512", "mouse_y":"23"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"2", "type":"1", "client_time":"1457979075.53998", "details":{"keystroke":"Mouse0", "mouse_x":"993", "mouse_y":"23"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"3", "type":"1", "client_time":"1457979078.2075", "details":{"keystroke":"Mouse0", "mouse_x":"22", "mouse_y":"267"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"4", "type":"1", "client_time":"1457979078.27391", "details":{"timer":"1000"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"5", "type":"1", "client_time":"1457979078.6213", "details":{"keystroke":"Mouse2", "mouse_x":"690", "mouse_y":"322"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"6", "type":"1", "client_time":"1457979078.98149", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"7", "type":"1", "client_time":"1457979079.67405", "details":{"keystroke":"Mouse2", "mouse_x":"701", "mouse_y":"290"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"8", "type":"1", "client_time":"1457979080.22753", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"9", "type":"1", "client_time":"1457979080.95586", "details":{"keystroke":"Mouse0", "mouse_x":"53", "mouse_y":"120"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"10", "type":"1", "client_time":"1457979081.27218", "details":{"keystroke":"Alpha1", "mouse_x":"56", "mouse_y":"118"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"11", "type":"1", "client_time":"1457979081.44205", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"12", "type":"1", "client_time":"1457979081.61036", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"13", "type":"1", "client_time":"1457979082.0695", "details":{"ship_id":"4", "new_priority":"1"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"14", "type":"1", "client_time":"1457979082.0705", "details":{"keystroke":"Return", "mouse_x":"58", "mouse_y":"116"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"15", "type":"1", "client_time":"1457979082.071", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"16", "type":"1", "client_time":"1457979085.46852", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"17", "type":"1", "client_time":"1457979086.98761", "details":{"keystroke":"Mouse0", "mouse_x":"51", "mouse_y":"36"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"18", "type":"1", "client_time":"1457979087.26923", "details":{"keystroke":"Alpha1", "mouse_x":"94", "mouse_y":"24"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"19", "type":"1", "client_time":"1457979088.1471", "details":{"ship_id":"13", "new_priority":"1"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"20", "type":"1", "client_time":"1457979088.1476", "details":{"keystroke":"Return", "mouse_x":"105", "mouse_y":"23"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"21", "type":"1", "client_time":"1457979088.1481", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"22", "type":"1", "client_time":"1457979092.18779", "details":{"keystroke":"Mouse0", "mouse_x":"57", "mouse_y":"118"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"23", "type":"1", "client_time":"1457979092.71758", "details":{"keystroke":"Alpha1", "mouse_x":"54", "mouse_y":"118"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"24", "type":"1", "client_time":"1457979092.96189", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"25", "type":"1", "client_time":"1457979093.1805", "details":{"ship_id":"4", "new_priority":"1"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"26", "type":"1", "client_time":"1457979093.181", "details":{"keystroke":"Return", "mouse_x":"54", "mouse_y":"118"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"27", "type":"1", "client_time":"1457979093.1815", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"28", "type":"1", "client_time":"1457979094.8803", "details":{"keystroke":"Mouse0", "mouse_x":"54", "mouse_y":"33"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"29", "type":"1", "client_time":"1457979095.45997", "details":{"keystroke":"Alpha1", "mouse_x":"53", "mouse_y":"34"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"30", "type":"1", "client_time":"1457979095.7082", "details":{"keystroke":"Backslash", "mouse_x":"53", "mouse_y":"34"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"31", "type":"1", "client_time":"1457979095.87392", "details":{"ship_id":"8", "new_priority":"1"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"32", "type":"1", "client_time":"1457979095.87442", "details":{"keystroke":"Return", "mouse_x":"53", "mouse_y":"34"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"33", "type":"1", "client_time":"1457979095.87492", "details":{"timer":"0"}}}
+{"type":"action", "data":{"run_id":"2566cee2-2060-43ba-aa3c-b4ce93bf2986", "action_seqno":"34", "type":"1", "client_time":"1457979097.14656", "details":{"timer":"0"}}}

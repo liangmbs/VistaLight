@@ -14,6 +14,8 @@ public class NetworkScheduler : MonoBehaviour {
 	public GameObject schedulingMask;
 	public Slider progressBar;
 
+	public VistaLightsLogger logger;
+
 	public void RequestReschedule() {
 		rescheduleRequested = true;	
 	}
@@ -85,6 +87,7 @@ public class NetworkScheduler : MonoBehaviour {
 	public void ChangeShipPriority(ShipController ship, int priority) {
 		priorityQueue.ChangePriority(ship, priority);
 		RequestReschedule();
+		logger.LogChangeShipPriority(ship.ship, priority);
 	}
 
 	public int GetShipPriority(ShipController ship) {
