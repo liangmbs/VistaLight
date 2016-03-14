@@ -22,3 +22,6 @@ sysinfo.txt
 
 # Thumbs.db.meta
 Thumbs.db.meta
+
+# Log file
+*.json

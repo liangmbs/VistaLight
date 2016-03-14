@@ -1,7 +1,0 @@
-# version:1
-{"type":"session_begin", "data":{"game_id":"VistaLights", "player_id":"b1e07aa6-8a6b-4e57-b31e-c73cda53728b", "session_id":"3753b5bd-9773-41fa-8e54-25a229f5d6b0", "build_id":"", "version":"2.0", "condition":"", "client_time":"1457977395.13547", "details":{}}}
-{"type":"run_begin", "auto":"true", "data":{"session_id":"3753b5bd-9773-41fa-8e54-25a229f5d6b0", "run_id":"0991ed55-8f39-44d6-86de-18b94d3e5af9", "run_seqno":"0", "client_time":"1457977395.28849", "details":{}}}
-{"type":"action", "data":{"run_id":"0991ed55-8f39-44d6-86de-18b94d3e5af9", "action_seqno":"0", "type":"1", "client_time":"1457977395.28899", "details":{"timer":"100"}}}
-{"type":"run_end", "auto":"true", "data":{"run_id":"0991ed55-8f39-44d6-86de-18b94d3e5af9", "action_count":"1", "client_time":"1457977395.29199", "details":{}}}
-{"type":"run_begin", "data":{"session_id":"3753b5bd-9773-41fa-8e54-25a229f5d6b0", "run_id":"6118c1fe-feec-445d-8c34-946506b31a60", "run_seqno":"1", "client_time":"1457977395.29249", "details":{}}}
-{"type":"run_end", "data":{"run_id":"6118c1fe-feec-445d-8c34-946506b31a60", "action_count":"0", "client_time":"1457977395.91666", "details":{}}}
