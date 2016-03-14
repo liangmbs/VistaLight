@@ -33,7 +33,6 @@ public class NotificationSystem : MonoBehaviour {
 
 	// Add a notification to the system
 	public void AddNotification(Notification notification) {
-		Debug.Log("Notification box created");
 
 		GameObject notificationGO = GameObject.Instantiate(NotificationPrefab);
 		NotificationBox notificationBox = notificationGO.GetComponent<NotificationBox>();

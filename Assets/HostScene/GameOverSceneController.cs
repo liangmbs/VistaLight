@@ -1,0 +1,32 @@
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+
+public class GameOverSceneController : MonoBehaviour {
+
+	public Text title;
+	public Text moneyText;
+	public Text welfareText;
+
+	// Use this for initialization
+	void Start () {
+	
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		double money = GameObject.Find("BudgetCounter").GetComponent<BudgetCounter>().money;
+		double welfare = GameObject.Find("WelfareCounter").GetComponent<WelfareCounter>().Welfare;
+
+		if (welfare == 0) {
+			title.text = "You lose.";
+		} else {
+			title.text = "You win";
+		}
+
+		moneyText.text = string.Format("Money: {0}", money);
+		welfareText.text = string.Format("Welfare: {0}", welfare);
+	}
+
+
+}

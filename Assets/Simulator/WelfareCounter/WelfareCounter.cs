@@ -4,8 +4,14 @@ using System.Collections;
 public class WelfareCounter : MonoBehaviour {
 
 	public double Welfare = 5;
+	public bool freeze = false;
+
+	void Awake() {
+		DontDestroyOnLoad(transform.gameObject);
+	}
 
 	public void Update() {
+		if (freeze) return;
 		AutoWelfareRecovery();
 	}
 
