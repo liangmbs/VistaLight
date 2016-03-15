@@ -19,13 +19,13 @@ public class GameOverSceneController : MonoBehaviour {
 		double welfare = GameObject.Find("WelfareCounter").GetComponent<WelfareCounter>().Welfare;
 
 		if (welfare == 0) {
-			title.text = "You lose.";
+			title.text = "You Lose.";
 		} else {
-			title.text = "You win";
+			title.text = "You Win";
 		}
 
-		moneyText.text = string.Format("Money: {0}", money);
-		welfareText.text = string.Format("Welfare: {0}", welfare);
+		moneyText.text = string.Format("Money: {0:C}", money);
+		welfareText.text = string.Format("Welfare: {0:F0}", welfare);
 	}
 
 

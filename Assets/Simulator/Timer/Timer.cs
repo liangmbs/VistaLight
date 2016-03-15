@@ -60,7 +60,7 @@ public class Timer : MonoBehaviour {
 	}
 
 	public void SetSpeedThree() {
-		speed = 1000;
+		speed = 3000;
 		logger.LogTimer(speed);
 	}
 }

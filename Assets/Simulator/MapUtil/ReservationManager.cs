@@ -54,6 +54,10 @@ public class ReservationManager : MonoBehaviour {
 			}
 		}
 
+		if (minTimeSpan == TimeSpan.Zero) {
+			minTimeSpan = minTimeSpan.Add (new TimeSpan (0, 0, 1));
+		}
+
 		schedule.Postpone(minTimeSpan);
 
 	}
@@ -78,6 +82,10 @@ public class ReservationManager : MonoBehaviour {
 			if (timeDiff < minTimeSpan) {
 				minTimeSpan = timeDiff;
 			}
+		}
+
+		if (minTimeSpan == TimeSpan.Zero) {
+			minTimeSpan = minTimeSpan.Add (new TimeSpan (0, 0, 1));
 		}
 
 		schedule.Postpone(minTimeSpan);
