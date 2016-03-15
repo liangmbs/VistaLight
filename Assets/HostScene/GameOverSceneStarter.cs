@@ -12,6 +12,8 @@ public class GameOverSceneStarter : MonoBehaviour {
 
 	public bool gameStarted = false;
 
+	public VistaLightsLogger logger;
+
 
 	// Use this for initialization
 	void Start () {
@@ -36,6 +38,9 @@ public class GameOverSceneStarter : MonoBehaviour {
 	void LoadGameOverScene() {
 		budgetCounter.freeze = true;
 		welfareCounter.freeze = true;
+
+		logger.LogGameOver (budgetCounter.money, welfareCounter.Welfare);
+
 		SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
     }
 }

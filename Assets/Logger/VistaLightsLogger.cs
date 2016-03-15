@@ -54,5 +54,12 @@ public class VistaLightsLogger : MonoBehaviour {
 		details["new_priority"] = new_priority.ToString();
 		TheLogger.instance.TakeAction(1, details);
 	}
+
+	public void LogGameOver(double money, double welfare) {
+		JSONClass details = new JSONClass();
+		details["budget"] = money.ToString();
+		details["welfare"] = welfare.ToString();
+		TheLogger.instance.TakeAction(1, details);
+	}
 }
 
