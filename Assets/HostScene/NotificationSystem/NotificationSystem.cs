@@ -21,6 +21,9 @@ public class NotificationSystem : MonoBehaviour {
 			currentY -= 90 + 10;
 		}
 
+		float currentX = notificationList.GetComponent<RectTransform> ().sizeDelta.x;
+		notificationList.GetComponent<RectTransform> ().sizeDelta = new Vector2 (currentX, -currentY);
+
 		// Remove expired notifications
 		for (int i = NotificationBoxes.Count - 1; i >= 0; i--) {
 			NotificationBox box = NotificationBoxes[i];
