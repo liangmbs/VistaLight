@@ -55,12 +55,12 @@ public class Timer : MonoBehaviour {
 	}
 
 	public void SetSpeedTwo() {
-		speed = 300;
+		speed = 400;
 		logger.LogTimer(speed);
 	}
 
 	public void SetSpeedThree() {
-		speed = 3000;
+		speed = 1500;
 		logger.LogTimer(speed);
 	}
 }

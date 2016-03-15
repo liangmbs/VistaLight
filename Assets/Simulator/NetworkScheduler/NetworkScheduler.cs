@@ -21,19 +21,17 @@ public class NetworkScheduler : MonoBehaviour {
 	}
 
 	private IEnumerator Schedule() {
-		Debug.Log(string.Format("Start to reschedule"));
 		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
 		double timerSpeed = timer.Speed;
 		timer.Pause();
 		int numberSteps = 2 + priorityQueue.GetCount();
 		int stepsCompleted = 1;
-		//UpdateProgress(stepsCompleted, numberSteps);
-		// yield return null;
+		UpdateProgress(stepsCompleted, numberSteps);
+		yield return null;
 
-		// ShowSchedulingMask();
+		ShowSchedulingMask();
 		ClearAllSchedule();
-		Debug.Log(string.Format("Done clear all schedule."));
-		// yield return null;
+		yield return null;
 
 		for (int i = 0; i < priorityQueue.GetCount(); i++) {
 			ShipScheduler shipScheduler = new ShipScheduler();
@@ -44,17 +42,12 @@ public class NetworkScheduler : MonoBehaviour {
 			stepsCompleted++;
 			UpdateProgress(stepsCompleted, numberSteps);
 
-			Debug.Log(string.Format("Priority {0} scheduled.", i));
-
-			// yield return null;
+			yield return null;
 		}
-
-		Debug.Log("Done schedule\n");
 
 		Scheduling = false;
 		timer.Speed = timerSpeed;
-		// HideSchedulingMask();
-		return null;
+		HideSchedulingMask();
 	}
 
 	private void ShowSchedulingMask() {
@@ -106,8 +99,8 @@ public class NetworkScheduler : MonoBehaviour {
 	void Update() {
 		if (rescheduleRequested) {
 			Scheduling = true;
-			// StartCoroutine(Schedule());
-			Schedule();
+			StartCoroutine(Schedule());
+			// Schedule();
 			rescheduleRequested = false;
 		}
 

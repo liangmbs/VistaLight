@@ -31,7 +31,7 @@ public class MapUtil : MonoBehaviour {
 	};
 
 	public List<Path> FindPath(Node from, Node to) {
-		int maxNumPaths = 3;
+		int maxNumPaths = 100;
 		int numPaths = 0;
 		List<Path> allPaths = new List<Path>();
 		List<TreeNode> nodesToExpand = new List<TreeNode>();
