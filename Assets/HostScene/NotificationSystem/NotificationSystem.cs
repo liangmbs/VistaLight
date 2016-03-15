@@ -25,6 +25,7 @@ public class NotificationSystem : MonoBehaviour {
 		notificationList.GetComponent<RectTransform> ().sizeDelta = new Vector2 (currentX, -currentY);
 
 		// Remove expired notifications
+		/*
 		for (int i = NotificationBoxes.Count - 1; i >= 0; i--) {
 			NotificationBox box = NotificationBoxes[i];
 			if (box.IsExpired()) {
@@ -32,6 +33,7 @@ public class NotificationSystem : MonoBehaviour {
 				Destroy(box.gameObject);
 			}
 		}
+		*/
 	}
 
 	// Add a notification to the system
