@@ -25,6 +25,8 @@ public class OilSpillingAction : MonoBehaviour {
 	public Toggle DispersantToggle;
 	public Toggle SkimmersToggle;
 
+	public VistaLightsLogger logger;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -118,16 +120,22 @@ public class OilSpillingAction : MonoBehaviour {
 		StopTraffic();
 		solution = OilSpillSolution.Burn;
 		DisableAllToggles();
+
+		logger.LogOilCleaning (OilSpillSolution.Burn);
 	}
 
 	public void Dispersant() {
 		solution = OilSpillSolution.Dispersant;
 		DisableAllToggles();
+
+		logger.LogOilCleaning (OilSpillSolution.Dispersant);
 	}
 
 	public void Skimmers() {
 		StopTraffic();
 		DisableAllToggles();
 		solution = OilSpillSolution.Skimmers;
+
+		logger.LogOilCleaning (OilSpillSolution.Skimmers);
 	}
 }

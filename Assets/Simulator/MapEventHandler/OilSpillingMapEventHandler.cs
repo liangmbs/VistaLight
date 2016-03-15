@@ -31,6 +31,8 @@ public class OilSpillingMapEventHandler : IMapEventHandler {
 
 		ShowNotification();
 
+		GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogOilSpilling (OilSpillingEvent);
+
 		PauseGame();
 	}
 

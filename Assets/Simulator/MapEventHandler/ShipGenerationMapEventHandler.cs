@@ -30,6 +30,8 @@ public class ShipGenerationMapEventHandler : IMapEventHandler {
 		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().EnqueueShip(shipController);
 		GameObject.Find("ShipList").GetComponent<ShipListController>().AddShip(shipController);
 
+		GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogShipGeneration(shipGenerationEvent);
+
 		CreateNotification();
 	}
 

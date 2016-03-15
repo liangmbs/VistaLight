@@ -61,5 +61,39 @@ public class VistaLightsLogger : MonoBehaviour {
 		details["welfare"] = welfare.ToString();
 		TheLogger.instance.TakeAction(1, details);
 	}
+
+	public void LogOilCleaning(OilSpillSolution solution) {
+		JSONClass details = new JSONClass();
+		details ["solution"] = solution.ToString ();
+		TheLogger.instance.TakeAction(1, details);
+	}
+
+	public void LogOilSpilling(OilSpillingEvent oilSpillingEvent) {
+		JSONClass details = new JSONClass();
+
+		details ["map_event"] = "Oil Spilling";
+		details ["x"] = oilSpillingEvent.X.ToString ();
+		details ["y"] = oilSpillingEvent.Y.ToString ();
+		details ["radius"] = oilSpillingEvent.Radius.ToString();
+		details ["amount"] = oilSpillingEvent.Amount.ToString();
+
+		TheLogger.instance.TakeAction(1, details);
+	}
+
+	public void LogShipGeneration(ShipGenerationEvent shipGenerationEvent) {
+		JSONClass details = new JSONClass();
+		details ["map_event"] = "Ship Generation";
+		details ["x"] = shipGenerationEvent.X.ToString ();
+		details ["y"] = shipGenerationEvent.Y.ToString ();
+
+		details ["ship_id"] = shipGenerationEvent.Ship.shipID.ToString ();
+		details ["name"] = shipGenerationEvent.Ship.Name;
+		details ["industry"] = shipGenerationEvent.Ship.Industry.ToString();
+		details ["cargo"] = shipGenerationEvent.Ship.cargo.ToString();
+		details ["value"] = shipGenerationEvent.Ship.value.ToString();
+		details ["due_time"] = shipGenerationEvent.Ship.dueTime.ToString ();
+
+		TheLogger.instance.TakeAction(1, details);
+	}
 }
 
