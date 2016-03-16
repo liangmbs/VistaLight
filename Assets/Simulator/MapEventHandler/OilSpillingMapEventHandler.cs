@@ -50,8 +50,9 @@ public class OilSpillingMapEventHandler : IMapEventHandler {
 	}
 
 	private void PauseGame() {
-		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
-		timer.Pause();
+		TimeWidgetController timeWidgetController = 
+			GameObject.Find ("TimeWidget").GetComponent<TimeWidgetController> ();
+		timeWidgetController.PauseGame ();
 	}
 
 }

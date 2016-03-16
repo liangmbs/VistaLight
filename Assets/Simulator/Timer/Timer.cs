@@ -7,7 +7,6 @@ public class Timer : MonoBehaviour {
 
 	public double speed;
 	public DateTime virtualTime = new DateTime(2015, 10, 10, 10, 10, 10);
-	public VistaLightsLogger logger;
 
 	private TimeSpan timeElapsed = new TimeSpan(0, 0, 0);
 	private Vector3 position;
@@ -42,25 +41,5 @@ public class Timer : MonoBehaviour {
 	public double Speed {
 		get { return speed; }
 		set { speed = value; } 
-	}
-
-	public void Pause() {
-		speed = 0;
-		logger.LogTimer(speed);
-	}
-
-	public void SetSpeedOne() {
-		speed = 100;
-		logger.LogTimer(speed);
-	}
-
-	public void SetSpeedTwo() {
-		speed = 400;
-		logger.LogTimer(speed);
-	}
-
-	public void SetSpeedThree() {
-		speed = 1500;
-		logger.LogTimer(speed);
 	}
 }

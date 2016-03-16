@@ -4,6 +4,7 @@ using System.Collections;
 public class MapLoader : MonoBehaviour {
 
 	public Timer timer;
+	public TimeWidgetController timeWidgetController;
 
 	// Use this for initialization
 	void Start () {
@@ -15,7 +16,8 @@ public class MapLoader : MonoBehaviour {
 		mapController.RegenerateMap(map);
 
 		timer.virtualTime = map.StartTime;
-		timer.SetSpeedOne();
+
+		timeWidgetController.SetSpeedOne();
 	}
 	
 	// Update is called once per frame
