@@ -38,12 +38,11 @@ public class ShipGenerationMapEventHandler : IMapEventHandler {
 	private void CreateNotification() {
 		NotificationSystem notificationSystem = GameObject.Find("NotificationSystem").GetComponent<NotificationSystem>();
 
-		Notification notification = new Notification();
 		Ship ship = shipGenerationEvent.Ship;
-		notification.content = String.Format("{0} ship {1} arrived at anchor field and is waiting for scheduling.",
+		string content = String.Format("{0} ship {1} arrived at anchor field and is waiting for scheduling.",
 			ship.Industry.ToString(), ship.Name);
 
-		notificationSystem.AddNotification(notification);
+		notificationSystem.Notify (NotificationType.Information, content);
 	}
 
 }

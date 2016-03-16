@@ -51,6 +51,7 @@ public class WindowManager: MonoBehaviour {
 			bottomBarPanelHeight = 40;
 		}
 		notificationPanel.GetComponent<RectTransform> ().sizeDelta = new Vector2 (200, - bottomBarPanelHeight);
+		notificationPanel.GetComponent<NotificationSystem> ().ScrollToBottom ();
 	}
 
 	public void OpenBottomPanel() {

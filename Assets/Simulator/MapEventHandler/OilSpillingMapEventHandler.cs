@@ -27,8 +27,6 @@ public class OilSpillingMapEventHandler : IMapEventHandler {
 		action.OilSpillingController = oilSpillingController;
 		action.EnableAllToggles();
 
-		ShowAlarm();
-
 		ShowNotification();
 
 		GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogOilSpilling (OilSpillingEvent);
@@ -36,17 +34,12 @@ public class OilSpillingMapEventHandler : IMapEventHandler {
 		PauseGame();
 	}
 
-	private void ShowAlarm() {
-		GameObject.Find("Alarm").GetComponent<Image>().enabled = true;
-	}
-
 	private void ShowNotification() {
 		NotificationSystem notificationSystem = GameObject.Find("NotificationSystem").GetComponent<NotificationSystem>();
 
-		Notification notification = new Notification();
-		notification.content = "Oil spilling happens";
+		string content = "Oil spilling happens";
 
-		notificationSystem.AddNotification(notification);
+		notificationSystem.Notify (NotificationType.Disaster, content);
 	}
 
 	private void PauseGame() {
