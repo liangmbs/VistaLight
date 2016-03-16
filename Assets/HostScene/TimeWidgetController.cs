@@ -16,6 +16,8 @@ public class TimeWidgetController : MonoBehaviour {
 
 	public VistaLightsLogger logger;
 
+	public GameObject PauseRedBorder;
+
 
 
 
@@ -28,21 +30,25 @@ public class TimeWidgetController : MonoBehaviour {
 	public void PauseGame() {
 		SetGameSpeed (0);
 		SelectButton (PauseButtonImage);
+		PauseRedBorder.SetActive (true);
 	}
 
 	public void SetSpeedOne() {
 		SetGameSpeed (100);
 		SelectButton (Speed1ButtonImage);
+		PauseRedBorder.SetActive (false);
 	}
 
 	public void SetSpeedTwo() {
 		SetGameSpeed (400);
 		SelectButton (Speed2ButtonImage);
+		PauseRedBorder.SetActive (false);
 	}
 
 	public void SetSpeedThree() {
 		SetGameSpeed (1500);
 		SelectButton (Speed3ButtonImage);
+		PauseRedBorder.SetActive (false);
 	}
 
 	private void SetGameSpeed(double speed) {

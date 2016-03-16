@@ -21,12 +21,14 @@ public class CameraController : MonoBehaviour {
 		MoveWithMouseMiddleButton();
 		MoveWithWASD();
 
+		/*
 		double widthPercent = ((double)Screen.width - right_space) / (double)Screen.width;
 		double heightPercent = ((double)Screen.height - bottom_space) / (double)Screen.height;
 		gameObject.GetComponent<Camera>().rect = new Rect(
 			0, (float)(1-heightPercent), 
 			(float)widthPercent, 
 			(float)heightPercent);
+		*/
 	}
 
 	void MoveWithMouseMiddleButton() {
