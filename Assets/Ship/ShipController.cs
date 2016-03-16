@@ -107,10 +107,16 @@ public class ShipController : MonoBehaviour {
 		GameObject.Destroy(shipGO);
 		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().RemoveShip(this);
 		GameObject.Find("ShipList").GetComponent<ShipListController>().RemoveShip(this);
+
+		string content = string.Format ("{0} ship {1} left the port area!", ship.Industry.ToString(), ship.Name);
+		GameObject.Find ("NotificationSystem").GetComponent<NotificationSystem> ().Notify (NotificationType.Success, content);
 	}
 
 	private void ForceCompleteUnloadingTask(UnloadingTask task) {
 		Unload(ship.cargo);
+
+		string content = string.Format ("{0} ship {1} finished unloading!", ship.Industry.ToString(), ship.Name);
+		GameObject.Find ("NotificationSystem").GetComponent<NotificationSystem> ().Notify (NotificationType.Success, content);
 	}
 
 	private void Unload(double cargo) {
