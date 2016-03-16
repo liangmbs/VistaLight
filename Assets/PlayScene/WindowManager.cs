@@ -16,13 +16,22 @@ public class WindowManager: MonoBehaviour {
 	public GameObject tab2;
 	public GameObject tab3;
 
+	public GameObject notificationPanel;
+
 	public Camera ViewPortCamera;
+
+	public void Start() {
+
+		UpdateCameraSize ();
+		UpdateNotificationPanelSize ();
+
+	}
 
 	public void UpdateCameraSize() {
 		int screenWidth = Screen.width;
 		int screenHeight = Screen.height;
 
-		float rectWidth = 1;
+		float rectWidth = (float) (1.0 * (screenWidth - 200) / screenWidth);
 
 		float rectHeight = 1;
 		if (bottomPanelOpen) {
@@ -32,25 +41,42 @@ public class WindowManager: MonoBehaviour {
 		}
 		 
 		ViewPortCamera.rect = new Rect (0, 1 - rectHeight, rectWidth, rectHeight);
+	}
 
+	public void UpdateNotificationPanelSize() {
+		int bottomBarPanelHeight = 0;
+		if (bottomPanelOpen) {
+			bottomBarPanelHeight = 240;
+		} else {
+			bottomBarPanelHeight = 40;
+		}
+		notificationPanel.GetComponent<RectTransform> ().sizeDelta = new Vector2 (200, - bottomBarPanelHeight);
 	}
 
 	public void OpenBottomPanel() {
+		if (bottomPanelOpen)
+			return;
+		
 		bottomPanelOpen = true;
 
 		infoBar.GetComponent<RectTransform> ().transform.Translate (0, 200, 0);
 		toggleButton.transform.rotation = Quaternion.Euler(0,0,180);
 
 		UpdateCameraSize ();
+		UpdateNotificationPanelSize ();
 	}
 
 	public void CloseBottomPanel() {
+		if (!bottomPanelOpen)
+			return;
+
 		bottomPanelOpen = false;
 
 		infoBar.GetComponent<RectTransform> ().transform.Translate (0, -200, 0);
 		toggleButton.transform.rotation = Quaternion.Euler(0,0,0);
 
 		UpdateCameraSize ();
+		UpdateNotificationPanelSize ();
 	}
 
 
