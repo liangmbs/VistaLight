@@ -27,6 +27,9 @@ public class OilSpillingAction : MonoBehaviour {
 
 	public VistaLightsLogger logger;
 
+	public double speed;
+	public double welfareImpact;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -37,23 +40,6 @@ public class OilSpillingAction : MonoBehaviour {
 		if (solution == OilSpillSolution.None) return;
 		
 		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
-
-		double speed = 0;
-		double welfareImpact = 0;
-
-		switch (solution) {
-		case OilSpillSolution.Burn:
-			speed = 0.1;
-			welfareImpact = 1.5 / 10000;
-			break;
-		case OilSpillSolution.Dispersant:
-			speed = 0.01;
-			welfareImpact = 1 / 10000;
-			break;
-		case OilSpillSolution.Skimmers:
-			speed = 0.02;
-			break;
-		}
 
 		double oilCleaned = timer.TimeElapsed.TotalSeconds * speed;
 		OilSpillingController.Amount -= oilCleaned; 
@@ -72,6 +58,23 @@ public class OilSpillingAction : MonoBehaviour {
 		double welfareChange = welfareImpact * oilCleaned;
 		WelfareCounter.ReduceWelfare(welfareChange);
 			
+	}
+
+	private void SetCleaningSpeed ()
+	{
+		switch (solution) {
+		case OilSpillSolution.Burn:
+			speed = 1.0 * OilSpillingController.Amount / 10 / 3600;
+			welfareImpact = 1.5 / 10000;
+			break;
+		case OilSpillSolution.Dispersant:
+			speed = 1.0 * OilSpillingController.Amount / 48 / 3600;
+			welfareImpact = 1 / 10000;
+			break;
+		case OilSpillSolution.Skimmers:
+			speed = 1.0 * OilSpillingController.Amount / 24 / 3600;
+			break;
+		}
 	}
 
 	public void EnableAllToggles() {
@@ -142,6 +145,9 @@ public class OilSpillingAction : MonoBehaviour {
 	public void Burn() {
 		StopTraffic();
 		solution = OilSpillSolution.Burn;
+
+		SetCleaningSpeed ();
+
 		DisableAllToggles();
 
 		logger.LogOilCleaning (OilSpillSolution.Burn);
@@ -149,6 +155,9 @@ public class OilSpillingAction : MonoBehaviour {
 
 	public void Dispersant() {
 		solution = OilSpillSolution.Dispersant;
+
+		SetCleaningSpeed ();
+
 		DisableAllToggles();
 
 		logger.LogOilCleaning (OilSpillSolution.Dispersant);
@@ -156,8 +165,11 @@ public class OilSpillingAction : MonoBehaviour {
 
 	public void Skimmers() {
 		StopTraffic();
-		DisableAllToggles();
+
 		solution = OilSpillSolution.Skimmers;
+		SetCleaningSpeed ();
+
+		DisableAllToggles();
 
 		logger.LogOilCleaning (OilSpillSolution.Skimmers);
 	}
