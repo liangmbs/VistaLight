@@ -26,6 +26,7 @@ public class OilSpillingMapEventHandler : IMapEventHandler {
 		OilSpillingAction action = GameObject.Find("OilSpillingAction").GetComponent<OilSpillingAction>();
 		action.OilSpillingController = oilSpillingController;
 		action.EnableAllToggles();
+		action.SlowDownTraffic ();
 
 		ShowNotification();
 

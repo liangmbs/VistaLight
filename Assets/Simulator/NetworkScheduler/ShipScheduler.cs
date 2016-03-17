@@ -58,7 +58,8 @@ public class ShipScheduler {
 	}
 
 	private ShipSchedule PathToSchedule(Path path) {
-		double shipSpeed = 3.0;
+		double defaultShipSpeed = 3.0;
+		double shipSpeed = defaultShipSpeed;
 		ShipSchedule schedule = new ShipSchedule();
 		MapUtil mapUtil = GameObject.Find("MapUtil").GetComponent<MapUtil>();
 
@@ -71,14 +72,20 @@ public class ShipScheduler {
 			ShipMoveTask moveTask = new ShipMoveTask();
 			moveTask.Position = new Vector2((float)node.X, (float)node.Y);
 
+			if (previousNode != null) {
+				moveTask.connection = mapUtil.GetConnection (previousNode, node);
+				shipSpeed = moveTask.connection.Speed;
+			} else {
+				shipSpeed = defaultShipSpeed;
+			}
+
+
 			double distance = Math.Pow(Math.Pow(node.X - currentPosition.x, 2) + Math.Pow(node.Y - currentPosition.y, 2), 0.5);
 			TimeSpan duration = new TimeSpan(0, 0, (int)Math.Round(distance/shipSpeed));
 			moveTask.StartTime = currentTime;
 			moveTask.EndTime = currentTime.Add(duration);
 
-			if (previousNode != null) {
-				moveTask.connection = mapUtil.GetConnection(previousNode, node);
-            }
+
 			previousNode = node;
 
 			currentTime = currentTime.Add(duration);

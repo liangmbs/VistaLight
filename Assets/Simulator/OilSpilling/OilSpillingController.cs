@@ -33,4 +33,6 @@ public class OilSpillingController : MonoBehaviour {
 		welfareCounter.ReduceWelfare(welfareChange);
 		
 	}
+
+
 }

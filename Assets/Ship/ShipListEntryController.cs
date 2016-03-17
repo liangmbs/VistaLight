@@ -122,8 +122,5 @@ public class ShipListEntryController : MonoBehaviour {
 			networkScheduler.MoveShipToWaitList(shipController);
 			GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogRedGreenSignal (shipController.Ship, "red signal");
 		}
-
-
-
 	}
 }

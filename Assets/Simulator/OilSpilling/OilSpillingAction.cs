@@ -63,6 +63,7 @@ public class OilSpillingAction : MonoBehaviour {
 				RestartTraffic();
 			}
 			solution = OilSpillSolution.None;
+			RecoverTrafficSpeed ();
 
 			string content = string.Format ("Oil has been cleaned up");
 			GameObject.Find ("NotificationSystem").GetComponent<NotificationSystem> ().Notify (NotificationType.Success, content);
@@ -114,6 +115,26 @@ public class OilSpillingAction : MonoBehaviour {
 			connection.StartNode.AddConnection(connection);
 			connection.EndNode.AddConnection(connection);
 			map.AddConnection(connection);
+		}
+		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().RequestReschedule();
+	}
+
+	public void SlowDownTraffic() {
+		Map map = MapController.Map;
+		foreach (Connection connection in map.connections) {
+			if (isInOilSpill(connection.StartNode) || isInOilSpill(connection.EndNode)) {
+				connection.Speed = 2.0;
+			} 
+		}
+		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().RequestReschedule();
+	}
+
+	public void RecoverTrafficSpeed() {
+		Map map = MapController.Map;
+		foreach (Connection connection in map.connections) {
+			if (isInOilSpill(connection.StartNode) || isInOilSpill(connection.EndNode)) {
+				connection.Speed = 3.0;
+			} 
 		}
 		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().RequestReschedule();
 	}
