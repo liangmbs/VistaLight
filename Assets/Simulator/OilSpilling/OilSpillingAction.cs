@@ -30,6 +30,11 @@ public class OilSpillingAction : MonoBehaviour {
 	public double speed;
 	public double welfareImpact;
 
+	public PriorityQueue priorityQueue;
+	public PriorityQueue waitList;
+
+	public NotificationSystem notificationSystem;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -142,7 +147,32 @@ public class OilSpillingAction : MonoBehaviour {
 		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().RequestReschedule();
 	}
 
+	public bool hasShipInOilArea() {
+		foreach(ShipController ship in priorityQueue.queue) {
+			double distance = Math.Pow(Math.Pow(ship.Ship.X - OilSpillingController.position.x, 2) + Math.Pow(ship.Ship.Y - OilSpillingController.position.y, 2), 0.5);
+			if (distance < OilSpillingController.Radius) {
+				return true;
+			}
+		}
+
+		foreach(ShipController ship in waitList.queue) {
+			double distance = Math.Pow(Math.Pow(ship.Ship.X - OilSpillingController.position.x, 2) + Math.Pow(ship.Ship.Y - OilSpillingController.position.y, 2), 0.5);
+			if (distance < OilSpillingController.Radius) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public void Burn() {
+
+		if (hasShipInOilArea()) {
+			notificationSystem.Notify (NotificationType.Warning, 
+				"Cannot burn. The oil polluted area are not cleared");
+			return;
+		}
+
 		StopTraffic();
 		solution = OilSpillSolution.Burn;
 
@@ -164,6 +194,13 @@ public class OilSpillingAction : MonoBehaviour {
 	}
 
 	public void Skimmers() {
+
+		if (hasShipInOilArea()) {
+			notificationSystem.Notify (NotificationType.Warning, 
+				"Cannot use skimmers. The oil polluted area are not cleared");
+			return;
+		}
+
 		StopTraffic();
 
 		solution = OilSpillSolution.Skimmers;
