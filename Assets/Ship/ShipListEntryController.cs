@@ -117,8 +117,13 @@ public class ShipListEntryController : MonoBehaviour {
 		NetworkScheduler networkScheduler = GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>();
 		if (isGreenSignal) {
 			networkScheduler.MoveShipToPriorityQueue(shipController);
+			GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogRedGreenSignal (shipController.Ship, "green signal");
 		} else { 
 			networkScheduler.MoveShipToWaitList(shipController);
+			GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogRedGreenSignal (shipController.Ship, "red signal");
 		}
+
+
+
 	}
 }

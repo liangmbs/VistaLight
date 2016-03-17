@@ -95,5 +95,12 @@ public class VistaLightsLogger : MonoBehaviour {
 
 		TheLogger.instance.TakeAction(1, details);
 	}
+
+	public void LogRedGreenSignal(Ship ship, string signal) {
+		JSONClass details = new JSONClass();
+		details ["ship_id"] = ship.shipID.ToString();
+		details ["signal"] = signal;
+		TheLogger.instance.TakeAction(1, details);
+	}
 }
 
