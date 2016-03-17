@@ -16,14 +16,33 @@ public enum ShipStatus {
 public class ShipController : MonoBehaviour {
 
 	public ShipSchedule schedule;
-	public Ship ship;
+	private Ship ship;
+	private double originalCargoAmount;
+
 	public GameObject shipGO;
 	public ShipVO shipVO;
 	public ShipStatus status = ShipStatus.Blocked;
 
+	public GameObject ShipInfoPanel;
+	public TextMesh NameText;
+	public TextMesh PriorityText;
+	public TextMesh StatusText;
+	public TextMesh RemainingTime;
+	public GameObject CargoBar;
+
+	public ShipListEntryController ShipEntry;
+
 	public double heading = 0;
 
 	public bool highLighted = false;
+
+	public Ship Ship{
+		get { return ship; }
+		set { 
+			this.ship = value; 
+			originalCargoAmount = ship.cargo;
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -32,6 +51,8 @@ public class ShipController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (ship == null)
+			return;
 		
 		if (schedule != null && schedule.tasks.Count > 0) {
 			DateTime currentTime = GameObject.Find("Timer").GetComponent<Timer>().VirtualTime;
@@ -47,17 +68,50 @@ public class ShipController : MonoBehaviour {
 			}
 		}
 
-		GameObject nameGO = transform.Find("Name").gameObject;
-		TextMesh textMesh = nameGO.GetComponent<TextMesh>();
-		if (this.highLighted) {
-			nameGO.SetActive(true);
-			textMesh.text = ship.Name;
-		} else {
-			nameGO.SetActive(false);
-		}
+		UpdateStatusPanel ();
+
+		CheckClick ();
 
 		CalculateCargoMaintainenceCost();
 		CalculateCargoOverDueCost();
+	}
+
+	public void UpdateStatusPanel() {
+		if (highLighted) {
+			ShipInfoPanel.SetActive (true);
+			NameText.text = ship.Name;
+			PriorityText.text = String.Format ("Pri: {0}", GetShipPriority () + 1);
+			StatusText.text = String.Format ("Sta: {0}", status.ToString());
+			CargoBar.transform.localScale = new Vector3 ((float)(1.0 * ship.cargo / originalCargoAmount), 1, 0);
+
+			DateTime currentTime = GameObject.Find ("Timer").GetComponent<Timer> ().VirtualTime;
+			DateTime dueTime = ship.dueTime;
+			TimeSpan timeLeft = dueTime - currentTime;
+			RemainingTime.text = string.Format("{0} days {1}:{2}", timeLeft.Days, Math.Abs(timeLeft.Hours), Math.Abs(timeLeft.Minutes));
+			if (timeLeft > TimeSpan.Zero) {
+				CargoBar.GetComponent<SpriteRenderer> ().color = new Color ((float)0.13, (float)0.82, (float)0.29);
+			} else {
+				CargoBar.GetComponent<SpriteRenderer> ().color = new Color ((float)0.82, (float)0.16, (float)0.067);
+			}
+		} else {
+			ShipInfoPanel.SetActive (false);
+		}
+	}
+
+	private void CheckClick() {
+		if (!Input.GetMouseButtonDown (0))
+			return;
+		
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
+		if (ray.collider == null) return;
+
+		Debug.Log (ray.collider);
+		Debug.Log (gameObject);
+		if (ray.collider == gameObject.GetComponent<PolygonCollider2D>()) {
+			ToggleHighLight ();
+		}
+
 	}
 
 	public int GetShipPriority() {
@@ -212,4 +266,13 @@ public class ShipController : MonoBehaviour {
 		}
 		
     }
+
+	public void ToggleHighLight() {
+		highLighted = !highLighted;
+		if (highLighted) {
+			ShipEntry.shipName.fontStyle = FontStyle.Bold;
+		} else {
+			ShipEntry.shipName.fontStyle = FontStyle.Normal;
+		}
+	}
 }

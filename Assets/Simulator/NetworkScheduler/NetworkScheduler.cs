@@ -89,7 +89,7 @@ public class NetworkScheduler : MonoBehaviour {
 	public void ChangeShipPriority(ShipController ship, int priority) {
 		priorityQueue.ChangePriority(ship, priority);
 		RequestReschedule();
-		logger.LogChangeShipPriority(ship.ship, priority);
+		logger.LogChangeShipPriority(ship.Ship, priority);
 	}
 
 	public int GetShipPriority(ShipController ship) {

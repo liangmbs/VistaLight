@@ -23,12 +23,14 @@ public class ShipGenerationMapEventHandler : IMapEventHandler {
 		ship.Y = shipGenerationEvent.Y;
 
 		shipVO.ship = ship;
-		shipController.ship = ship;
+		shipController.Ship = ship;
 		shipController.shipGO = shipGO;
 		shipController.shipVO = shipVO;
 
 		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().EnqueueShip(shipController);
-		GameObject.Find("ShipList").GetComponent<ShipListController>().AddShip(shipController);
+
+		GameObject shipEntry = GameObject.Find("ShipList").GetComponent<ShipListController>().AddShip(shipController);
+		shipController.ShipEntry = shipEntry.GetComponent<ShipListEntryController>();
 
 		GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogShipGeneration(shipGenerationEvent);
 

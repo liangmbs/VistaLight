@@ -38,7 +38,7 @@ public class ShipGeneratorEntryController : MonoBehaviour {
 	public void UpdateTonnage() {
 		try {
 			ship.cargo = int.Parse(gameObject.transform.Find("Tonnage").gameObject.GetComponent<InputField>().text);
-		} catch (Exception e) {
+		} catch (Exception) {
 			Debug.Log("Invalid value for tonnage field.");
 		}
 		this.UpdateInformDisplay();

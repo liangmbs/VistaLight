@@ -42,7 +42,7 @@ public class ShipListEntryController : MonoBehaviour {
 			redButton.gameObject.SetActive(true);
 		}
 
-		Ship ship = shipController.ship;
+		Ship ship = shipController.Ship;
 		id.text = ship.shipID.ToString();
 
 		int priorityValue = shipController.GetShipPriority() + 1;
@@ -97,12 +97,7 @@ public class ShipListEntryController : MonoBehaviour {
 	}
 
 	public void HighlightShip() {
-		shipController.highLighted = !shipController.highLighted;
-		if (shipController.highLighted) {
-			shipName.fontStyle = FontStyle.Bold;
-		} else {
-			shipName.fontStyle = FontStyle.Normal;
-		}
+		shipController.ToggleHighLight ();
 	}
 
 	private int GetEntryYPos() {

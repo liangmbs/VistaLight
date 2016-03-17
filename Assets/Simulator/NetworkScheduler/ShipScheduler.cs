@@ -63,7 +63,7 @@ public class ShipScheduler {
 		MapUtil mapUtil = GameObject.Find("MapUtil").GetComponent<MapUtil>();
 
 		DateTime currentTime = GameObject.Find("Timer").GetComponent<Timer>().VirtualTime;
-		Vector2 currentPosition = new Vector2((float)ship.ship.X, (float)ship.ship.Y);
+		Vector2 currentPosition = new Vector2((float)ship.Ship.X, (float)ship.Ship.Y);
 		bool unloadingScheduled = false;
 
 		Node previousNode = null;
@@ -90,7 +90,7 @@ public class ShipScheduler {
 			double unloadingSpeed = 0.2;
 			Dock dock = mapUtil.GetDockByNode(node);
             if (!unloadingScheduled && dock != null) {
-				TimeSpan unloadingDuration = new TimeSpan(0, 0, (int)Math.Round(ship.ship.cargo / unloadingSpeed));
+				TimeSpan unloadingDuration = new TimeSpan(0, 0, (int)Math.Round(ship.Ship.cargo / unloadingSpeed));
 				UnloadingTask unloadingTask = new UnloadingTask();
 				unloadingTask.Position = currentPosition;
 				unloadingTask.StartTime = currentTime;
@@ -114,7 +114,7 @@ public class ShipScheduler {
 	}
 
 	private void FindAllPaths() {
-		if (ship.ship.cargo == 0) {
+		if (ship.Ship.cargo == 0) {
 			FindAllPathsToLeaveMap();
         } else {
 			FindAllPathsToUnloadAndLeaveMap();
@@ -125,7 +125,7 @@ public class ShipScheduler {
 	private void FindAllPathsToLeaveMap() {
 		MapUtil mapUtil = GameObject.Find("MapUtil").GetComponent<MapUtil>();
 
-		Node startNode = mapUtil.FindNearestNode(ship.ship.X, ship.ship.Y);
+		Node startNode = mapUtil.FindNearestNode(ship.Ship.X, ship.Ship.Y);
 
 		List<Node> exitNodes = mapUtil.ExitNodes();
 
@@ -138,9 +138,9 @@ public class ShipScheduler {
 	private void FindAllPathsToUnloadAndLeaveMap() {
 		MapUtil mapUtil = GameObject.Find("MapUtil").GetComponent<MapUtil>();
 
-		Node startNode = mapUtil.FindNearestNode(ship.ship.X, ship.ship.Y);
+		Node startNode = mapUtil.FindNearestNode(ship.Ship.X, ship.Ship.Y);
 		List<Node> exitNodes = mapUtil.ExitNodes();
-		List<Dock> docksToUnload = mapUtil.GetAllDocksOfType(ship.ship.Industry);
+		List<Dock> docksToUnload = mapUtil.GetAllDocksOfType(ship.Ship.Industry);
 		if (docksToUnload.Count == 0) {
 			Debug.LogError("No dock found!");
 		}

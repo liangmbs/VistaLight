@@ -15,7 +15,7 @@ public class ShipListController : MonoBehaviour {
 	
 	}
 
-	public void AddShip(ShipController shipController) {
+	public GameObject AddShip(ShipController shipController) {
 		GameObject entryGO = GameObject.Instantiate(entryPrefab) as GameObject;
 		ShipListEntryController entryController = entryGO.GetComponent<ShipListEntryController>();
 		entryController.shipController = shipController;
@@ -24,6 +24,8 @@ public class ShipListController : MonoBehaviour {
 		RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
 		rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x,
 			rectTransform.sizeDelta.y + 30);
+
+		return entryGO;
 	}
 
 	public void RemoveShip(ShipController shipController) {
