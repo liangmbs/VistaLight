@@ -29,6 +29,7 @@ public class OilSpillingMapEventHandler : IMapEventHandler {
 		action.SlowDownTraffic ();
 
 		ShowNotification();
+		OpenOilCleaningTab ();
 
 		GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogOilSpilling (OilSpillingEvent);
 
@@ -47,6 +48,10 @@ public class OilSpillingMapEventHandler : IMapEventHandler {
 		TimeWidgetController timeWidgetController = 
 			GameObject.Find ("TimeWidget").GetComponent<TimeWidgetController> ();
 		timeWidgetController.PauseGame ();
+	}
+
+	private void OpenOilCleaningTab() {
+		GameObject.Find ("LayoutManager").GetComponent<WindowManager> ().ShowTab2 ();
 	}
 
 }
