@@ -63,7 +63,8 @@ public class ShipVO : MonoBehaviour {
 	private void UpdateShipHeading() {
 		double heading = gameObject.GetComponent<ShipController>().heading;
 
-		transform.eulerAngles = new Vector3(0, 0, (float)heading);
+		Thumbnail.transform.eulerAngles = new Vector3(0, 0, (float)heading);
+		Background.transform.eulerAngles = new Vector3(0, 0, (float)heading);
 	}
 
 	private void ChangeThumbnailColorByIndustry() {

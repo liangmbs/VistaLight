@@ -38,7 +38,7 @@ public class OilSpillingMapEventHandler : IMapEventHandler {
 	private void ShowNotification() {
 		NotificationSystem notificationSystem = GameObject.Find("NotificationSystem").GetComponent<NotificationSystem>();
 
-		string content = "Oil spilling happens";
+		string content = "Oil spilling happens. Please take an oil-cleaning action in the Oil Cleaning tab";
 
 		notificationSystem.Notify (NotificationType.Disaster, content);
 	}

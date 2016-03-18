@@ -197,7 +197,7 @@ public class OilSpillingAction : MonoBehaviour {
 
 		if (hasShipInOilArea()) {
 			notificationSystem.Notify (NotificationType.Warning, 
-				"Cannot use skimmers. The oil polluted area are not cleared");
+				"Cannot use skimmers. There are one or more ships in the oil-polluted area");
 			return;
 		}
 
