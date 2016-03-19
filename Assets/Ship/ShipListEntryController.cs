@@ -10,7 +10,6 @@ public class ShipListEntryController : MonoBehaviour {
 
 	public Button greenButton;
 	public Button redButton;
-	public Text id;
 	public Text priority;
 	public Button priorityButton;
 	public InputField priorityInput;
@@ -43,7 +42,6 @@ public class ShipListEntryController : MonoBehaviour {
 		}
 
 		Ship ship = shipController.Ship;
-		id.text = ship.shipID.ToString();
 
 		int priorityValue = shipController.GetShipPriority() + 1;
 		priority.text = priorityValue.ToString();
@@ -103,12 +101,12 @@ public class ShipListEntryController : MonoBehaviour {
 	private int GetEntryYPos() {
 		NetworkScheduler networkScheduler = GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>();
 		if (isGreenSignal) {
-			int priorityValue = shipController.GetShipPriority() + 1;
+			int priorityValue = shipController.GetShipPriority();
 			return -30 * priorityValue;
 		} else {
 			int priorityQueueSize = networkScheduler.PriorityQueueLength();
 			int positionInWaitList = networkScheduler.ShipPositionInWaitList(shipController);
-			return -30 * (priorityQueueSize + positionInWaitList + 1) - 10;
+			return -30 * (priorityQueueSize + positionInWaitList) - 10;
 		}
 	}
 
