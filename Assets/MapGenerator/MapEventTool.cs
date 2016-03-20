@@ -8,7 +8,6 @@ public enum MapEventType {
 class MapEventTool : IMapEditorTool {
 
 	private MapController mapController;
-	private GameObject selectedMapEvent = null;
 	private MapEventType type = MapEventType.ShipGeneration;
 
 

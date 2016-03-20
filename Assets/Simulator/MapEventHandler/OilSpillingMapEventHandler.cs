@@ -45,9 +45,8 @@ public class OilSpillingMapEventHandler : IMapEventHandler {
 	}
 
 	private void PauseGame() {
-		TimeWidgetController timeWidgetController = 
-			GameObject.Find ("TimeWidget").GetComponent<TimeWidgetController> ();
-		timeWidgetController.PauseGame ();
+		RoundManager roundManager = GameObject.Find ("RoundManager").GetComponent<RoundManager> ();
+		roundManager.StartDecisionPhase ();
 	}
 
 	private void OpenOilCleaningTab() {

@@ -18,7 +18,8 @@ public class TimeWidgetController : MonoBehaviour {
 
 	public GameObject PauseRedBorder;
 
-
+	public RoundManager roundManager;
+	public NotificationSystem notificationSystem;
 
 
 	// Use this for initialization
@@ -27,10 +28,29 @@ public class TimeWidgetController : MonoBehaviour {
 		// UnselectedImage = Resources.Load ("image/SpeedButton.png") as Sprite;
 	}
 
+	public void PauseGameButtonClickHandler(){
+		if (roundManager.phase == GamePhase.Simulation) {
+			notificationSystem.Notify (NotificationType.Warning, 
+				"Cannot Pause the game during the simulation phase");
+			return;
+		}
+		PauseGame ();
+	}
+
 	public void PauseGame() {
+		
 		SetGameSpeed (0);
 		SelectButton (PauseButtonImage);
 		PauseRedBorder.SetActive (true);
+	}
+
+	public void SpeedOneButtonClickHandler() {
+		if (roundManager.phase == GamePhase.Decision) {
+			notificationSystem.Notify (NotificationType.Warning, 
+				"Please use the \"Submit and Continue\" button to submit your decision and enter simulation phase");
+			return;
+		}
+		SetSpeedOne ();
 	}
 
 	public void SetSpeedOne() {
@@ -39,13 +59,41 @@ public class TimeWidgetController : MonoBehaviour {
 		PauseRedBorder.SetActive (false);
 	}
 
+	public void SpeedTwoButtonClickHandler() {
+		if (roundManager.phase == GamePhase.Decision) {
+			notificationSystem.Notify (NotificationType.Warning, 
+				"Please use the \"Submit and Continue\" button to submit your decision and enter simulation phase");
+			return;
+		}
+		SetSpeedTwo ();
+	}
+
 	public void SetSpeedTwo() {
+		if (roundManager.phase == GamePhase.Decision) {
+			notificationSystem.Notify (NotificationType.Warning, 
+				"Please use the \"Submit and Continue\" button to submit your decision and enter simulation phase");
+			return;
+		}
 		SetGameSpeed (400);
 		SelectButton (Speed2ButtonImage);
 		PauseRedBorder.SetActive (false);
 	}
 
+	public void SpeedThreeButtonClickHandler() {
+		if (roundManager.phase == GamePhase.Decision) {
+			notificationSystem.Notify (NotificationType.Warning, 
+				"Please use the \"Submit and Continue\" button to submit your decision and enter simulation phase");
+			return;
+		}
+		SetSpeedThree ();
+	}
+
 	public void SetSpeedThree() {
+		if (roundManager.phase == GamePhase.Decision) {
+			notificationSystem.Notify (NotificationType.Warning, 
+				"Please use the \"Submit and Continue\" button to submit your decision and enter simulation phase");
+			return;
+		}
 		SetGameSpeed (1500);
 		SelectButton (Speed3ButtonImage);
 		PauseRedBorder.SetActive (false);

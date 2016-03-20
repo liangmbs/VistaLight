@@ -16,6 +16,7 @@ public class MapLoader : MonoBehaviour {
 		mapController.RegenerateMap(map);
 
 		timer.virtualTime = map.StartTime;
+		GameObject.Find ("RoundManager").GetComponent<RoundManager> ().SimulationPhaseStartTime = map.StartTime;
 
 		timeWidgetController.SetSpeedOne();
 	}

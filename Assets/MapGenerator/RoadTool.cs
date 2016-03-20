@@ -12,7 +12,6 @@ public class RoadTool : IMapEditorTool
 	private bool isStarted = false;
 
 	private GameObject nodePrefab;
-	private GameObject connectionPrefab;
 	private GameObject tempNode;
 
 	private GameObject tempRoad;
@@ -24,7 +23,6 @@ public class RoadTool : IMapEditorTool
 	{
 		this.mapController = mapController;
 		nodePrefab = Resources.Load("Node", typeof(GameObject)) as GameObject;
-		connectionPrefab = Resources.Load("Connection", typeof(GameObject)) as GameObject;
 		
 		this.ShowTemporaryNode();
 		tempRoad = new GameObject();
