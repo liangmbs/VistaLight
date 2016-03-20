@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
 public enum ShipStatus { 
 	Unloading,
@@ -24,10 +25,10 @@ public class ShipController : MonoBehaviour {
 	public ShipStatus status = ShipStatus.Blocked;
 
 	public GameObject ShipInfoPanel;
-	public TextMesh NameText;
-	public TextMesh PriorityText;
-	public TextMesh StatusText;
-	public TextMesh RemainingTime;
+	public Text NameText;
+	public Text PriorityText;
+	public Text StatusText;
+	public Text RemainingTime;
 	public GameObject CargoBar;
 
 	public ShipListEntryController ShipEntry;
@@ -89,9 +90,9 @@ public class ShipController : MonoBehaviour {
 			TimeSpan timeLeft = dueTime - currentTime;
 			RemainingTime.text = string.Format("{0} days {1}:{2}", timeLeft.Days, Math.Abs(timeLeft.Hours), Math.Abs(timeLeft.Minutes));
 			if (timeLeft > TimeSpan.Zero) {
-				CargoBar.GetComponent<SpriteRenderer> ().color = new Color ((float)0.13, (float)0.82, (float)0.29);
+				CargoBar.GetComponent<Image> ().color = new Color ((float)0.13, (float)0.82, (float)0.29);
 			} else {
-				CargoBar.GetComponent<SpriteRenderer> ().color = new Color ((float)0.82, (float)0.16, (float)0.067);
+				CargoBar.GetComponent<Image> ().color = new Color ((float)0.82, (float)0.16, (float)0.067);
 			}
 		} else {
 			ShipInfoPanel.SetActive (false);
@@ -106,8 +107,6 @@ public class ShipController : MonoBehaviour {
 
 		if (ray.collider == null) return;
 
-		Debug.Log (ray.collider);
-		Debug.Log (gameObject);
 		if (ray.collider == gameObject.GetComponent<PolygonCollider2D>()) {
 			ToggleHighLight ();
 		}
