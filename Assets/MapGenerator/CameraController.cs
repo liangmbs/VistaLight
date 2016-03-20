@@ -26,7 +26,8 @@ public class CameraController : MonoBehaviour {
 
 	void MoveWithMouseLeftButton() {
 		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		if ((Input.GetMouseButtonDown(0) && (ray.collider == null || ray.collider.tag == "Background")) || Input.GetMouseButtonDown(2) ) {
+
+		if ((Input.GetMouseButtonDown(0) && ray.collider != null && ray.collider.tag == "Background") || Input.GetMouseButtonDown(2) ) {
 			dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			dragging = true;
 			return;
