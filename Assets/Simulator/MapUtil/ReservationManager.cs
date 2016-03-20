@@ -9,7 +9,7 @@ public class ReservationManager : MonoBehaviour {
 		new Dictionary<Connection, List<Reservation>>();	
 	Dictionary<Dock, List<Reservation>> reservationOnDocks = 
 		new Dictionary<Dock, List<Reservation>>();
-	TimeSpan safetyTime = new TimeSpan(0, 30, 0);
+	TimeSpan safetyTime = new TimeSpan(0, 15, 0);
 
 	public void PostponeScheduleToResolveConflict(ShipSchedule schedule) {
 		bool conflict = hasConflict(schedule);

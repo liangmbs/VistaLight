@@ -21,7 +21,7 @@ public class ConnectionVO : MonoBehaviour {
 
 		gameObject.transform.position = (startPosition + endPosition) / 2.0f;
 		float distance = (Vector3.Distance(endPosition, startPosition));
-		gameObject.transform.localScale = new Vector3(distance, distance / 10, 0.01f);
+		gameObject.transform.localScale = new Vector3((float) (distance * 1.68), (float)(distance * 1.68 / 10), 0.01f);
 		
 		gameObject.transform.rotation = Quaternion.FromToRotation(new Vector3(1, 0, 0), startPosition - endPosition);
 
