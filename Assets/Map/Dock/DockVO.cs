@@ -1,14 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.UI;
 
 public class DockVO : MonoBehaviour, MapSelectableVO {
 
 	public Dock dock;
 
+	public GameObject dockInfoPanel;
+	public Text industryTypeText;
+
 	public Dock Dock { 
 		get { return dock; }
-		set { dock = value; }
+		set { 
+			dock = value; 
+			industryTypeText.text = string.Format("Industry Type: {0}", dock.type.ToString ());
+		}
 	}
 
 	// Use this for initialization
@@ -35,12 +42,7 @@ public class DockVO : MonoBehaviour, MapSelectableVO {
 			}
 		}
 
-		if (Input.GetMouseButtonDown(1)) {
-			RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-			if (ray.collider != null && ray.collider.gameObject == this.gameObject) {
-				// map.RemoveDock(this);
-			}
-		}
+		CheckClick ();
 	}
 
 
@@ -65,4 +67,27 @@ public class DockVO : MonoBehaviour, MapSelectableVO {
     {
         return null;
     }
+
+	private void CheckClick() {
+		if (GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ().AllowMapEditing) {
+			return;
+		}
+
+		if (!Input.GetMouseButtonDown (0)) {
+			return;
+		}
+
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
+		if (ray.collider == null) return;
+
+		if (ray.collider.gameObject == gameObject) {
+			if (dockInfoPanel.activeSelf) {
+				dockInfoPanel.SetActive (false);
+			} else {
+				dockInfoPanel.SetActive (true);
+			}
+		}
+
+	}
 }
