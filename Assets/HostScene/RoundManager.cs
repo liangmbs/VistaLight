@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 
@@ -15,6 +16,11 @@ public class RoundManager : MonoBehaviour {
 	public Timer timer;
 	public ShipListController shipListController;
 	public NetworkScheduler networkScheduler;
+
+	public Toggle burningToggle;
+	public Toggle dispersantToggle;
+	public Toggle skimmerToggle;
+	public OilSpillingAction oilCleaningAction;
 
 	public DateTime SimulationPhaseStartTime;
 	public TimeSpan DecisionInterval = new TimeSpan(12, 0, 0);
@@ -71,5 +77,16 @@ public class RoundManager : MonoBehaviour {
 
 	private void Submit() {
 		networkScheduler.RequestReschedule ();
+
+		if (burningToggle.isOn) {
+			burningToggle.isOn = false;
+			oilCleaningAction.Burn ();
+		} else if (dispersantToggle.isOn) {
+			dispersantToggle.isOn = false;
+			oilCleaningAction.Dispersant ();
+		} else if (skimmerToggle.isOn) {
+			skimmerToggle.isOn = false;
+			oilCleaningAction.Skimmers ();
+		}
 	}
 }

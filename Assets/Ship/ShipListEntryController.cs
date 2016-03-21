@@ -157,7 +157,7 @@ public class ShipListEntryController : MonoBehaviour {
 
 		RectTransform rectTransform = gameObject.GetComponent<RectTransform> ();
 		Vector2 sizeDelta = rectTransform.sizeDelta;
-		rectTransform.sizeDelta = new Vector2 (sizeDelta.x + 40, sizeDelta.y);
+		rectTransform.sizeDelta = new Vector2 (sizeDelta.x - 40, sizeDelta.y);
 
 		inDecisionMode = false;
 	}
