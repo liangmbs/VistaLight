@@ -12,6 +12,7 @@ public class ShipListEntryController : MonoBehaviour {
 
 	public Button greenButton;
 	public Button redButton;
+	public Button SignalButton;
 	public Text priority;
 	public Button priorityButton;
 	public InputField priorityInput;
@@ -107,20 +108,27 @@ public class ShipListEntryController : MonoBehaviour {
 	}
 
 	public void ToggleSignal() {
-		isGreenSignal = !isGreenSignal;
-		NetworkScheduler networkScheduler = GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>();
-		if (isGreenSignal) {
-			networkScheduler.MoveShipToPriorityQueue(shipController);
-			GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogRedGreenSignal (shipController.Ship, "green signal");
-		} else { 
-			networkScheduler.MoveShipToWaitList(shipController);
-			GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogRedGreenSignal (shipController.Ship, "red signal");
+		if (inDecisionMode) {
+			isGreenSignal = !isGreenSignal;
+			NetworkScheduler networkScheduler = GameObject.Find ("NetworkScheduler").GetComponent<NetworkScheduler> ();
+			if (isGreenSignal) {
+				networkScheduler.MoveShipToPriorityQueue (shipController);
+				GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogRedGreenSignal (shipController.Ship, "green signal");
+			} else { 
+				networkScheduler.MoveShipToWaitList (shipController);
+				GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogRedGreenSignal (shipController.Ship, "red signal");
+			}
+			shipListController.UpdateAllPriorityInput();
+		} else {
+			NotificationSystem notificationSystem = GameObject.Find ("NotificationSystem").GetComponent<NotificationSystem> ();
+			notificationSystem.Notify (NotificationType.Warning, "Signal to ship can only be set in decision phase");
 		}
 	}
 
 	public void ShowNewPriority() {
 		priorityInput.gameObject.SetActive (true);
 		priorityInput.text = (shipController.GetShipPriority() + 1).ToString();
+		priority.gameObject.transform.Translate(new Vector3(40, 0, 0));
 		status.gameObject.transform.Translate(new Vector3(40, 0, 0));
 		shipName.gameObject.transform.Translate(new Vector3(40, 0, 0));
 		type.gameObject.transform.Translate(new Vector3(40, 0, 0));
@@ -138,6 +146,7 @@ public class ShipListEntryController : MonoBehaviour {
 
 	public void HideNewPriority() {
 		priorityInput.gameObject.SetActive (false);
+		priority.gameObject.transform.Translate(new Vector3(-40, 0, 0));
 		status.gameObject.transform.Translate(new Vector3(-40, 0, 0));
 		shipName.gameObject.transform.Translate(new Vector3(-40, 0, 0));
 		type.gameObject.transform.Translate(new Vector3(-40, 0, 0));

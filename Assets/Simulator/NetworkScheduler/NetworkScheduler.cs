@@ -110,13 +110,13 @@ public class NetworkScheduler : MonoBehaviour {
 	public void MoveShipToWaitList(ShipController ship) {
 		priorityQueue.RemoveShip(ship);
 		waitList.EnqueueShip(ship);
-		RequestReschedule();
+		// RequestReschedule();
 	}
 
 	public void MoveShipToPriorityQueue(ShipController ship) { 
 		waitList.RemoveShip(ship);
 		priorityQueue.EnqueueShip(ship);
-		RequestReschedule();
+		// RequestReschedule();
 	}
 
 	public int PriorityQueueLength() {
