@@ -17,6 +17,11 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		Vector2 mouseInViewPort = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+		if (mouseInViewPort.x < 0 || mouseInViewPort.x > 1 || mouseInViewPort.y < 0 || mouseInViewPort.y > 1) {
+			return;
+		}
+
 		float mouseWheel = Input.GetAxis("Mouse ScrollWheel");
 		ZoomInAndOut(mouseWheel);
 
@@ -67,11 +72,6 @@ public class CameraController : MonoBehaviour {
 	}
 
 	void ZoomInAndOut(float mouseWheel) {
-		// If over gui, do not zoom
-		if (EventSystem.current.IsPointerOverGameObject()) {
-			return;
-		}
-
 		double scrollSpeed = 1;
 		double minCameraSize = 100;
 		double maxCameraSize = 50000;
