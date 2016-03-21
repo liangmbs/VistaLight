@@ -8,6 +8,7 @@ public class ShipListController : MonoBehaviour {
 	public List<ShipListEntryController> entries = new List<ShipListEntryController>();
 	public GameObject listHeader;
 	public GameObject headerOldPriority;
+	public RoundManager roundManager;
 
 	// Use this for initialization
 	void Start () {
@@ -31,6 +32,9 @@ public class ShipListController : MonoBehaviour {
 			rectTransform.sizeDelta.y + 30);
 
 		entries.Add (entryController);
+		if (roundManager.phase == GamePhase.Decision) {
+			entryController.ShowNewPriority ();
+		}
 
 		return entryGO;
 	}
