@@ -73,7 +73,7 @@ public class CameraController : MonoBehaviour {
 
 	void ZoomInAndOut(float mouseWheel) {
 		double scrollSpeed = 1;
-		double minCameraSize = 100;
+		double minCameraSize = 5000;
 		double maxCameraSize = 50000;
 
 		if (mouseWheel != 0) {
