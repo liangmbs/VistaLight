@@ -29,10 +29,12 @@ public class DockVO : MonoBehaviour, MapSelectableVO {
 				(float)dock.node.X,
 				(float)dock.node.Y,
 				-2);
+		/*
 		gameObject.transform.localScale = new Vector3(
 				(float)(Camera.main.orthographicSize / 10),
 				(float)(Camera.main.orthographicSize / 10),
 				(float)1);
+		*/
 
 		foreach (IndustryType type in Enum.GetValues(typeof(IndustryType))) {
 			if (type == dock.type) {

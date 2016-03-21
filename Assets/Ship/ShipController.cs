@@ -29,6 +29,7 @@ public class ShipController : MonoBehaviour {
 	public Text PriorityText;
 	public Text StatusText;
 	public Text RemainingTime;
+	public Text IndustryText;
 	public GameObject CargoBar;
 
 	public ShipListEntryController ShipEntry;
@@ -80,6 +81,7 @@ public class ShipController : MonoBehaviour {
 	public void UpdateStatusPanel() {
 		if (highLighted) {
 			ShipInfoPanel.SetActive (true);
+			IndustryText.text = ship.Industry.ToString () + " Ship";
 			NameText.text = ship.Name;
 			PriorityText.text = String.Format ("Pri: {0}", GetShipPriority () + 1);
 			StatusText.text = String.Format ("Sta: {0}", status.ToString());

@@ -4,7 +4,7 @@ using System;
 using SimpleJSON;
 
 public enum IndustryType {
-	Bulk, BreakBulk, Port, Petro
+	Bulk, BreakBulk, Cruise, Petro
 }
 
 public class IndustryColor {
@@ -14,7 +14,7 @@ public class IndustryColor {
 			return new Color((float)236.0/255, (float)220.0 /255, (float)0.0);
 		case IndustryType.BreakBulk:
 			return new Color((float)187.0/255, (float)20.0/255, (float)26.0/255);
-		case IndustryType.Port:
+		case IndustryType.Cruise:
 			return new Color(1, 1, 1);
 		case IndustryType.Petro:
 			return new Color((float)40.0 / 255, (float)37.0 / 255, (float)18.0 / 255);
