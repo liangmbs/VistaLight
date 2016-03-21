@@ -13,6 +13,8 @@ public class RoundManager : MonoBehaviour {
 	public GameObject SubmitButton;
 	public TimeWidgetController timeWidgetController;
 	public Timer timer;
+	public ShipListController shipListController;
+	public NetworkScheduler networkScheduler;
 
 	public DateTime SimulationPhaseStartTime;
 	public TimeSpan DecisionInterval = new TimeSpan(12, 0, 0);
@@ -44,6 +46,7 @@ public class RoundManager : MonoBehaviour {
 		timeWidgetController.PauseGame ();
 
 		SubmitButton.SetActive (true);
+		shipListController.ShowNewPriority ();
 
 		DecisionPhaseStartTime = DateTime.Now;
 		phase = GamePhase.Decision;
@@ -53,12 +56,20 @@ public class RoundManager : MonoBehaviour {
 		timeWidgetController.SetSpeedOne ();
 
 		SubmitButton.SetActive (false);
+		shipListController.HideNewPriority ();
 
 		SimulationPhaseStartTime = timer.VirtualTime;
 		phase = GamePhase.Simulation;
 	}
 
+
+
 	public void SubmitAndContinue() {
+		Submit ();
 		StartSimulationPhase ();
+	}
+
+	private void Submit() {
+		networkScheduler.RequestReschedule ();
 	}
 }
