@@ -16,6 +16,7 @@ public class RoundManager : MonoBehaviour {
 	public Timer timer;
 	public ShipListController shipListController;
 	public NetworkScheduler networkScheduler;
+	public VistaLightsLogger logger;
 
 	public Toggle burningToggle;
 	public Toggle dispersantToggle;
@@ -23,7 +24,7 @@ public class RoundManager : MonoBehaviour {
 	public OilSpillingAction oilCleaningAction;
 
 	public DateTime SimulationPhaseStartTime;
-	public TimeSpan DecisionInterval = new TimeSpan(12, 0, 0);
+	public TimeSpan DecisionInterval = new TimeSpan(6, 0, 0);
 
 	public DateTime DecisionPhaseStartTime;
 	public TimeSpan DecisionTimeLimit = new TimeSpan(0, 2, 0);
@@ -43,7 +44,7 @@ public class RoundManager : MonoBehaviour {
 		} else if(phase == GamePhase.Decision) {
 			DateTime currentDecisionTime = DateTime.Now;
 			if (currentDecisionTime >= DecisionPhaseStartTime + DecisionTimeLimit) {
-				StartSimulationPhase ();
+				SubmitAndContinue ();
 			}
 		}
 	}
@@ -56,6 +57,8 @@ public class RoundManager : MonoBehaviour {
 
 		DecisionPhaseStartTime = DateTime.Now;
 		phase = GamePhase.Decision;
+
+		logger.LogPhaseChange (GamePhase.Decision);
 	}
 
 	public void StartSimulationPhase() {
@@ -66,6 +69,8 @@ public class RoundManager : MonoBehaviour {
 
 		SimulationPhaseStartTime = timer.VirtualTime;
 		phase = GamePhase.Simulation;
+
+		logger.LogPhaseChange (GamePhase.Simulation);
 	}
 
 
@@ -88,5 +93,7 @@ public class RoundManager : MonoBehaviour {
 			skimmerToggle.isOn = false;
 			oilCleaningAction.Skimmers ();
 		}
+
+		logger.LogSubmitButton ();
 	}
 }

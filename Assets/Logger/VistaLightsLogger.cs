@@ -102,5 +102,17 @@ public class VistaLightsLogger : MonoBehaviour {
 		details ["signal"] = signal;
 		TheLogger.instance.TakeAction(1, details);
 	}
+
+	public void LogPhaseChange(GamePhase phase) {
+		JSONClass details = new JSONClass();
+		details ["phase"] = phase.ToString();
+		TheLogger.instance.TakeAction(1, details);
+	}
+
+	public void LogSubmitButton() {
+		JSONClass details = new JSONClass();
+		details ["submit"] = "submit";
+		TheLogger.instance.TakeAction(1, details);
+	}
 }
 
