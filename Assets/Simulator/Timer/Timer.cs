@@ -6,6 +6,8 @@ using SimpleJSON;
 public class Timer : MonoBehaviour {
 
 	public double speed;
+
+	public DateTime gameStartTime;
 	public DateTime virtualTime = new DateTime(2015, 10, 10, 10, 10, 10);
 
 	private TimeSpan timeElapsed = new TimeSpan(0, 0, 0);
@@ -13,6 +15,9 @@ public class Timer : MonoBehaviour {
 
 	private double previousTime;
 
+	void Awake() {
+		DontDestroyOnLoad(transform.gameObject);
+	}
 
 	// Use this for initialization
 	void Start () {

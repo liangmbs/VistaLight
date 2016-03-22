@@ -9,6 +9,7 @@ public class GameOverSceneStarter : MonoBehaviour {
 
 	public BudgetCounter budgetCounter;
 	public WelfareCounter welfareCounter;
+	public Timer timer;
 
 	public bool gameStarted = false;
 
@@ -36,6 +37,7 @@ public class GameOverSceneStarter : MonoBehaviour {
 	}
 
 	void LoadGameOverScene() {
+		timer.Speed = 0;
 		budgetCounter.freeze = true;
 		welfareCounter.freeze = true;
 
