@@ -16,7 +16,7 @@ public class WelfareVO : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		double welfare = WelfareCounter.Welfare;
-		double numHalfStars = welfare * 2;
+		double numHalfStars = welfare * 2 + 1;
 		for (int i = 1; i < 11; i++) {
 			if (i <= numHalfStars) {
 				stars[i - 1].gameObject.SetActive(true);

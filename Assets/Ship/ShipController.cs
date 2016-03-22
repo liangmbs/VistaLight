@@ -76,6 +76,7 @@ public class ShipController : MonoBehaviour {
 
 		CalculateCargoMaintainenceCost();
 		CalculateCargoOverDueCost();
+		CalculateCargoOverDueWelfareImpact ();
 	}
 
 	public void UpdateStatusPanel() {
@@ -134,6 +135,15 @@ public class ShipController : MonoBehaviour {
 		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
 		double moneyToSpend = ship.cargo * cargoMaintainenceCost * timer.TimeElapsed.TotalSeconds;
 		GameObject.Find("BudgetCounter").GetComponent<BudgetCounter>().SpendMoney(moneyToSpend);
+	}
+
+	private void CalculateCargoOverDueWelfareImpact() {
+		double cargoOverDueCost = 1e-9;
+		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
+		if (ship.Industry == IndustryType.Cruise && timer.VirtualTime >= ship.dueTime) {
+			double welfareImpact = ship.cargo * cargoOverDueCost * timer.TimeElapsed.TotalSeconds;
+			GameObject.Find ("WelfareCounter").GetComponent<WelfareCounter> ().ReduceWelfare (welfareImpact);
+		}
 	}
 
 	public DateTime GetUnloadlingEta() {

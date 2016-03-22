@@ -16,6 +16,7 @@ public class OilSpillingAction : MonoBehaviour {
 	public OilSpillingController OilSpillingController;
 	public MapController MapController;
 	public WelfareCounter WelfareCounter;
+	public BudgetCounter budgetCounter;
 
 	public OilSpillSolution solution = OilSpillSolution.None;
 
@@ -176,6 +177,8 @@ public class OilSpillingAction : MonoBehaviour {
 		StopTraffic();
 		solution = OilSpillSolution.Burn;
 
+		budgetCounter.SpendMoney (1000000);
+
 		SetCleaningSpeed ();
 
 		DisableAllToggles();
@@ -185,6 +188,8 @@ public class OilSpillingAction : MonoBehaviour {
 
 	public void Dispersant() {
 		solution = OilSpillSolution.Dispersant;
+
+		budgetCounter.SpendMoney (2000000);
 
 		SetCleaningSpeed ();
 
@@ -205,6 +210,7 @@ public class OilSpillingAction : MonoBehaviour {
 
 		solution = OilSpillSolution.Skimmers;
 		SetCleaningSpeed ();
+		budgetCounter.SpendMoney (3000000);
 
 		DisableAllToggles();
 

@@ -29,7 +29,14 @@ public class BudgetCounter : MonoBehaviour {
 		};
 		TimeSpan timeElapsed = timer.TimeElapsed;
 
-		moneyChange = (money - moneyOfLastCycle) / timeElapsed.TotalSeconds * 3600;
+		double newMoneyChange = (money - moneyOfLastCycle) / timeElapsed.TotalSeconds * 3600;
+		if (double.IsNaN (newMoneyChange)) {
+			newMoneyChange = 0;
+		}
+		double alpha = 3e-4;
+		for (int i = 0; i < timeElapsed.TotalSeconds; i++) {
+			moneyChange = (1 - alpha) * moneyChange + alpha * newMoneyChange;
+		}
 		moneyOfLastCycle = money;
 		
 	}

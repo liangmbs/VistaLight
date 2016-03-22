@@ -29,7 +29,7 @@ public class GameOverSceneStarter : MonoBehaviour {
 		} else {
 			if (priorityQueue.GetCount() == 0 && waitList.GetCount() == 0) {
 				LoadGameOverScene();
-			} else if (welfareCounter.Welfare <= 0) {
+			} else if (welfareCounter.Welfare < 1e-3) {
 				LoadGameOverScene();
 			}
 		}

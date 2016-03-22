@@ -18,7 +18,7 @@ public class GameOverSceneController : MonoBehaviour {
 		double money = GameObject.Find("BudgetCounter").GetComponent<BudgetCounter>().money;
 		double welfare = GameObject.Find("WelfareCounter").GetComponent<WelfareCounter>().Welfare;
 
-		if (welfare == 0) {
+		if (welfare < 1e-3) {
 			title.text = "You Lose.";
 		} else {
 			title.text = "You Win";

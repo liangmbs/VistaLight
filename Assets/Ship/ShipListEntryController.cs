@@ -14,7 +14,6 @@ public class ShipListEntryController : MonoBehaviour {
 	public Button redButton;
 	public Button SignalButton;
 	public Text priority;
-	public Button priorityButton;
 	public InputField priorityInput;
 	public Text shipName;
 	public Text type;
@@ -76,8 +75,6 @@ public class ShipListEntryController : MonoBehaviour {
 	public void UpdatePriority() {
 		
 		priority.gameObject.SetActive(true);
-		priorityButton.gameObject.SetActive(true);
-		// priorityInput.gameObject.SetActive(false);
 
 		int priorityValue = 0;
 		NetworkScheduler networkScheduler = GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>();

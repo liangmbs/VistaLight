@@ -17,7 +17,7 @@ public class WelfareCounter : MonoBehaviour {
 
 	public void AutoWelfareRecovery() {
 		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
-		double recoverRate = 0.00001;
+		double recoverRate = 1e-8;
 		double recoverAmount = timer.TimeElapsed.TotalSeconds * recoverRate;
 		GainWelfare(recoverAmount);
 	}
