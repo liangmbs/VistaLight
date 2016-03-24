@@ -8,7 +8,6 @@ public enum ShipStatus {
 	Entering,
 	Leaving,
 	Waiting,
-	Blocked,
 	NoRoute,
 	Scheduling,
 	RedSignal
@@ -22,7 +21,7 @@ public class ShipController : MonoBehaviour {
 
 	public GameObject shipGO;
 	public ShipVO shipVO;
-	public ShipStatus status = ShipStatus.Blocked;
+	public ShipStatus status = ShipStatus.Waiting;
 
 	public GameObject ShipInfoPanel;
 	public Text NameText;
@@ -231,44 +230,48 @@ public class ShipController : MonoBehaviour {
 		DateTime currentTime = timer.VirtualTime;
 		TimeSpan timeElapsed = timer.TimeElapsed;
 
-		double currentX = ship.X;
-		double currentY = ship.Y;
-		double targetX = task.Position.x;
-		double targetY = task.Position.y;
+		if (timeElapsed != TimeSpan.Zero) {
 
-		double distanceLeft = Math.Pow(Math.Pow(currentX - targetX, 2) + Math.Pow(currentY - targetY, 2), 0.5);
-		TimeSpan timeRemaining = task.EndTime.Subtract(currentTime); 
-		double speedRequired = distanceLeft / timeRemaining.TotalSeconds;
-		double distanceCanTravel = speedRequired * timeElapsed.TotalSeconds;
-		if (distanceCanTravel > distanceLeft) {
-			distanceCanTravel = distanceLeft;
+			double currentX = ship.X;
+			double currentY = ship.Y;
+			double targetX = task.Position.x;
+			double targetY = task.Position.y;
+
+			double distanceLeft = Math.Pow (Math.Pow (currentX - targetX, 2) + Math.Pow (currentY - targetY, 2), 0.5);
+			TimeSpan timeRemaining = task.EndTime.Subtract (currentTime); 
+			double speedRequired = distanceLeft / timeRemaining.TotalSeconds;
+			double distanceCanTravel = speedRequired * timeElapsed.TotalSeconds;
+			if (distanceCanTravel > distanceLeft) {
+				distanceCanTravel = distanceLeft;
+			}
+
+			Vector2 vectorToMove = new Vector2 ((float)(targetX - currentX), (float)(targetY - currentY));
+			vectorToMove = vectorToMove.normalized;
+			vectorToMove = new Vector2 ((float)(vectorToMove.x * distanceCanTravel), (float)(vectorToMove.y * distanceCanTravel));
+
+			double nextX = currentX + vectorToMove.x;
+			double nextY = currentY + vectorToMove.y;		
+
+			ship.X = nextX;
+			ship.Y = nextY;
+
+			// Update the heading of the ship
+			double turnSpeed = 0.1;
+			double targetHeading = Math.Atan2 (-vectorToMove.x, vectorToMove.y) / Math.PI * 180;
+			double angleDiff = targetHeading - heading;
+			if (angleDiff > 180) {
+				angleDiff -= 360;
+			} else if (angleDiff < -180) {
+				angleDiff += 360;
+			}
+			double angleCanTurn = timeElapsed.TotalSeconds * turnSpeed * Math.Sign (angleDiff);
+			if (Math.Abs (angleCanTurn) > Math.Abs (angleDiff)) {
+				angleCanTurn = angleDiff;
+			}
+			heading += angleCanTurn;
+			if (heading >= 360)
+				heading %= 360;
 		}
-
-		Vector2 vectorToMove = new Vector2((float)(targetX - currentX), (float)(targetY - currentY));
-		vectorToMove = vectorToMove.normalized;
-		vectorToMove = new Vector2((float)(vectorToMove.x * distanceCanTravel), (float)(vectorToMove.y * distanceCanTravel));
-
-		double nextX = currentX + vectorToMove.x;
-		double nextY = currentY + vectorToMove.y;		
-
-		ship.X = nextX;
-		ship.Y = nextY;
-
-		// Update the heading of the ship
-		double turnSpeed = 0.1;
-		double targetHeading = Math.Atan2(-vectorToMove.x, vectorToMove.y) / Math.PI * 180;
-		double angleDiff = targetHeading - heading;
-		if (angleDiff > 180) {
-			angleDiff -= 360;
-		} else if (angleDiff < -180) {
-			angleDiff += 360;
-		}
-		double angleCanTurn = timeElapsed.TotalSeconds * turnSpeed * Math.Sign(angleDiff);
-		if (Math.Abs(angleCanTurn) > Math.Abs(angleDiff)) {
-			angleCanTurn = angleDiff;
-		}
-		heading += angleCanTurn;
-		if (heading >= 360) heading %= 360;
 
 		if (ship.cargo == 0) {
 			this.status = ShipStatus.Leaving;

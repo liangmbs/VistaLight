@@ -17,6 +17,8 @@ public class RoundManager : MonoBehaviour {
 	public ShipListController shipListController;
 	public NetworkScheduler networkScheduler;
 	public VistaLightsLogger logger;
+	public RecommendationSystem recommendataionSystem;
+	public NotificationSystem notificationSystem;
 
 	public Toggle burningToggle;
 	public Toggle dispersantToggle;
@@ -36,6 +38,10 @@ public class RoundManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (networkScheduler.Scheduling){
+			return;
+		}
+
 		if (phase == GamePhase.Simulation) {
 			DateTime currentVirtualTime = timer.VirtualTime;
 			if (currentVirtualTime >= SimulationPhaseStartTime + DecisionInterval) {
@@ -44,13 +50,15 @@ public class RoundManager : MonoBehaviour {
 		} else if(phase == GamePhase.Decision) {
 			DateTime currentDecisionTime = DateTime.Now;
 			if (currentDecisionTime >= DecisionPhaseStartTime + DecisionTimeLimit) {
-				SubmitAndContinue ();
+				TimeUp ();
 			}
 		}
 	}
 
 	public void StartDecisionPhase() {
 		timeWidgetController.PauseGame ();
+
+		recommendataionSystem.EnableRecommendationButton ();
 
 		SubmitButton.SetActive (true);
 		shipListController.ShowNewPriority ();
@@ -64,6 +72,8 @@ public class RoundManager : MonoBehaviour {
 	public void StartSimulationPhase() {
 		timeWidgetController.SetSpeedOne ();
 
+		recommendataionSystem.DisableRecommendationButton ();
+
 		SubmitButton.SetActive (false);
 		shipListController.HideNewPriority ();
 
@@ -73,9 +83,21 @@ public class RoundManager : MonoBehaviour {
 		logger.LogPhaseChange (GamePhase.Simulation);
 	}
 
+	public void SubmitAndContinueButtonClickHandler() {
+		if (!recommendataionSystem.recommendationRequested ||
+			!recommendataionSystem.isAllRecommendationsProcessed()) {
+			notificationSystem.Notify (NotificationType.Warning, 
+				"Please request your recommendations and process them before submit.");
+			return;
+		}
+		SubmitAndContinue ();
+	}
+
 
 
 	public void SubmitAndContinue() {
+		recommendataionSystem.ClearRecommendation ();
+
 		Submit ();
 		StartSimulationPhase ();
 	}
@@ -95,5 +117,9 @@ public class RoundManager : MonoBehaviour {
 		}
 
 		logger.LogSubmitButton ();
+	}
+
+	private void TimeUp() {
+		SubmitAndContinue ();
 	}
 }

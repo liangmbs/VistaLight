@@ -27,9 +27,9 @@ public class NetworkScheduler : MonoBehaviour {
 		int numberSteps = 2 + priorityQueue.GetCount();
 		int stepsCompleted = 1;
 		UpdateProgress(stepsCompleted, numberSteps);
+		ShowSchedulingMask();
 		yield return null;
 
-		ShowSchedulingMask();
 		ClearAllSchedule();
 		yield return null;
 
@@ -45,9 +45,13 @@ public class NetworkScheduler : MonoBehaviour {
 			yield return null;
 		}
 
-		Scheduling = false;
+
 		timer.Speed = timerSpeed;
 		HideSchedulingMask();
+
+		yield return null;
+		yield return null;
+		Scheduling = false;
 	}
 
 	private void ShowSchedulingMask() {
