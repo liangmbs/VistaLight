@@ -51,7 +51,7 @@ public class MapController : MonoBehaviour {
 		GameObject nodeGO = Instantiate(nodePrefab, Vector3.zero, Quaternion.identity) as GameObject;
 		nodeGO.GetComponent<NodeVO>().node = node;
 		nodeGO.transform.parent = GameObject.Find("Map").transform;
-
+		nodeGO.name = "Node" + node.Id.ToString ();
 		return nodeGO;
 	}
 
@@ -66,8 +66,6 @@ public class MapController : MonoBehaviour {
 
 		connection.StartNode.AddConnection(connection);
 		connection.EndNode.AddConnection(connection);
-
-		
 		
 		return connectionGO;
 	}
@@ -92,6 +90,7 @@ public class MapController : MonoBehaviour {
 				Quaternion.identity) as GameObject;
 		dockObject.GetComponent<DockVO>().Dock = dock;
 		dockObject.transform.parent = GameObject.Find("Map").transform;
+		dockObject.name = "dock" + dock.id.ToString ();
 		return dockObject;
 	}
 

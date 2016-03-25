@@ -8,6 +8,10 @@ public class Map {
 
 	private string mapName = "map";
 	private DateTime startTime = new DateTime(2016, 1, 1, 12, 0, 0);
+	private DateTime endTime = new DateTime (2016, 1, 4, 12, 0, 0);
+	private double targetBudget = 0;
+	private double targetWelfare = 0;
+
 	public static readonly string DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
 
 	public List<Node> nodes = new List<Node>();
@@ -24,6 +28,21 @@ public class Map {
 	public DateTime StartTime {
 		get { return startTime; }
 		set { startTime = value; }
+	}
+
+	public DateTime EndTime {
+		get { return endTime; }
+		set { endTime = value; }
+	}
+
+	public double TargetBudget {
+		get { return targetBudget; }
+		set { targetBudget = value; }
+	}
+
+	public double TargetWelfare {
+		get { return targetWelfare; }
+		set { targetWelfare = value; }
 	}
 
 	public void AddNode(Node node){

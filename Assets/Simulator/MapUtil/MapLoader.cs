@@ -5,11 +5,12 @@ public class MapLoader : MonoBehaviour {
 
 	public Timer timer;
 	public TimeWidgetController timeWidgetController;
+	public string mapName = "houston_game_1";
 
 	// Use this for initialization
 	void Start () {
 		// Load map
-		string path = Application.dataPath + "/maps/Houston-easy.vlmap";
+		string path = Application.dataPath + "/maps/" + mapName + ".vlmap";
         MapController mapController = GameObject.Find("Map").GetComponent<MapController>();
 		MapSerializer mapSerializer = new MapSerializer();
 		Map map = mapSerializer.LoadMap(path);

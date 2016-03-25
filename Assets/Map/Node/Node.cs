@@ -20,6 +20,7 @@ public class Node
 	private double x, y;
 	private bool anchor;
 	private bool exit;
+
 	[NonSerialized]
 	public List<Connection> connections = new List<Connection>();
 
