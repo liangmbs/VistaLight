@@ -33,7 +33,7 @@ public class RecommendationController : MonoBehaviour {
 	}
 
 	public void PerformeRecommendation() {
-		
+		recommendation.ship.ShipEntry.priorityInput.text = recommendation.desiredPriority.ToString();
 	}
 
 	public void Deny() {
