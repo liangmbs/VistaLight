@@ -30,5 +30,9 @@ public class PriorityQueue : MonoBehaviour {
 	public ShipController GetShipWithPriority(int priority) {
 		return queue[priority];
 	}
+
+	public void Clear() {
+		queue.Clear ();
+	}
 	
 }

@@ -83,6 +83,7 @@ public class ShipListController : MonoBehaviour {
 
 	public void HideNewPriority() {
 		foreach (ShipListEntryController entry in entries) {
+			entry.UpdatePriority ();
 			entry.HideNewPriority();
 		}
 

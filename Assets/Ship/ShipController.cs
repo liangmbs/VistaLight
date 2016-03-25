@@ -285,8 +285,10 @@ public class ShipController : MonoBehaviour {
 		highLighted = !highLighted;
 		if (highLighted) {
 			ShipEntry.shipName.fontStyle = FontStyle.Bold;
+			ShipEntry.background.color = new Color ((float)0.086, (float)0.513, (float)0.780);
 		} else {
 			ShipEntry.shipName.fontStyle = FontStyle.Normal;
+			ShipEntry.background.color = new Color ((float)0.141, (float)0.216, (float)0.305);
 		}
 	}
 }

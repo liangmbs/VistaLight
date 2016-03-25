@@ -13,6 +13,7 @@ public class ShipListEntryController : MonoBehaviour {
 	public Button greenButton;
 	public Button redButton;
 	public Button SignalButton;
+	public Button highlightButton;
 	public Text priority;
 	public InputField priorityInput;
 	public Text shipName;
@@ -22,6 +23,7 @@ public class ShipListEntryController : MonoBehaviour {
 	public Text dueTime;
 	public Text eta;
 	public Text status;
+	public Image background;
 
 	public bool inDecisionMode = false;
 	public bool isGreenSignal = true;
@@ -35,6 +37,7 @@ public class ShipListEntryController : MonoBehaviour {
 	void Update () {
 		if (shipController == null) return;
 
+		/*
 		if (isGreenSignal) {
 			greenButton.gameObject.SetActive(true);
 			redButton.gameObject.SetActive(false);
@@ -42,10 +45,12 @@ public class ShipListEntryController : MonoBehaviour {
 			greenButton.gameObject.SetActive(false);
 			redButton.gameObject.SetActive(true);
 		}
+		*/
 
 		Ship ship = shipController.Ship;
 
 		int priorityValue = shipController.GetShipPriority() + 1;
+
 		if (!inDecisionMode) {
 			priority.text = priorityValue.ToString ();
 		}
@@ -85,7 +90,7 @@ public class ShipListEntryController : MonoBehaviour {
 		}
 		networkScheduler.ChangeShipPriority(shipController, priorityValue);
 
-		shipListController.UpdateAllPriorityInput();
+		//shipListController.UpdateAllPriorityInput();
 	}
 
 	public void HighlightShip() {
@@ -124,7 +129,8 @@ public class ShipListEntryController : MonoBehaviour {
 
 	public void ShowNewPriority() {
 		priorityInput.gameObject.SetActive (true);
-		priorityInput.text = (shipController.GetShipPriority() + 1).ToString();
+		priorityInput.text = "";
+
 		priority.gameObject.transform.Translate(new Vector3(40, 0, 0));
 		status.gameObject.transform.Translate(new Vector3(40, 0, 0));
 		shipName.gameObject.transform.Translate(new Vector3(40, 0, 0));
