@@ -14,11 +14,19 @@ public class DecisionProgressBar : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		DateTime currentTime = DateTime.Now;
-		DateTime decisionStartTime = roundManager.DecisionPhaseStartTime;
-		TimeSpan decisionTimeLimit = roundManager.DecisionTimeLimit;
+		double percentage = 0;
+		if (roundManager.phase == GamePhase.Decision) {
+			DateTime currentTime = DateTime.Now;
+			DateTime decisionStartTime = roundManager.DecisionPhaseStartTime;
+			TimeSpan decisionTimeLimit = roundManager.DecisionTimeLimit;
 
-		double percentage = (currentTime - decisionStartTime).TotalSeconds / decisionTimeLimit.TotalSeconds;
+			percentage = (currentTime - decisionStartTime).TotalSeconds / decisionTimeLimit.TotalSeconds;
+			if (percentage > 100) {
+				percentage = 100;
+			} else if (percentage < 0) {
+				percentage = 0;
+			}
+		}
 
 		gameObject.transform.localScale = new Vector3((float)percentage, 1, 1);
 

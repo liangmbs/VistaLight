@@ -32,9 +32,11 @@ public class ShipListController : MonoBehaviour {
 			rectTransform.sizeDelta.y + 30);
 
 		entries.Add (entryController);
+		/*
 		if (roundManager.phase == GamePhase.Decision) {
 			entryController.ShowNewPriority ();
 		}
+		*/
 
 		return entryGO;
 	}
@@ -97,17 +99,19 @@ public class ShipListController : MonoBehaviour {
 
 	void HideOldPriorityInHeader ()
 	{
-		headerOldPriority.SetActive (false);
-		listHeader.transform.Find ("Status").Translate (new Vector3 (-40, 0, 0));
-		listHeader.transform.Find ("Name").Translate (new Vector3 (-40, 0, 0));
-		listHeader.transform.Find ("Type").Translate (new Vector3 (-40, 0, 0));
-		listHeader.transform.Find ("Amount").Translate (new Vector3 (-40, 0, 0));
-		listHeader.transform.Find ("Unit Value").Translate (new Vector3 (-40, 0, 0));
-		listHeader.transform.Find ("Due Time").Translate (new Vector3 (-40, 0, 0));
-		listHeader.transform.Find ("ETA").Translate (new Vector3 (-40, 0, 0));
-		RectTransform rectTransform = listHeader.GetComponent<RectTransform> ();
-		Vector2 sizeDelta = rectTransform.sizeDelta;
-		rectTransform.sizeDelta = new Vector2 (sizeDelta.x - 40, sizeDelta.y);
+		if (headerOldPriority.activeSelf) {
+			headerOldPriority.SetActive (false);
+			listHeader.transform.Find ("Status").Translate (new Vector3 (-40, 0, 0));
+			listHeader.transform.Find ("Name").Translate (new Vector3 (-40, 0, 0));
+			listHeader.transform.Find ("Type").Translate (new Vector3 (-40, 0, 0));
+			listHeader.transform.Find ("Amount").Translate (new Vector3 (-40, 0, 0));
+			listHeader.transform.Find ("Unit Value").Translate (new Vector3 (-40, 0, 0));
+			listHeader.transform.Find ("Due Time").Translate (new Vector3 (-40, 0, 0));
+			listHeader.transform.Find ("ETA").Translate (new Vector3 (-40, 0, 0));
+			RectTransform rectTransform = listHeader.GetComponent<RectTransform> ();
+			Vector2 sizeDelta = rectTransform.sizeDelta;
+			rectTransform.sizeDelta = new Vector2 (sizeDelta.x - 40, sizeDelta.y);
+		}
 	}
 
 	public void UpdateAllPriorityInput() {

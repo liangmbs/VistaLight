@@ -6,7 +6,11 @@ using System;
 public class MapEventProcessor : MonoBehaviour {
 
 	public List<MapEvent> MapEvents { 
-		get { return mapController.Map.mapEvents; }
+		get { 
+			if (mapController == null || mapController.Map == null) {
+				return new List<MapEvent> ();
+			}
+			return mapController.Map.mapEvents; }
 	}
 
 	public MapController mapController;

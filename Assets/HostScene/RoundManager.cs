@@ -19,6 +19,10 @@ public class RoundManager : MonoBehaviour {
 	public VistaLightsLogger logger;
 	public RecommendationSystem recommendataionSystem;
 	public NotificationSystem notificationSystem;
+	public MapLoader mapLoader;
+	public MapController mapController;
+	public IntroductionWindowController introductionWindowController;
+
 
 	public Toggle burningToggle;
 	public Toggle dispersantToggle;
@@ -33,7 +37,21 @@ public class RoundManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		SimulationPhaseStartTime = timer.VirtualTime;
+		mapLoader.LoadMap ();
+		StartSimulationPhase ();
+		ShowIntroductionWindow ();
+	}
+
+	private void ShowIntroductionWindow() {
+		introductionWindowController.gameObject.SetActive (true);
+		introductionWindowController.UpdateText ();
+		timeWidgetController.PauseGame ();
+	}
+
+	public void CloseIntroductionWindow() {
+		introductionWindowController.gameObject.SetActive (false);
+
+		StartSimulationPhase ();
 	}
 	
 	// Update is called once per frame

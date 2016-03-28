@@ -69,11 +69,6 @@ public class TimeWidgetController : MonoBehaviour {
 	}
 
 	public void SetSpeedTwo() {
-		if (roundManager.phase == GamePhase.Decision) {
-			notificationSystem.Notify (NotificationType.Warning, 
-				"Please use the \"Submit and Continue\" button to submit your decision and enter simulation phase");
-			return;
-		}
 		SetGameSpeed (400);
 		SelectButton (Speed2ButtonImage);
 		PauseRedBorder.SetActive (false);
@@ -89,11 +84,6 @@ public class TimeWidgetController : MonoBehaviour {
 	}
 
 	public void SetSpeedThree() {
-		if (roundManager.phase == GamePhase.Decision) {
-			notificationSystem.Notify (NotificationType.Warning, 
-				"Please use the \"Submit and Continue\" button to submit your decision and enter simulation phase");
-			return;
-		}
 		SetGameSpeed (1500);
 		SelectButton (Speed3ButtonImage);
 		PauseRedBorder.SetActive (false);

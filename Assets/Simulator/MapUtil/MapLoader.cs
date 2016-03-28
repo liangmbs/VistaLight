@@ -7,8 +7,7 @@ public class MapLoader : MonoBehaviour {
 	public TimeWidgetController timeWidgetController;
 	public string mapName = "houston_game_1";
 
-	// Use this for initialization
-	void Start () {
+	public void LoadMap () {
 		// Load map
 		string path = Application.dataPath + "/maps/" + mapName + ".vlmap";
         MapController mapController = GameObject.Find("Map").GetComponent<MapController>();
@@ -16,11 +15,11 @@ public class MapLoader : MonoBehaviour {
 		Map map = mapSerializer.LoadMap(path);
 		mapController.RegenerateMap(map);
 
-		timer.virtualTime = map.StartTime;
+		timer.VirtualTime = map.StartTime;
 		timer.gameStartTime = map.StartTime;
-		GameObject.Find ("RoundManager").GetComponent<RoundManager> ().SimulationPhaseStartTime = map.StartTime;
 
-		timeWidgetController.SetSpeedOne();
+		// GameObject.Find ("RoundManager").GetComponent<RoundManager> ().SimulationPhaseStartTime = map.StartTime;
+		// timeWidgetController.SetSpeedOne();
 	}
 	
 	// Update is called once per frame

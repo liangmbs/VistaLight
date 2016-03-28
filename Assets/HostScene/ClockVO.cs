@@ -9,8 +9,6 @@ public class ClockVO : MonoBehaviour {
 	public Image HourHand;
 	public Image MinuteHand;
 
-	public RoundManager roundManager;
-
 	// Use this for initialization
 	void Start () {
 

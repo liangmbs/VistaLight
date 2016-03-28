@@ -13,7 +13,7 @@ public class TimeLabelVO : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		string labelText = timer.virtualTime.ToString("HH:mm\nMM/dd/yyyy");
+		string labelText = timer.VirtualTime.ToString("HH:mm\nMM/dd/yyyy");
 		gameObject.GetComponent<Text>().text = labelText;
 	}
 }

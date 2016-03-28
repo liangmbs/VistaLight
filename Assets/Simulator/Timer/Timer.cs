@@ -8,15 +8,20 @@ public class Timer : MonoBehaviour {
 	public double speed;
 
 	public DateTime gameStartTime;
-	public DateTime virtualTime = new DateTime(2015, 10, 10, 10, 10, 10);
+	private DateTime virtualTime = new DateTime(2015, 10, 10, 10, 10, 10);
 
 	private TimeSpan timeElapsed = new TimeSpan(0, 0, 0);
-	private Vector3 position;
 
 	private double previousTime;
 
 	void Awake() {
 		DontDestroyOnLoad(transform.gameObject);
+		Application.logMessageReceived += handleUnityLog;
+	}
+
+	private void handleUnityLog(string logString, string stackTrace, LogType type) {
+		Debug.LogError (logString);
+		Debug.LogError (stackTrace);
 	}
 
 	// Use this for initialization
@@ -37,6 +42,7 @@ public class Timer : MonoBehaviour {
 
 	public DateTime VirtualTime {
 		get { return virtualTime; }
+		set { virtualTime = value; }
 	}
 
 	public TimeSpan TimeElapsed {

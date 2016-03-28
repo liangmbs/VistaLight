@@ -104,11 +104,8 @@ public class NetworkScheduler : MonoBehaviour {
 		if (rescheduleRequested) {
 			Scheduling = true;
 			StartCoroutine(Schedule());
-			// Schedule();
 			rescheduleRequested = false;
 		}
-
-		
 	}
 
 	public void MoveShipToWaitList(ShipController ship) {

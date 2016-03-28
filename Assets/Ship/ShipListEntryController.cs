@@ -148,19 +148,21 @@ public class ShipListEntryController : MonoBehaviour {
 	}
 
 	public void HideNewPriority() {
-		priorityInput.gameObject.SetActive (false);
-		priority.gameObject.transform.Translate(new Vector3(-40, 0, 0));
-		status.gameObject.transform.Translate(new Vector3(-40, 0, 0));
-		shipName.gameObject.transform.Translate(new Vector3(-40, 0, 0));
-		type.gameObject.transform.Translate(new Vector3(-40, 0, 0));
-		amount.gameObject.transform.Translate(new Vector3(-40, 0, 0));
-		value.gameObject.transform.Translate(new Vector3(-40, 0, 0));
-		dueTime.gameObject.transform.Translate(new Vector3(-40, 0, 0));
-		eta.gameObject.transform.Translate(new Vector3(-40, 0, 0));
+		if (priorityInput.gameObject.activeSelf) {
+			priorityInput.gameObject.SetActive (false);
+			priority.gameObject.transform.Translate (new Vector3 (-40, 0, 0));
+			status.gameObject.transform.Translate (new Vector3 (-40, 0, 0));
+			shipName.gameObject.transform.Translate (new Vector3 (-40, 0, 0));
+			type.gameObject.transform.Translate (new Vector3 (-40, 0, 0));
+			amount.gameObject.transform.Translate (new Vector3 (-40, 0, 0));
+			value.gameObject.transform.Translate (new Vector3 (-40, 0, 0));
+			dueTime.gameObject.transform.Translate (new Vector3 (-40, 0, 0));
+			eta.gameObject.transform.Translate (new Vector3 (-40, 0, 0));
 
-		RectTransform rectTransform = gameObject.GetComponent<RectTransform> ();
-		Vector2 sizeDelta = rectTransform.sizeDelta;
-		rectTransform.sizeDelta = new Vector2 (sizeDelta.x - 40, sizeDelta.y);
+			RectTransform rectTransform = gameObject.GetComponent<RectTransform> ();
+			Vector2 sizeDelta = rectTransform.sizeDelta;
+			rectTransform.sizeDelta = new Vector2 (sizeDelta.x - 40, sizeDelta.y);
+		}
 
 		inDecisionMode = false;
 	}

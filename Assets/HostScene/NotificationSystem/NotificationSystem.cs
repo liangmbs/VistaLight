@@ -72,7 +72,7 @@ public class NotificationSystem : MonoBehaviour {
 
 	public void Notify(NotificationType type, string content) {
 		Notification notification = new Notification ();
-		notification.time = timer.virtualTime;
+		notification.time = timer.VirtualTime;
 		notification.content = content;
 		notification.type = type;
 
