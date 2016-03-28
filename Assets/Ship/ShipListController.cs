@@ -89,9 +89,11 @@ public class ShipListController : MonoBehaviour {
 			entry.HideNewPriority();
 		}
 
-		RectTransform rectTransform = gameObject.GetComponent<RectTransform> ();
-		Vector2 sizeDelta = rectTransform.sizeDelta;
-		rectTransform.sizeDelta = new Vector2 (sizeDelta.x - 40, sizeDelta.y);
+		if (headerOldPriority.activeSelf) {
+			RectTransform rectTransform = gameObject.GetComponent<RectTransform> ();
+			Vector2 sizeDelta = rectTransform.sizeDelta;
+			rectTransform.sizeDelta = new Vector2 (sizeDelta.x - 40, sizeDelta.y);
+		}
 
 		HideOldPriorityInHeader ();
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
@@ -10,8 +11,8 @@ public class GameOverSceneStarter : MonoBehaviour {
 	public BudgetCounter budgetCounter;
 	public WelfareCounter welfareCounter;
 	public Timer timer;
-
-	public bool gameStarted = false;
+	public MapController mapController;
+	public MapEventProcessor mapEventProcessor;
 
 	public VistaLightsLogger logger;
 
@@ -23,17 +24,19 @@ public class GameOverSceneStarter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!gameStarted) {
-			if (priorityQueue.GetCount() != 0 || waitList.GetCount() != 0) {
-				gameStarted = true;
-			}
-		} else {
-			if (priorityQueue.GetCount() == 0 && waitList.GetCount() == 0) {
-				LoadGameOverScene();
-			} else if (welfareCounter.Welfare < 1e-3) {
-				LoadGameOverScene();
-			}
+		bool shouldGameEnd = false;
+		if (IsEndTimeReached ()) {
+			shouldGameEnd = true;
+		} else if (IsAllEventProcessed ()) {
+			shouldGameEnd = true;
+		} else if (IsWelfareZero ()) {
+			shouldGameEnd = true;
 		}
+
+		if (shouldGameEnd) {
+			LoadGameOverScene ();
+		}
+
 	}
 
 	void LoadGameOverScene() {
@@ -45,4 +48,24 @@ public class GameOverSceneStarter : MonoBehaviour {
 
 		SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
     }
+
+	private bool IsEndTimeReached() {
+		DateTime currentTime = timer.VirtualTime;
+		DateTime gameEndTime = mapController.Map.EndTime;
+		return currentTime >= gameEndTime;
+	}
+
+	private bool IsAllEventProcessed() {
+		// FIXME(Yifan): Check if oil is cleaned here
+		if (mapEventProcessor.MapEvents.Count == 0 && 
+			priorityQueue.GetCount () == 0 && 
+			waitList.GetCount () == 0) {
+			return true;
+		} 
+		return false;
+	}
+
+	private bool IsWelfareZero() {
+		return Math.Abs (welfareCounter.Welfare) < 1e-3;
+	}
 }

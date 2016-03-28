@@ -10,7 +10,7 @@ public class ShipScheduler {
 		set { ship = value; }
 	}
 
-	private List<Path> paths = new List<Path>();
+	private List<ShipPath> paths = new List<ShipPath>();
 	private List<ShipSchedule> schedules = new List<ShipSchedule>();
 	
 
@@ -52,12 +52,12 @@ public class ShipScheduler {
 	}
 
 	private void PathsToSchedules() {
-		foreach (Path path in paths) {
+		foreach (ShipPath path in paths) {
 			schedules.Add(PathToSchedule(path));
 		}
 	}
 
-	private ShipSchedule PathToSchedule(Path path) {
+	private ShipSchedule PathToSchedule(ShipPath path) {
 		double defaultShipSpeed = GameObject.Find("SceneSetting").GetComponent<SceneSetting>().shipSpeed;
 		double shipSpeed = defaultShipSpeed;
 		ShipSchedule schedule = new ShipSchedule();
@@ -137,7 +137,7 @@ public class ShipScheduler {
 		List<Node> exitNodes = mapUtil.ExitNodes();
 
 		foreach (Node exitNode in exitNodes) {
-			List<Path> pathsToExit = mapUtil.FindPath(startNode, exitNode);
+			List<ShipPath> pathsToExit = mapUtil.FindPath(startNode, exitNode);
 			paths.AddRange(pathsToExit);
 		}
 	}
@@ -153,8 +153,8 @@ public class ShipScheduler {
 		}
 
 		foreach (Dock dock in docksToUnload) {
-			List<Path> pathsToDock;
-			List<Path> pathsToExit;
+			List<ShipPath> pathsToDock;
+			List<ShipPath> pathsToExit;
 
 			pathsToDock = mapUtil.FindPath(startNode, dock.node);
 			if (pathsToDock.Count == 0) {
@@ -163,12 +163,12 @@ public class ShipScheduler {
 			foreach (Node exitNode in exitNodes) {
 				pathsToExit = mapUtil.FindPath(dock.node, exitNode);
 				if (pathsToExit.Count == 0) {
-					foreach (Path pathToDock in pathsToDock) {
+					foreach (ShipPath pathToDock in pathsToDock) {
 						paths.Add(pathToDock);	
 					}
 				}
-				foreach (Path pathToDock in pathsToDock) {
-					foreach (Path pathToExit in pathsToExit) {
+				foreach (ShipPath pathToDock in pathsToDock) {
+					foreach (ShipPath pathToExit in pathsToExit) {
 						paths.Add(pathToDock.ConcatenatePath(pathToExit));
 					}
 				}

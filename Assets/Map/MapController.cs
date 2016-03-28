@@ -18,7 +18,15 @@ public class MapController : MonoBehaviour {
 	private int nextNodeId = 1;
 	private int nextDockId = 1;
 
-	
+	void OnLevelWasLoaded(int level) {
+		foreach (Transform child in transform) {
+			GameObject.Destroy(child.gameObject);
+		}
+	}
+
+	void Awake() {
+		DontDestroyOnLoad(transform.gameObject);
+	}	
 
 	public Map Map { 
 		get { return map; }

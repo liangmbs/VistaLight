@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Path {
+public class ShipPath {
 	public List<Node> path = new List<Node>();
 
 	public bool IsNodeOnPath(Node node) {
@@ -17,8 +17,8 @@ public class Path {
 		path.Insert(0, node);
 	}
 
-	public Path ConcatenatePath(Path path) {
-		Path newPath = new Path();
+	public ShipPath ConcatenatePath(ShipPath path) {
+		ShipPath newPath = new ShipPath();
 		foreach (Node node in this.path) {
 			newPath.AppendNode(node);
 		}
