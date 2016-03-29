@@ -8,10 +8,22 @@ public class SceneSetting : MonoBehaviour {
 	public bool AllowMapEditing;
 
 	// The cargo to unload per second. The same for all industries
-	public double unloadingSpeed = 1;
+	public double UnloadingSpeed = 1;
 
 	// The ship speed. We assume that all ship travels at the same speed 
 	// in the map.
-	public double shipSpeed = 3.0;
+	public double ShipSpeed = 3.0;
 
+	// The map to load
+	public string MapName = "";
+
+	// Whether or not give recommendation
+	public bool GiveRecommendation = false;
+
+	// Show the reason why the recommendation is given
+	public bool RecommendWithJustification = false;
+
+	void Awake() {
+		DontDestroyOnLoad(transform.gameObject);
+	}
 }

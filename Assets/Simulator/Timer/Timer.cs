@@ -16,12 +16,6 @@ public class Timer : MonoBehaviour {
 
 	void Awake() {
 		DontDestroyOnLoad(transform.gameObject);
-		Application.logMessageReceived += handleUnityLog;
-	}
-
-	private void handleUnityLog(string logString, string stackTrace, LogType type) {
-		Debug.LogError (logString);
-		Debug.LogError (stackTrace);
 	}
 
 	// Use this for initialization

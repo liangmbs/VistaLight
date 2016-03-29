@@ -12,6 +12,7 @@ public class RecommendationSystem : MonoBehaviour {
 
 	public bool recommendationRequested = false;
 	private int recommendationProvided = 0;
+	private bool showJustifiction = false;
 	private List<ShipController> shipRecommended = new List<ShipController> ();
 
 	public PriorityQueue priorityQueue;
@@ -19,7 +20,8 @@ public class RecommendationSystem : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		SceneSetting sceneSetting = GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ();
+		showJustifiction = sceneSetting.RecommendWithJustification;
 	}
 	
 	// Update is called once per frame
@@ -30,7 +32,13 @@ public class RecommendationSystem : MonoBehaviour {
 	public void RequestRecommendation() {
 		recommendationRequested = true;
 
-		Recommend ();
+		bool giveRecommendation = false;
+		SceneSetting sceneSetting = GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ();
+		giveRecommendation = sceneSetting.GiveRecommendation;
+
+		if (giveRecommendation) {
+			Recommend ();
+		}
 
 		ShowRecommendations ();
 	}
@@ -108,7 +116,9 @@ public class RecommendationSystem : MonoBehaviour {
 			Recommendation recommendation = new Recommendation ();
 			recommendation.ship = shipToRecommend;
 			recommendation.desiredPriority = 1;
-			recommendation.justification = "Because cruise ship overdue harms overall welfare.";
+			if (showJustifiction) {
+				recommendation.justification = "Because cruise ship overdue harms overall welfare.";
+			}
 
 			ProvideRecommendation (recommendation);
 		}
@@ -135,12 +145,14 @@ public class RecommendationSystem : MonoBehaviour {
 			recommendation.ship = shipToRecommend;
 			recommendation.desiredPriority = 2;
 
-			if (maxOverdueTime >= TimeSpan.Zero) {
-				recommendation.justification = 
+			if (showJustifiction) {
+				if (maxOverdueTime >= TimeSpan.Zero) {
+					recommendation.justification = 
 					"Because it is overdue, and overdue ship will have significant economic penalty.";
-			} else {
-				recommendation.justification = 
+				} else {
+					recommendation.justification = 
 					"Because it will overdue soon, and overdue ship will have significant economic penalty.";
+				}
 			}
 
 			ProvideRecommendation (recommendation);
@@ -166,7 +178,9 @@ public class RecommendationSystem : MonoBehaviour {
 				Recommendation recommendation = new Recommendation ();
 				recommendation.ship = shipToRecommend;
 				recommendation.desiredPriority = 3;
-				recommendation.justification = "Because this ship has very high cargo value.";
+				if (showJustifiction) {
+					recommendation.justification = "Because this ship has very high cargo value.";
+				}
 
 				ProvideRecommendation (recommendation);
 			} else {

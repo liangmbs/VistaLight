@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameOverSceneController : MonoBehaviour {
 
@@ -98,6 +99,13 @@ public class GameOverSceneController : MonoBehaviour {
 		}
 
 		return true;
+	}
+
+	public void BackButtonClickHandler() {
+		foreach (GameObject o in GameObject.FindObjectsOfType<GameObject>()) {
+			Destroy(o);
+		}
+		SceneManager.LoadScene("TargetSelection", LoadSceneMode.Single);
 	}
 
 

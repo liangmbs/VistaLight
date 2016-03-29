@@ -102,11 +102,13 @@ public class RoundManager : MonoBehaviour {
 	}
 
 	public void SubmitAndContinueButtonClickHandler() {
-		if (!recommendataionSystem.recommendationRequested ||
-			!recommendataionSystem.isAllRecommendationsProcessed()) {
-			notificationSystem.Notify (NotificationType.Warning, 
-				"Please request your recommendations and process them before submit.");
-			return;
+		if (GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ().GiveRecommendation) {
+			if (!recommendataionSystem.recommendationRequested ||
+			   !recommendataionSystem.isAllRecommendationsProcessed ()) {
+				notificationSystem.Notify (NotificationType.Warning, 
+					"Please request your recommendations and process them before submit.");
+				return;
+			}
 		}
 		SubmitAndContinue ();
 	}
