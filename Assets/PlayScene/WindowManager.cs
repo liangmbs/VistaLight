@@ -22,6 +22,8 @@ public class WindowManager: MonoBehaviour {
 
 	public void Start() {
 
+		Screen.SetResolution (1280, 720, false);
+
 		UpdateCameraSize ();
 		UpdateNotificationPanelSize ();
 
