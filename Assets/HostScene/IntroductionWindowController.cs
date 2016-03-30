@@ -34,7 +34,7 @@ public class IntroductionWindowController : MonoBehaviour {
 		DateTime endTime = map.EndTime;
 		TimeSpan timeSpan = map.EndTime - map.StartTime;
 
-		string timeString = string.Format ("{0:F0} days", timeSpan.TotalDays);
+		string timeString = string.Format ("{0:N0} days", timeSpan.TotalDays);
 
 		return template.Replace ("{time}", timeString);
 
@@ -44,7 +44,7 @@ public class IntroductionWindowController : MonoBehaviour {
 		Map map = mapController.Map;
 		double money = map.TargetBudget;
 
-		string moneyString = string.Format ("${0:F0}", money);
+		string moneyString = string.Format ("${0:N0}", money);
 
 		return template.Replace ("{money}", moneyString);
 	}
@@ -53,7 +53,7 @@ public class IntroductionWindowController : MonoBehaviour {
 		Map map = mapController.Map;
 		double welfare = map.TargetWelfare;
 
-		string welfareString = string.Format ("{0:F0}", welfare);
+		string welfareString = string.Format ("{0:N2}", welfare);
 
 		return template.Replace ("{welfare}", welfareString);
 	}
