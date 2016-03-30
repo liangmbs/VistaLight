@@ -10,4 +10,11 @@ public class Dock {
 	public Node node;
 	public string name = "";
 	public IndustryType type;
+
+	[NonSerialized]
+	public TimeSpan utilizedTime = TimeSpan.Zero;
+
+	public void AddUtilizeTime(TimeSpan time) {
+		utilizedTime += time;
+	}
 }

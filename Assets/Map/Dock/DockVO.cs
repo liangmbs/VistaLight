@@ -9,6 +9,7 @@ public class DockVO : MonoBehaviour, MapSelectableVO {
 
 	public GameObject dockInfoPanel;
 	public Text industryTypeText;
+	public Text UtilizationText;
 
 	public Dock Dock { 
 		get { return dock; }
@@ -44,7 +45,26 @@ public class DockVO : MonoBehaviour, MapSelectableVO {
 			}
 		}
 
+		UpdateUtilization ();
+
 		CheckClick ();
+	}
+
+	private void UpdateUtilization() {
+		Timer timer = GameObject.Find ("Timer").GetComponent<Timer> ();
+		if (timer == null) {
+			return;
+		}
+
+		double utilization = 0;
+		TimeSpan totalTime = timer.VirtualTime - timer.gameStartTime;
+		if (totalTime.TotalSeconds == 0) {
+			utilization = 0;
+		} else {
+			utilization = dock.utilizedTime.TotalSeconds / totalTime.TotalSeconds;
+		}
+
+		UtilizationText.text = string.Format ("{0:P2}", utilization);
 	}
 
 
@@ -92,4 +112,5 @@ public class DockVO : MonoBehaviour, MapSelectableVO {
 		}
 
 	}
+
 }

@@ -17,10 +17,16 @@ public class RecommendationSystem : MonoBehaviour {
 
 	public PriorityQueue priorityQueue;
 	public Timer timer;
+	public GameObject RecommendationTab;
 
 	// Use this for initialization
 	void Start () {
 		SceneSetting sceneSetting = GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ();
+
+		if (!sceneSetting.GiveRecommendation) {
+			RecommendationTab.SetActive (false);
+		}
+
 		showJustifiction = sceneSetting.RecommendWithJustification;
 	}
 	

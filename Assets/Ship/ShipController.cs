@@ -177,16 +177,19 @@ public class ShipController : MonoBehaviour {
 	}
 
 	private void ForceCompleteUnloadingTask(UnloadingTask task) {
-		Unload(ship.cargo);
+		Unload(ship.cargo, task.dock);
 
 		string content = string.Format ("{0} ship {1} finished unloading!", ship.Industry.ToString(), ship.Name);
 		GameObject.Find ("NotificationSystem").GetComponent<NotificationSystem> ().Notify (NotificationType.Success, content);
 	}
 
-	private void Unload(double cargo) {
+	private void Unload(double cargo, Dock dock) {
 		ship.cargo -= cargo;
 		double moneyToEarn = cargo * ship.value;
         GameObject.Find("BudgetCounter").GetComponent<BudgetCounter>().EarnMoney(moneyToEarn);
+
+		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
+		dock.AddUtilizeTime (timer.TimeElapsed);
 	}
 
 	private void ForceCompleteShipMoveTask(ShipMoveTask task) {
@@ -220,7 +223,7 @@ public class ShipController : MonoBehaviour {
 			cargoCanUnload = cargoRemaining;
 		}
 
-		Unload(cargoCanUnload);
+		Unload(cargoCanUnload, task.dock);
 
 		this.status = ShipStatus.Unloading;
 	}

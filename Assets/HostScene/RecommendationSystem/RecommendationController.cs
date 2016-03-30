@@ -11,7 +11,6 @@ public class RecommendationController : MonoBehaviour {
 	public Image DenyImage;
 	public Button AccpetButton;
 	public Button DenyButton;
-
 	public bool isProcessed = false;
 
 
