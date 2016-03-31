@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 [Serializable()]
 public class Map {
@@ -11,6 +13,9 @@ public class Map {
 	private DateTime endTime = new DateTime (2016, 1, 4, 12, 0, 0);
 	private double targetBudget = 0;
 	private double targetWelfare = 0;
+
+	[OptionalField]
+	private double targetDockUtilization = 0;
 
 	public static readonly string DateTimeFormat = "yyyy-MM-dd HH:mm:ss";
 
@@ -43,6 +48,11 @@ public class Map {
 	public double TargetWelfare {
 		get { return targetWelfare; }
 		set { targetWelfare = value; }
+	}
+
+	public double TargetDockUtilization {
+		get { return targetDockUtilization; }
+		set { targetDockUtilization = value; }
 	}
 
 	public void AddNode(Node node){
@@ -93,5 +103,10 @@ public class Map {
 
 	public void RemoveConnection(Connection connection) {
 		connections.Remove(connection);
+	}
+
+	[OnDeserializing]
+	public void SetSpeedDefaultValue(StreamingContext context) {
+		targetDockUtilization = 0.4;
 	}
 }

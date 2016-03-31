@@ -11,22 +11,22 @@ public class GameOverSceneController : MonoBehaviour {
 	public Text budgetAchievedText;
 	public Text ecoEfficiencyAchievedText;
 	public Text welfareAchievedText;
-	public Text procTimeAchievedText;
+	public Text dockUtilAchievedText;
 
 	public Text budgetTargetText;
 	public Text ecoEfficiencyTargetText;
 	public Text welfareTargetText;
-	public Text procTimeTargetText;
+	public Text dockUtilTargetText;
 
 	public double budgetTarget;
 	public double ecoEfficiencyTarget;
 	public double welfareTarget;
-	public TimeSpan procTimeTarget;
+	public double dockUtilTarget;
 
 	public double budgetAchieved;
 	public double ecoEfficiencyAchieved;
 	public double welfareAchieved;
-	public TimeSpan procTimeAchieved;
+	public double dockUtilAchieved;
 
 	// Use this for initialization
 	void Start () {
@@ -61,14 +61,15 @@ public class GameOverSceneController : MonoBehaviour {
 
 		budgetTarget = map.TargetBudget;
 		welfareTarget = map.TargetWelfare;
-		procTimeTarget = map.EndTime - map.StartTime;
-		ecoEfficiencyTarget = budgetTarget / procTimeTarget.TotalHours;
+		TimeSpan procTime = map.EndTime - map.StartTime;
+		ecoEfficiencyTarget = budgetTarget / procTime.TotalHours;
+		dockUtilTarget = map.TargetDockUtilization;
 	}
 
 	private void ShowTargetValues() {
 		budgetTargetText.text = string.Format ("${0:N0}", budgetTarget);
 		welfareTargetText.text = string.Format ("{0:F2}", welfareTarget);
-		procTimeTargetText.text = string.Format ("{0:F1} hours", procTimeTarget.TotalHours);
+		dockUtilTargetText.text = string.Format ("{0:P2}", dockUtilTarget);
 		ecoEfficiencyTargetText.text = string.Format ("${0:N0} / hour", ecoEfficiencyTarget);
 	}
 
@@ -77,15 +78,18 @@ public class GameOverSceneController : MonoBehaviour {
 		welfareAchieved = GameObject.Find ("WelfareCounter").GetComponent<WelfareCounter> ().Welfare;
 
 		Timer timer = GameObject.Find ("Timer").GetComponent<Timer> ();
-		procTimeAchieved = timer.VirtualTime - timer.gameStartTime;
+		TimeSpan procTime = timer.VirtualTime - timer.gameStartTime;
 
-		ecoEfficiencyAchieved = budgetAchieved / procTimeAchieved.TotalHours;
+		ecoEfficiencyAchieved = budgetAchieved / procTime.TotalHours;
+
+		DockUtilizationCounter dockUtilizationCounter = GameObject.Find ("DockUtilizationCounter").GetComponent<DockUtilizationCounter> ();
+		dockUtilAchieved = dockUtilizationCounter.CalculateAverageUtilization ();
 	}
 
 	private void ShowAchievedtValues() {
 		budgetAchievedText.text = string.Format ("${0:N0}", budgetAchieved);
 		welfareAchievedText.text = string.Format ("{0:F2}", welfareAchieved);
-		procTimeAchievedText.text = string.Format ("{0:F1} hours", procTimeAchieved.TotalHours);
+		dockUtilAchievedText.text = string.Format ("{0:P2}", dockUtilAchieved);
 		ecoEfficiencyAchievedText.text = string.Format ("${0:N0} / hour", ecoEfficiencyAchieved);
 	}
 
@@ -95,6 +99,10 @@ public class GameOverSceneController : MonoBehaviour {
 		}
 
 		if (welfareAchieved < welfareTarget) {
+			return false;
+		}
+
+		if (dockUtilAchieved < dockUtilTarget) {
 			return false;
 		}
 
