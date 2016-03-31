@@ -23,6 +23,8 @@ public class MapInfoSidePanelController : MonoBehaviour {
 	public InputField targetBudgetInput;
 	public InputField targetWelfareInput;
 	public Slider targetWelfareSlider;
+	public Slider targetDockUtilizationSlider;
+	public InputField targetDockUtilizationInput;
 
 	public bool hasModification = false;
 	public string path = "";
@@ -102,6 +104,7 @@ public class MapInfoSidePanelController : MonoBehaviour {
 		map.EndTime = DateTime.Parse (endTimeInput.text);
 		map.TargetBudget = double.Parse (targetBudgetInput.text);
 		map.TargetWelfare = targetWelfareSlider.value;
+		map.TargetDockUtilization = targetDockUtilizationSlider.value;
 
 		UpdateDisplay();
 	}
@@ -113,5 +116,7 @@ public class MapInfoSidePanelController : MonoBehaviour {
 		targetBudgetInput.text = map.TargetBudget.ToString ();
 		targetWelfareInput.text = map.TargetWelfare.ToString ("F");
 		targetWelfareSlider.value = (float)map.TargetWelfare;
+		targetDockUtilizationInput.text = map.TargetDockUtilization.ToString("P2");
+		targetDockUtilizationSlider.value = (float)map.TargetDockUtilization;
 	}
 }

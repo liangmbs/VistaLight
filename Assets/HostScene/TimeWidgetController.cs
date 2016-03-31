@@ -26,6 +26,7 @@ public class TimeWidgetController : MonoBehaviour {
 	void Start () {
 		// SelectedImage = Resources.Load ("image/SpeedButtonSelected.png") as Sprite;
 		// UnselectedImage = Resources.Load ("image/SpeedButton.png") as Sprite;
+		logger = GameObject.Find("BasicLoggerManager").GetComponent<VistaLightsLogger>();
 	}
 
 	public void PauseGameButtonClickHandler(){

@@ -21,6 +21,10 @@ public class GameOverSceneStarter : MonoBehaviour {
 	void Start () {
 	
 	}
+
+	void Awake() {
+		logger = GameObject.Find("BasicLoggerManager").GetComponent<VistaLightsLogger>();	
+	}
 	
 	// Update is called once per frame
 	void Update () {

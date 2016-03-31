@@ -20,6 +20,10 @@ public class NetworkScheduler : MonoBehaviour {
 		rescheduleRequested = true;	
 	}
 
+	void Awake() {
+		logger = GameObject.Find("BasicLoggerManager").GetComponent<VistaLightsLogger>();	
+	}
+
 	private IEnumerator Schedule() {
 		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
 		double timerSpeed = timer.Speed;

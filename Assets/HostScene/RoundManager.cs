@@ -40,6 +40,11 @@ public class RoundManager : MonoBehaviour {
 		mapLoader.LoadMap ();
 		StartSimulationPhase ();
 		ShowIntroductionWindow ();
+
+	}
+
+	void Awake() {
+		logger = GameObject.Find("BasicLoggerManager").GetComponent<VistaLightsLogger>();	
 	}
 
 	private void ShowIntroductionWindow() {

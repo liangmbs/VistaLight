@@ -51,10 +51,11 @@ public class DockVO : MonoBehaviour, MapSelectableVO {
 	}
 
 	private void UpdateUtilization() {
-		Timer timer = GameObject.Find ("Timer").GetComponent<Timer> ();
-		if (timer == null) {
+		GameObject timerGO = GameObject.Find ("Timer");
+		if (timerGO == null) {
 			return;
 		}
+		Timer timer = timerGO.GetComponent<Timer> ();
 
 		double utilization = 0;
 		TimeSpan totalTime = timer.VirtualTime - timer.gameStartTime;

@@ -14,6 +14,10 @@ public class VistaLightsLogger : MonoBehaviour {
 
 	}
 
+	void Awake() {
+		DontDestroyOnLoad(transform.gameObject);
+	}
+
 	// Update is called once per frame
 	void Update () {
 		LogKeyStroke();
