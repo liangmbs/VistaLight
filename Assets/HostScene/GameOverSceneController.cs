@@ -110,11 +110,12 @@ public class GameOverSceneController : MonoBehaviour {
 	}
 
 	public void BackButtonClickHandler() {
-		foreach (GameObject o in GameObject.FindObjectsOfType<GameObject>()) {
-			if (o != gameObject) {
-				Destroy (o);
-			}
-		}
+		Destroy (GameObject.Find ("BudgetCounter"));
+		Destroy (GameObject.Find ("WelfareCounter"));
+		Destroy (GameObject.Find ("Timer"));
+		Destroy (GameObject.Find ("DockUtilizationCounter"));
+		Destroy (GameObject.Find ("Map"));
+
 		SceneManager.LoadScene("TaskSelection", LoadSceneMode.Single);
 	}
 

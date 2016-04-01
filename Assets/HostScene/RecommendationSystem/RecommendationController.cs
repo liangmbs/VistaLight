@@ -72,4 +72,8 @@ public class RecommendationController : MonoBehaviour {
 	public Recommendation GetRecommendation() {
 		return recommendation;
 	}
+
+	public void HighlightShip() {
+		recommendation.ship.ToggleHighLight ();
+	}
 }
