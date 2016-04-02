@@ -14,6 +14,8 @@ public class MapEditorController : MonoBehaviour {
 
 	public ToolSelector toolSelector;
 
+	public CameraController cameraController;
+
 	private MapSelectableVO selected;
     private GameObject sidePanelInDisplay;
 
@@ -118,10 +120,12 @@ public class MapEditorController : MonoBehaviour {
 
 	public void ShowShipPanel() {
 		shipPanel.SetActive(true);
+		cameraController.interactable = false;
 	}
 
 	public void CloseShipPanel() {
 		shipPanel.SetActive(false);
+		cameraController.interactable = true;
 	}
 
 }

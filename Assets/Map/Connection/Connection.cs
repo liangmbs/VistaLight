@@ -19,8 +19,6 @@ public class Connection
 	private Node startNode;
 	private Node endNode;
 	private bool isBidirectional;
-
-	[OptionalField]
 	private double speed = 3.0;
 
 	public Node StartNode {
@@ -42,13 +40,5 @@ public class Connection
 		get { return speed; }
 		set { speed = value; }
 	}
-
-	[OnDeserializing]
-	public void SetSpeedDefaultValue(StreamingContext context) {
-		speed = 3.0;
-	}
-
-
-
 
 }

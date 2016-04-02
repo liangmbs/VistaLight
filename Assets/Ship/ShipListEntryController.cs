@@ -64,16 +64,21 @@ public class ShipListEntryController : MonoBehaviour {
 		type.text = ship.Industry.ToString();
 		type.color = IndustryColor.GetIndustryColor(ship.Industry);
 
-		amount.text = ship.cargo.ToString("N");
-		value.text = ship.value.ToString("N");
+		amount.text = string.Format("{0:N0}", ship.cargo);
+		value.text = string.Format("${0:N0}", ship.value);
 
-		dueTime.text = ship.dueTime.ToString();
+		dueTime.text = ship.dueTime.ToString(Map.DateTimeFormat);
 
 		DateTime unloadingEta = shipController.GetUnloadlingEta();
 		if (unloadingEta == DateTime.MinValue) {
 			eta.text = " - ";
 		} else {
-			eta.text = unloadingEta.ToString();
+			eta.text = unloadingEta.ToString(Map.DateTimeFormat);
+		}
+		if (unloadingEta > ship.dueTime) {
+			eta.color = Color.red;
+		} else {
+			eta.color = Color.white;
 		}
 	}
 

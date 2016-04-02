@@ -26,6 +26,7 @@ public class ShipGenerationMapEventHandler : IMapEventHandler {
 		shipController.Ship = ship;
 		shipController.shipGO = shipGO;
 		shipController.shipVO = shipVO;
+		shipController.ShipCreateTime = shipGenerationEvent.Time;
 
 		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().EnqueueShip(shipController);
 

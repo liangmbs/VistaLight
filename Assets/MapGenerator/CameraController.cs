@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour {
 
 	bool dragging = false;
 	private Vector3 dragOrigin;
+	public bool interactable = true;
 
 	// Use this for initialization
 	void Start () {
@@ -17,6 +18,10 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (!interactable) {
+			return;
+		}
+
 		Vector2 mouseInViewPort = Camera.main.ScreenToViewportPoint(Input.mousePosition);
 		if (mouseInViewPort.x < 0 || mouseInViewPort.x > 1 || mouseInViewPort.y < 0 || mouseInViewPort.y > 1) {
 			return;

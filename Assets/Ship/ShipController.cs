@@ -31,6 +31,8 @@ public class ShipController : MonoBehaviour {
 	public Text IndustryText;
 	public GameObject CargoBar;
 
+	public DateTime ShipCreateTime;
+
 	public ShipListEntryController ShipEntry;
 
 	public double heading = 0;
@@ -80,25 +82,37 @@ public class ShipController : MonoBehaviour {
 
 	public void UpdateStatusPanel() {
 		if (highLighted) {
-			ShipInfoPanel.SetActive (true);
-			IndustryText.text = ship.Industry.ToString () + " Ship";
-			NameText.text = ship.Name;
-			PriorityText.text = String.Format ("Pri: {0}", GetShipPriority () + 1);
-			StatusText.text = String.Format ("Sta: {0}", status.ToString());
-			CargoBar.transform.localScale = new Vector3 ((float)(1.0 * ship.cargo / originalCargoAmount), 1, 0);
-
-			DateTime currentTime = GameObject.Find ("Timer").GetComponent<Timer> ().VirtualTime;
-			DateTime dueTime = ship.dueTime;
-			TimeSpan timeLeft = dueTime - currentTime;
-			RemainingTime.text = string.Format("{0} days {1}:{2}", timeLeft.Days, Math.Abs(timeLeft.Hours), Math.Abs(timeLeft.Minutes));
-			if (timeLeft > TimeSpan.Zero) {
-				CargoBar.GetComponent<Image> ().color = new Color ((float)0.13, (float)0.82, (float)0.29);
-			} else {
-				CargoBar.GetComponent<Image> ().color = new Color ((float)0.82, (float)0.16, (float)0.067);
-			}
+			// ShipInfoPanel.SetActive (true);
+			ShipInfoPanel.GetComponent<RectTransform> ().localScale = new Vector3 ((float)0.1, (float)0.1, 1);
 		} else {
-			ShipInfoPanel.SetActive (false);
+			// ShipInfoPanel.SetActive (false);
+			ShipInfoPanel.GetComponent<RectTransform> ().localScale = new Vector3 ((float)0.04, (float)0.04, 1);
 		}
+
+		IndustryText.text = ship.Industry.ToString () + " Ship";
+		NameText.text = ship.Name;
+		PriorityText.text = String.Format ("Pri: {0}", GetShipPriority () + 1);
+		StatusText.text = String.Format ("Sta: {0}", status.ToString());
+
+
+		DateTime currentTime = GameObject.Find ("Timer").GetComponent<Timer> ().VirtualTime;
+		DateTime dueTime = ship.dueTime;
+		TimeSpan timeLeft = dueTime - currentTime;
+		RemainingTime.text = string.Format("{0} days {1}:{2}", timeLeft.Days, Math.Abs(timeLeft.Hours), Math.Abs(timeLeft.Minutes));
+		if (timeLeft > TimeSpan.Zero) {
+			CargoBar.GetComponent<Image> ().color = new Color ((float)0.13, (float)0.82, (float)0.29);
+		} else {
+			CargoBar.GetComponent<Image> ().color = new Color ((float)0.82, (float)0.16, (float)0.067);
+		}
+
+		double remainingSeconds = timeLeft.TotalSeconds;
+		double totalSeconds = (ship.dueTime - ShipCreateTime).TotalSeconds;
+		if (remainingSeconds <= 0) {
+			CargoBar.transform.localScale = new Vector3 (0, 1, 0);	
+		} else {
+			CargoBar.transform.localScale = new Vector3 ((float)(1.0 * remainingSeconds / totalSeconds), 1, 0);
+		}
+
 	}
 
 	private void CheckClick() {
