@@ -75,7 +75,7 @@ public class ShipListController : MonoBehaviour {
 		listHeader.transform.Find ("Name").Translate (new Vector3 (40, 0, 0));
 		listHeader.transform.Find ("Type").Translate (new Vector3 (40, 0, 0));
 		listHeader.transform.Find ("Amount").Translate (new Vector3 (40, 0, 0));
-		listHeader.transform.Find ("Unit Value").Translate (new Vector3 (40, 0, 0));
+		listHeader.transform.Find ("Value").Translate (new Vector3 (40, 0, 0));
 		listHeader.transform.Find ("Due Time").Translate (new Vector3 (40, 0, 0));
 		listHeader.transform.Find ("ETA").Translate (new Vector3 (40, 0, 0));
 		RectTransform rectTransform = listHeader.GetComponent<RectTransform> ();
@@ -107,7 +107,7 @@ public class ShipListController : MonoBehaviour {
 			listHeader.transform.Find ("Name").Translate (new Vector3 (-40, 0, 0));
 			listHeader.transform.Find ("Type").Translate (new Vector3 (-40, 0, 0));
 			listHeader.transform.Find ("Amount").Translate (new Vector3 (-40, 0, 0));
-			listHeader.transform.Find ("Unit Value").Translate (new Vector3 (-40, 0, 0));
+			listHeader.transform.Find ("Value").Translate (new Vector3 (-40, 0, 0));
 			listHeader.transform.Find ("Due Time").Translate (new Vector3 (-40, 0, 0));
 			listHeader.transform.Find ("ETA").Translate (new Vector3 (-40, 0, 0));
 			RectTransform rectTransform = listHeader.GetComponent<RectTransform> ();

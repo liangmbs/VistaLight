@@ -65,7 +65,7 @@ public class ShipListEntryController : MonoBehaviour {
 		type.color = IndustryColor.GetIndustryColor(ship.Industry);
 
 		amount.text = string.Format("{0:N0}", ship.cargo);
-		value.text = string.Format("${0:N0}", ship.value);
+		value.text = string.Format("${0:N0}", ship.value * ship.cargo);
 
 		dueTime.text = ship.dueTime.ToString(Map.DateTimeFormat);
 

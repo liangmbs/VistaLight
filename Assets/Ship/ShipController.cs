@@ -82,11 +82,11 @@ public class ShipController : MonoBehaviour {
 
 	public void UpdateStatusPanel() {
 		if (highLighted) {
-			// ShipInfoPanel.SetActive (true);
+			ShipInfoPanel.SetActive (true);
 			ShipInfoPanel.GetComponent<RectTransform> ().localScale = new Vector3 ((float)0.1, (float)0.1, 1);
 		} else {
-			// ShipInfoPanel.SetActive (false);
-			ShipInfoPanel.GetComponent<RectTransform> ().localScale = new Vector3 ((float)0.04, (float)0.04, 1);
+			ShipInfoPanel.SetActive (false);
+			// ShipInfoPanel.GetComponent<RectTransform> ().localScale = new Vector3 ((float)0.04, (float)0.04, 1);
 		}
 
 		IndustryText.text = ship.Industry.ToString () + " Ship";
