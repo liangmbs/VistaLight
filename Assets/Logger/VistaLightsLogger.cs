@@ -5,6 +5,8 @@ using System;
 
 public class VistaLightsLogger : MonoBehaviour {
 
+	private bool inRun = false;
+
 	// Use this for initialization
 	void Start () {
 
@@ -30,7 +32,9 @@ public class VistaLightsLogger : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		LogKeyStroke();
+		if (inRun) {
+			LogKeyStroke ();
+		}
     }
 
 	public void LogTimer(double speed) {
@@ -127,6 +131,25 @@ public class VistaLightsLogger : MonoBehaviour {
 		JSONClass details = new JSONClass();
 		details ["submit"] = "submit";
 		TheLogger.instance.TakeAction(1, details);
+	}
+
+	public void StartRun(string challengeName) {
+		JSONClass details = new JSONClass ();
+		SceneSetting sceneSetting = GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ();
+		details ["map"] = sceneSetting.MapName;
+		details ["give_recommendation"] = sceneSetting.GiveRecommendation.ToString ();
+		details ["with_justification"] = sceneSetting.RecommendWithJustification.ToString ();
+		TheLogger.instance.BeginRun(challengeName, details);
+		inRun = true;
+	}
+
+	public void EndRun(double money, double welfare, double dockUtilization) {
+		JSONClass details = new JSONClass ();
+		details["budget"] = money.ToString();
+		details["welfare"] = welfare.ToString();
+		details["dock_utilization"] = dockUtilization.ToString();
+		TheLogger.instance.EndRun(details);
+		inRun = false;
 	}
 }
 

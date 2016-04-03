@@ -13,6 +13,7 @@ public class GameOverSceneStarter : MonoBehaviour {
 	public Timer timer;
 	public MapController mapController;
 	public MapEventProcessor mapEventProcessor;
+	public DockUtilizationCounter dockUtilizationCounter;
 
 	public VistaLightsLogger logger;
 
@@ -48,7 +49,8 @@ public class GameOverSceneStarter : MonoBehaviour {
 		budgetCounter.freeze = true;
 		welfareCounter.freeze = true;
 
-		logger.LogGameOver (budgetCounter.money, welfareCounter.Welfare);
+		logger.EndRun (budgetCounter.money, welfareCounter.Welfare, 
+			dockUtilizationCounter.CalculateAverageUtilization());
 
 		SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
     }

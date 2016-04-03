@@ -36,10 +36,9 @@ public class BasicLoggerStartup : MonoBehaviour
 					adapterInfo += " " + adapter.GetType().Name;
 				}
 			}
-			Debug.Log(adapterInfo);
+			// Debug.Log(adapterInfo);
 			
 			TheLogger.instance.BeginSession(adapters, gameId, player_id, null, version, condition, null);
-			TheLogger.instance.BeginRun("game", null);
 		}
 	}
 	
@@ -53,8 +52,7 @@ public class BasicLoggerStartup : MonoBehaviour
 		}
 	}
 
-	void OnDestory() {
-		TheLogger.instance.EndRun(null);
+	void OnApplicationQuit() {
 		TheLogger.instance.EndSession(null);
 	}
 }

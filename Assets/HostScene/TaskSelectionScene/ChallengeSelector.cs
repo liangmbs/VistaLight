@@ -10,9 +10,13 @@ public class ChallengeSelector : MonoBehaviour {
 	public bool challenge2Played = false;
 	public bool challenge3Played = false;
 
+	public VistaLightsLogger logger;
+
 	void Awake() {
 		DontDestroyOnLoad(transform.gameObject);
 		DestoryIfInstanceExist ();
+
+		logger = GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ();
 	}
 
 	private static ChallengeSelector instance = null;
