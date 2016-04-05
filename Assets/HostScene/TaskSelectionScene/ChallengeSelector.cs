@@ -40,6 +40,7 @@ public class ChallengeSelector : MonoBehaviour {
 
 	public void SelectTutorial() {	
 		sceneSetting.MapName = "houston_game_1";
+		sceneSetting.inTutorial = true;
 		tutorialPlayed = true;
 		StartGame ();
 	}
@@ -47,6 +48,7 @@ public class ChallengeSelector : MonoBehaviour {
 	public void SelectChallenge1() {
 		sceneSetting.MapName = "houston_game_1";
 		sceneSetting.GiveRecommendation = false;
+		sceneSetting.inTutorial = false;
 		challenge1Played = true;
 		StartGame ();
 	}
@@ -55,7 +57,9 @@ public class ChallengeSelector : MonoBehaviour {
 		sceneSetting.MapName = "houston_game_1";
 		sceneSetting.GiveRecommendation = true;
 		sceneSetting.RecommendWithJustification = false;
+		sceneSetting.inTutorial = false;
 		challenge2Played = true;
+
 		StartGame ();
 	}
 
@@ -63,6 +67,7 @@ public class ChallengeSelector : MonoBehaviour {
 		sceneSetting.MapName = "houston_game_1";
 		sceneSetting.GiveRecommendation = true;
 		sceneSetting.RecommendWithJustification = true;
+		sceneSetting.inTutorial = false;
 		challenge3Played = true;
 		StartGame ();
 	}

@@ -17,6 +17,7 @@ public class RoundManager : MonoBehaviour {
 	public ShipListController shipListController;
 	public NetworkScheduler networkScheduler;
 	public VistaLightsLogger logger;
+	public SceneSetting sceneSetting;
 	public RecommendationSystem recommendataionSystem;
 	public NotificationSystem notificationSystem;
 	public MapLoader mapLoader;
@@ -39,11 +40,17 @@ public class RoundManager : MonoBehaviour {
 	void Start () {
 		mapLoader.LoadMap ();
 		StartSimulationPhase ();
-		ShowIntroductionWindow ();
+
+		if (!sceneSetting.inTutorial) {
+			ShowIntroductionWindow ();
+		}
+
 	}
 
 	void Awake() {
 		logger = GameObject.Find("BasicLoggerManager").GetComponent<VistaLightsLogger>();	
+		sceneSetting = GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ();
+
 		logger.StartRun ("run");
 	}
 
@@ -61,6 +68,10 @@ public class RoundManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (sceneSetting.inTutorial) {
+			return;
+		}
+
 		if (networkScheduler.Scheduling){
 			return;
 		}

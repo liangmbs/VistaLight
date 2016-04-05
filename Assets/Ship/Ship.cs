@@ -15,7 +15,7 @@ public class IndustryColor {
 		case IndustryType.BreakBulk:
 			return new Color((float)187.0/255, (float)20.0/255, (float)26.0/255);
 		case IndustryType.Cruise:
-			return new Color(1, 1, 1);
+			return new Color((float)52.0 / 255, (float)180.0 / 255, (float)74.0 / 255);
 		case IndustryType.Petro:
 			return new Color((float)40.0 / 255, (float)37.0 / 255, (float)18.0 / 255);
 		}

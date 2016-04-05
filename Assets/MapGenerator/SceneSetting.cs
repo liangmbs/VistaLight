@@ -21,6 +21,9 @@ public class SceneSetting : MonoBehaviour {
 	// the map editor
 	public bool AllowMapEditing;
 
+	// Checks if the game is in toturial mode
+	public bool inTutorial;
+
 	// The cargo to unload per second. The same for all industries
 	public double UnloadingSpeed = 1;
 
