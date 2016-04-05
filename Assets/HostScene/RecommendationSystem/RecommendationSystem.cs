@@ -94,7 +94,6 @@ public class RecommendationSystem : MonoBehaviour {
 
 	public void RecommendCruiseShip() {
 
-		TimeSpan overdueThreshold = new TimeSpan (0, -12, 0);
 		double maxNumPassengers = 0;
 		ShipController shipToRecommend = null;
 		foreach (ShipController ship in priorityQueue.queue) {
@@ -106,8 +105,7 @@ public class RecommendationSystem : MonoBehaviour {
 				continue;
 			}
 
-			TimeSpan overdueTime = timer.VirtualTime - ship.Ship.dueTime;
-			if (overdueTime <= overdueThreshold) {
+			if (ship.Ship.dueTime <= ship.GetUnloadlingEta()) {
 				continue;
 			}
 
@@ -137,22 +135,22 @@ public class RecommendationSystem : MonoBehaviour {
 			
 			if (!isShipInConsideration (ship))
 				continue;
-			
-			TimeSpan overdueTime = timer.VirtualTime - ship.Ship.dueTime;
-			if (overdueTime > maxOverdueTime) {
+
+			TimeSpan overdueTime = ship.GetUnloadlingEta () - ship.Ship.dueTime;
+			if (overdueTime > TimeSpan.Zero && overdueTime > maxOverdueTime) {
 				maxOverdueTime = overdueTime;
 				shipToRecommend = ship;
 			}
 		}
 
-		TimeSpan recommendThreshold = new TimeSpan (0, -12, 0);
-		if (maxOverdueTime > recommendThreshold) {
+		if (shipToRecommend != null) {
 			Recommendation recommendation = new Recommendation ();
 			recommendation.ship = shipToRecommend;
 			recommendation.desiredPriority = 2;
 
 			if (showJustifiction) {
-				if (maxOverdueTime >= TimeSpan.Zero) {
+				TimeSpan overdueTime = timer.VirtualTime - shipToRecommend.Ship.dueTime;
+				if (overdueTime < TimeSpan.Zero) {
 					recommendation.justification = 
 					"Because it is overdue, and overdue ship will have significant economic penalty.";
 				} else {

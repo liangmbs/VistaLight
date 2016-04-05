@@ -102,10 +102,6 @@ public class GameOverSceneController : MonoBehaviour {
 			return false;
 		}
 
-		if (dockUtilAchieved < dockUtilTarget) {
-			return false;
-		}
-
 		return true;
 	}
 
