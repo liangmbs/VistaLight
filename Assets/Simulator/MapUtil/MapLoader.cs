@@ -29,6 +29,10 @@ public class MapLoader : MonoBehaviour {
 	 private void PreprocessOilSpillingEvent() {
 		int numOilSpillingEvent = CountOilSpillingEvent();
 
+		if(numOilSpillingEvent == 0) {
+			return;
+		}
+
 		System.Random random = new System.Random ();
 		int indexSelect = random.Next () % numOilSpillingEvent;
 

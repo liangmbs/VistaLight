@@ -68,9 +68,17 @@ class MapEventTool : IMapEditorTool {
 	}
 
 	public void RespondMouseRightClick() {
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+		if (ray.collider != null && ray.collider.tag == "Event") {
+			mapController.RemoveMapEvent (ray.collider.gameObject);
+		}
 	}
 
 	public bool CanDestroy() {
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+		if (ray.collider != null && ray.collider.tag == "Event") {
+			return false;
+		}
 		return true;
 	}
 }

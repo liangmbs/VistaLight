@@ -152,10 +152,10 @@ public class RecommendationSystem : MonoBehaviour {
 				TimeSpan overdueTime = timer.VirtualTime - shipToRecommend.Ship.dueTime;
 				if (overdueTime < TimeSpan.Zero) {
 					recommendation.justification = 
-					"Because it is overdue, and overdue ship will have significant economic penalty.";
+					"Because it is overdue and has high economic penalty.";
 				} else {
 					recommendation.justification = 
-					"Because it will overdue soon, and overdue ship will have significant economic penalty.";
+					"Because it will overdue soon and will have high economic penalty.";
 				}
 			}
 

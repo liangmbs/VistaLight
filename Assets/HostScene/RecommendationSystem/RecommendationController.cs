@@ -13,6 +13,12 @@ public class RecommendationController : MonoBehaviour {
 	public Button DenyButton;
 	public bool isProcessed = false;
 
+	public VistaLightsLogger logger;
+
+	void Awake() {
+		logger = GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ();
+	}
+
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +34,7 @@ public class RecommendationController : MonoBehaviour {
 		DisableButtons ();
 		PerformeRecommendation ();
 		AcceptImage.gameObject.SetActive (true);
+		logger.LogRecommendationAction (true, recommendation);
 		isProcessed = true;
 	}
 
@@ -38,6 +45,7 @@ public class RecommendationController : MonoBehaviour {
 	public void Deny() {
 		DisableButtons ();
 		DenyImage.gameObject.SetActive (true);
+		logger.LogRecommendationAction (false, recommendation);
 		isProcessed = true;
 	}
 

@@ -68,9 +68,9 @@ public class RoundManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (sceneSetting.inTutorial) {
-			return;
-		}
+		// if (sceneSetting.inTutorial) {
+		// 	return;
+		// }
 
 		if (networkScheduler.Scheduling){
 			return;

@@ -222,6 +222,12 @@ public class MapController : MonoBehaviour {
 		}
 	}
 
+	public void RemoveMapEvent(GameObject mapEventGO) {
+		MapEvent mapEvent = mapEventGO.GetComponent<MapEventVO> ().MapEvent;
+		map.RemoveMapEvent (mapEvent);
+		Destroy (mapEventGO);
+	}
+
 	public void CloseMap() {
 		foreach (Transform child in GameObject.Find("Map").transform) {
 			Destroy(child.gameObject);

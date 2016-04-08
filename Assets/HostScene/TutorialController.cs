@@ -44,12 +44,12 @@ public class TutorialController : MonoBehaviour {
 	}
 
 	public void MinimizeTutorialWindow() {
-		int x = -(Screen.width + 800 - 60) / 2;
-		StartCoroutine(MoveTutorialWindow(new Vector2(x, 0)));
+		int y = (Screen.height + 400 - 60) / 2;
+		StartCoroutine(MoveTutorialWindow(new Vector2(0, y)));
 
 		isMinimized = true;
 
-		MinimizeButtonText.text = ">";
+		MinimizeButtonText.text = "Expand";
 	}
 
 	public void RecoverTutorialWindow() {
@@ -57,7 +57,7 @@ public class TutorialController : MonoBehaviour {
 
 		isMinimized = false;
 
-		MinimizeButtonText.text = "<";
+		MinimizeButtonText.text = "Minimize";
 	}
 
 	public IEnumerator MoveTutorialWindow(Vector2 destination) {

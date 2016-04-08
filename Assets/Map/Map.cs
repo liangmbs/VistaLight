@@ -70,8 +70,7 @@ public class Map {
 	}
 
 	public void RemoveDock(Dock dock) {
-		// docks.Remove(dock);
-		// GameObject.Destroy(dock.gameObject);
+		docks.Remove(dock);
 	}
 
 	public void AddShip(Ship ship) {
