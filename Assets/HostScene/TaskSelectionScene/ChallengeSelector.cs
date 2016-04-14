@@ -65,8 +65,8 @@ public class ChallengeSelector : MonoBehaviour {
 
 	public void SelectChallenge3() {
 		sceneSetting.MapName = "houston_game_3";
-		// sceneSetting.GiveRecommendation = true;
-		// sceneSetting.RecommendWithJustification = true;
+		//sceneSetting.GiveRecommendation = true;
+		//sceneSetting.RecommendWithJustification = true;
 		sceneSetting.inTutorial = false;
 		challenge3Played = true;
 		StartGame ();

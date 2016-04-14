@@ -132,11 +132,11 @@ public class OilSpillingAction : MonoBehaviour {
 		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().RequestReschedule();
 	}
 
-	public void SlowDownTraffic() {
+	public void SlowDownTraffic(double speed) {
 		Map map = MapController.Map;
 		foreach (Connection connection in map.connections) {
 			if (isInOilSpill(connection.StartNode) || isInOilSpill(connection.EndNode)) {
-				connection.Speed = 2.0;
+				connection.Speed = speed;
 			} 
 		}
 		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().RequestReschedule();
@@ -146,7 +146,8 @@ public class OilSpillingAction : MonoBehaviour {
 		Map map = MapController.Map;
 		foreach (Connection connection in map.connections) {
 			if (isInOilSpill(connection.StartNode) || isInOilSpill(connection.EndNode)) {
-				connection.Speed = 3.0;
+				double shipSpeed = GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ().ShipSpeed;
+				connection.Speed = shipSpeed;
 			} 
 		}
 		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().RequestReschedule();
@@ -174,7 +175,7 @@ public class OilSpillingAction : MonoBehaviour {
 
 		if (hasShipInOilArea()) {
 			notificationSystem.Notify (NotificationType.Warning, 
-				"Cannot burn. The oil polluted area are not cleared");
+				"Cannot burn. There are one or more ships in the oil-polluted area");
 			return;
 		}
 
@@ -196,6 +197,9 @@ public class OilSpillingAction : MonoBehaviour {
 		budgetCounter.SpendMoney (2000000);
 
 		SetCleaningSpeed ();
+
+		double shipSpeedInDispersant = GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ().ShipSpeedInDispersantArea;
+		SlowDownTraffic (shipSpeedInDispersant);
 
 		DisableAllToggles();
 

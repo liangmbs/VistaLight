@@ -35,7 +35,7 @@ public class GameOverSceneStarter : MonoBehaviour {
 		} else if (IsAllEventProcessed ()) {
 			shouldGameEnd = true;
 		} else if (IsWelfareZero ()) {
-			shouldGameEnd = true;
+			// shouldGameEnd = true;
 		}
 
 		if (shouldGameEnd) {

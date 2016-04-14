@@ -31,6 +31,12 @@ public class SceneSetting : MonoBehaviour {
 	// in the map.
 	public double ShipSpeed = 3.0;
 
+	// The ship speed in oil spilling area
+	public double ShipSpeedInOilSpill = 2.0;
+
+	// The ship speed in dispersant area
+	public double ShipSpeedInDispersantArea = 1.0;
+
 	// The map to load
 	public string MapName = "";
 
