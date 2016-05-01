@@ -1,15 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using SimpleJSON;
 
 public class Timer : MonoBehaviour {
 
 	public double speed;
-	public DateTime virtualTime = new DateTime(2015, 10, 10, 10, 10, 10);
+
+	public DateTime gameStartTime;
+	private DateTime virtualTime = new DateTime(2015, 10, 10, 10, 10, 10);
+
 	private TimeSpan timeElapsed = new TimeSpan(0, 0, 0);
 
 	private double previousTime;
 
+	void Awake() {
+		DontDestroyOnLoad(transform.gameObject);
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -29,6 +36,7 @@ public class Timer : MonoBehaviour {
 
 	public DateTime VirtualTime {
 		get { return virtualTime; }
+		set { virtualTime = value; }
 	}
 
 	public TimeSpan TimeElapsed {
@@ -38,21 +46,5 @@ public class Timer : MonoBehaviour {
 	public double Speed {
 		get { return speed; }
 		set { speed = value; } 
-	}
-
-	public void Pause() {
-		speed = 0;
-	}
-
-	public void SetSpeedOne() {
-		speed = 100;
-	}
-
-	public void SetSpeedTwo() {
-		speed = 300;
-	}
-
-	public void SetSpeedThree() {
-		speed = 1000;
 	}
 }

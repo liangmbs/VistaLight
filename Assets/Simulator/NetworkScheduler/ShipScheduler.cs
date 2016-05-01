@@ -10,7 +10,7 @@ public class ShipScheduler {
 		set { ship = value; }
 	}
 
-	private List<Path> paths = new List<Path>();
+	private List<ShipPath> paths = new List<ShipPath>();
 	private List<ShipSchedule> schedules = new List<ShipSchedule>();
 	
 
@@ -52,18 +52,19 @@ public class ShipScheduler {
 	}
 
 	private void PathsToSchedules() {
-		foreach (Path path in paths) {
+		foreach (ShipPath path in paths) {
 			schedules.Add(PathToSchedule(path));
 		}
 	}
 
-	private ShipSchedule PathToSchedule(Path path) {
-		double shipSpeed = 3.0;
+	private ShipSchedule PathToSchedule(ShipPath path) {
+		double defaultShipSpeed = GameObject.Find("SceneSetting").GetComponent<SceneSetting>().ShipSpeed;
+		double shipSpeed = defaultShipSpeed;
 		ShipSchedule schedule = new ShipSchedule();
 		MapUtil mapUtil = GameObject.Find("MapUtil").GetComponent<MapUtil>();
 
 		DateTime currentTime = GameObject.Find("Timer").GetComponent<Timer>().VirtualTime;
-		Vector2 currentPosition = new Vector2((float)ship.ship.X, (float)ship.ship.Y);
+		Vector2 currentPosition = new Vector2((float)ship.Ship.X, (float)ship.Ship.Y);
 		bool unloadingScheduled = false;
 
 		Node previousNode = null;
@@ -71,14 +72,20 @@ public class ShipScheduler {
 			ShipMoveTask moveTask = new ShipMoveTask();
 			moveTask.Position = new Vector2((float)node.X, (float)node.Y);
 
+			if (previousNode != null) {
+				moveTask.connection = mapUtil.GetConnection (previousNode, node);
+				shipSpeed = moveTask.connection.Speed;
+			} else {
+				shipSpeed = defaultShipSpeed;
+			}
+
+
 			double distance = Math.Pow(Math.Pow(node.X - currentPosition.x, 2) + Math.Pow(node.Y - currentPosition.y, 2), 0.5);
 			TimeSpan duration = new TimeSpan(0, 0, (int)Math.Round(distance/shipSpeed));
 			moveTask.StartTime = currentTime;
 			moveTask.EndTime = currentTime.Add(duration);
 
-			if (previousNode != null) {
-				moveTask.connection = mapUtil.GetConnection(previousNode, node);
-            }
+
 			previousNode = node;
 
 			currentTime = currentTime.Add(duration);
@@ -87,10 +94,10 @@ public class ShipScheduler {
 			schedule.AppendTask(moveTask);
 
 			// Unloading task
-			double unloadingSpeed = 0.2;
+			double unloadingSpeed = GameObject.Find("SceneSetting").GetComponent<SceneSetting>().UnloadingSpeed;
 			Dock dock = mapUtil.GetDockByNode(node);
             if (!unloadingScheduled && dock != null) {
-				TimeSpan unloadingDuration = new TimeSpan(0, 0, (int)Math.Round(ship.ship.cargo / unloadingSpeed));
+				TimeSpan unloadingDuration = new TimeSpan(0, 0, (int)Math.Round(ship.Ship.cargo / unloadingSpeed));
 				UnloadingTask unloadingTask = new UnloadingTask();
 				unloadingTask.Position = currentPosition;
 				unloadingTask.StartTime = currentTime;
@@ -114,7 +121,7 @@ public class ShipScheduler {
 	}
 
 	private void FindAllPaths() {
-		if (ship.ship.cargo == 0) {
+		if (ship.Ship.cargo == 0) {
 			FindAllPathsToLeaveMap();
         } else {
 			FindAllPathsToUnloadAndLeaveMap();
@@ -125,12 +132,12 @@ public class ShipScheduler {
 	private void FindAllPathsToLeaveMap() {
 		MapUtil mapUtil = GameObject.Find("MapUtil").GetComponent<MapUtil>();
 
-		Node startNode = mapUtil.FindNearestNode(ship.ship.X, ship.ship.Y);
+		Node startNode = mapUtil.FindNearestNode(ship.Ship.X, ship.Ship.Y);
 
 		List<Node> exitNodes = mapUtil.ExitNodes();
 
 		foreach (Node exitNode in exitNodes) {
-			List<Path> pathsToExit = mapUtil.FindPath(startNode, exitNode);
+			List<ShipPath> pathsToExit = mapUtil.FindPath(startNode, exitNode);
 			paths.AddRange(pathsToExit);
 		}
 	}
@@ -138,16 +145,16 @@ public class ShipScheduler {
 	private void FindAllPathsToUnloadAndLeaveMap() {
 		MapUtil mapUtil = GameObject.Find("MapUtil").GetComponent<MapUtil>();
 
-		Node startNode = mapUtil.FindNearestNode(ship.ship.X, ship.ship.Y);
+		Node startNode = mapUtil.FindNearestNode(ship.Ship.X, ship.Ship.Y);
 		List<Node> exitNodes = mapUtil.ExitNodes();
-		List<Dock> docksToUnload = mapUtil.GetAllDocksOfType(ship.ship.Industry);
+		List<Dock> docksToUnload = mapUtil.GetAllDocksOfType(ship.Ship.Industry);
 		if (docksToUnload.Count == 0) {
 			Debug.LogError("No dock found!");
 		}
 
 		foreach (Dock dock in docksToUnload) {
-			List<Path> pathsToDock;
-			List<Path> pathsToExit;
+			List<ShipPath> pathsToDock;
+			List<ShipPath> pathsToExit;
 
 			pathsToDock = mapUtil.FindPath(startNode, dock.node);
 			if (pathsToDock.Count == 0) {
@@ -156,12 +163,12 @@ public class ShipScheduler {
 			foreach (Node exitNode in exitNodes) {
 				pathsToExit = mapUtil.FindPath(dock.node, exitNode);
 				if (pathsToExit.Count == 0) {
-					foreach (Path pathToDock in pathsToDock) {
+					foreach (ShipPath pathToDock in pathsToDock) {
 						paths.Add(pathToDock);	
 					}
 				}
-				foreach (Path pathToDock in pathsToDock) {
-					foreach (Path pathToExit in pathsToExit) {
+				foreach (ShipPath pathToDock in pathsToDock) {
+					foreach (ShipPath pathToExit in pathsToExit) {
 						paths.Add(pathToDock.ConcatenatePath(pathToExit));
 					}
 				}

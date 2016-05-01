@@ -7,19 +7,12 @@ public class NodeVO : MonoBehaviour, MapSelectableVO {
 	public Node node;
     public GameObject sidePanel;
 
-	private Camera mainCamera;
-
 	public void Start () {
-		mainCamera = Camera.main;	
 	}
 	
 	public void Update () {
 		if (node != null) {
 			gameObject.transform.position = new Vector3((float)node.X, (float)node.Y, (float)MapController.MapZIndex);
-			gameObject.transform.localScale = new Vector3(
-				mainCamera.orthographicSize / 200, 
-				mainCamera.orthographicSize / 200, 
-				1);
 
 			if (node.IsExit) {
 				gameObject.transform.Find("Exit").gameObject.SetActive(true);

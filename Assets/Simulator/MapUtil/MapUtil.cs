@@ -30,14 +30,14 @@ public class MapUtil : MonoBehaviour {
 		}
 	};
 
-	public List<Path> FindPath(Node from, Node to) {
-		int maxNumPaths = 3;
+	public List<ShipPath> FindPath(Node from, Node to) {
+		int maxNumPaths = 2;
 		int numPaths = 0;
-		List<Path> allPaths = new List<Path>();
+		List<ShipPath> allPaths = new List<ShipPath>();
 		List<TreeNode> nodesToExpand = new List<TreeNode>();
 
 		if (from == to) {
-			Path path = new Path();
+			ShipPath path = new ShipPath();
 			path.AppendNode(to);
 			allPaths.Add(path);
 			return allPaths;
@@ -72,8 +72,8 @@ public class MapUtil : MonoBehaviour {
 		return allPaths;
 	}
 
-	private Path GetPathFromTreeNode(TreeNode leaf) {
-		Path path = new Path();
+	private ShipPath GetPathFromTreeNode(TreeNode leaf) {
+		ShipPath path = new ShipPath();
 		while (leaf.parent != null) {
 			path.AddNodeFromBeginning(leaf.node);
 			leaf = leaf.parent;

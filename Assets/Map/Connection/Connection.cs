@@ -9,15 +9,17 @@
 //------------------------------------------------------------------------------
 using System;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
 using UnityEngine;
 
-[Serializable()]
+[Serializable]
 [XmlRoot(ElementName = "Node")]
 public class Connection
 {
 	private Node startNode;
 	private Node endNode;
 	private bool isBidirectional;
+	private double speed = 3.0;
 
 	public Node StartNode {
 		get {return startNode;}
@@ -32,6 +34,11 @@ public class Connection
 	public bool Bidirectional {
 		get {return isBidirectional;}
 		set {isBidirectional = value;}
+	}
+
+	public double Speed {
+		get { return speed; }
+		set { speed = value; }
 	}
 
 }

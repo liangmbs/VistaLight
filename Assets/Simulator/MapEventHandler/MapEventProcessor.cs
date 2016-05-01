@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System;
+
 
 public class MapEventProcessor : MonoBehaviour {
 
 	public List<MapEvent> MapEvents { 
-		get { return mapController.Map.mapEvents; }
+		get { 
+			if (mapController == null || mapController.Map == null) {
+				return new List<MapEvent> ();
+			}
+			return mapController.Map.mapEvents; 
+		}
 	}
 
 	public MapController mapController;
@@ -18,8 +24,9 @@ public class MapEventProcessor : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
 	}
+
+
 
 	private bool ShouldHappen(MapEvent mapEvent) {
 		DateTime currentTime = timer.VirtualTime;

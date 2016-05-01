@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OilSpillingMapEventHandler : IMapEventHandler {
 
@@ -25,6 +26,33 @@ public class OilSpillingMapEventHandler : IMapEventHandler {
 		OilSpillingAction action = GameObject.Find("OilSpillingAction").GetComponent<OilSpillingAction>();
 		action.OilSpillingController = oilSpillingController;
 		action.EnableAllToggles();
+
+		double shipSpeedInOilSpilling = GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ().ShipSpeedInOilSpill;
+		action.SlowDownTraffic (shipSpeedInOilSpilling);
+
+		ShowNotification();
+		OpenOilCleaningTab ();
+
+		GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogOilSpilling (OilSpillingEvent);
+
+		PauseGame();
+	}
+
+	private void ShowNotification() {
+		NotificationSystem notificationSystem = GameObject.Find("NotificationSystem").GetComponent<NotificationSystem>();
+
+		string content = "Oil spilling happens. Please take an oil-cleaning action in the Oil Cleaning tab";
+
+		notificationSystem.Notify (NotificationType.Disaster, content);
+	}
+
+	private void PauseGame() {
+		RoundManager roundManager = GameObject.Find ("RoundManager").GetComponent<RoundManager> ();
+		roundManager.StartDecisionPhase ();
+	}
+
+	private void OpenOilCleaningTab() {
+		GameObject.Find ("LayoutManager").GetComponent<WindowManager> ().ShowTab2 ();
 	}
 
 }

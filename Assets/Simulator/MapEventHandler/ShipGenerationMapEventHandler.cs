@@ -23,12 +23,29 @@ public class ShipGenerationMapEventHandler : IMapEventHandler {
 		ship.Y = shipGenerationEvent.Y;
 
 		shipVO.ship = ship;
-		shipController.ship = ship;
+		shipController.Ship = ship;
 		shipController.shipGO = shipGO;
 		shipController.shipVO = shipVO;
+		shipController.ShipCreateTime = shipGenerationEvent.Time;
 
 		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().EnqueueShip(shipController);
-		GameObject.Find("ShipList").GetComponent<ShipListController>().AddShip(shipController);
+
+		GameObject shipEntry = GameObject.Find("ShipList").GetComponent<ShipListController>().AddShip(shipController);
+		shipController.ShipEntry = shipEntry.GetComponent<ShipListEntryController>();
+
+		GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogShipGeneration(shipGenerationEvent);
+
+		CreateNotification();
+	}
+
+	private void CreateNotification() {
+		NotificationSystem notificationSystem = GameObject.Find("NotificationSystem").GetComponent<NotificationSystem>();
+
+		Ship ship = shipGenerationEvent.Ship;
+		string content = String.Format("{0} ship {1} arrived at anchor field and is waiting for scheduling.",
+			ship.Industry.ToString(), ship.Name);
+
+		notificationSystem.Notify (NotificationType.Information, content);
 	}
 
 }

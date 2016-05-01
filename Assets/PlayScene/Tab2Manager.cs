@@ -21,7 +21,7 @@ public class Tab2Manager: MonoBehaviour {
 
 	void Update(){
 		if (togglegroup.AnyTogglesOn ()) {
-			submitButton.gameObject.SetActive (true);
+			//submitButton.gameObject.SetActive (true);
 		}
 
 	}

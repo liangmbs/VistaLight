@@ -17,7 +17,7 @@ public class ShipTask {
 	}
 
 	public bool isInTaskTime(DateTime time) {
-		if (time.CompareTo(StartTime) > 0 && time.CompareTo(EndTime) <= 0) {
+		if (time.CompareTo(StartTime) >= 0 && time.CompareTo(EndTime) <= 0) {
 			return true;	
 		}
 		return false;

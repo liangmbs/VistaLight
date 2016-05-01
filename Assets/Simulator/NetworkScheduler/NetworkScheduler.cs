@@ -14,20 +14,26 @@ public class NetworkScheduler : MonoBehaviour {
 	public GameObject schedulingMask;
 	public Slider progressBar;
 
+	public VistaLightsLogger logger;
+
 	public void RequestReschedule() {
 		rescheduleRequested = true;	
+	}
+
+	void Awake() {
+		logger = GameObject.Find("BasicLoggerManager").GetComponent<VistaLightsLogger>();	
 	}
 
 	private IEnumerator Schedule() {
 		Timer timer = GameObject.Find("Timer").GetComponent<Timer>();
 		double timerSpeed = timer.Speed;
-		timer.Pause();
+		timer.speed = 0;
 		int numberSteps = 2 + priorityQueue.GetCount();
 		int stepsCompleted = 1;
 		UpdateProgress(stepsCompleted, numberSteps);
+		ShowSchedulingMask();
 		yield return null;
 
-		ShowSchedulingMask();
 		ClearAllSchedule();
 		yield return null;
 
@@ -36,14 +42,20 @@ public class NetworkScheduler : MonoBehaviour {
 			ShipController ship = priorityQueue.GetShipWithPriority(i);
 			shipScheduler.Ship = ship;
 			shipScheduler.Schedule();
+
 			stepsCompleted++;
 			UpdateProgress(stepsCompleted, numberSteps);
+
 			yield return null;
 		}
 
-		Scheduling = false;
+
 		timer.Speed = timerSpeed;
 		HideSchedulingMask();
+
+		yield return null;
+		yield return null;
+		Scheduling = false;
 	}
 
 	private void ShowSchedulingMask() {
@@ -84,7 +96,8 @@ public class NetworkScheduler : MonoBehaviour {
 
 	public void ChangeShipPriority(ShipController ship, int priority) {
 		priorityQueue.ChangePriority(ship, priority);
-		RequestReschedule();
+		// RequestReschedule();
+		logger.LogChangeShipPriority(ship.Ship, priority);
 	}
 
 	public int GetShipPriority(ShipController ship) {
@@ -97,20 +110,18 @@ public class NetworkScheduler : MonoBehaviour {
 			StartCoroutine(Schedule());
 			rescheduleRequested = false;
 		}
-
-		
 	}
 
 	public void MoveShipToWaitList(ShipController ship) {
 		priorityQueue.RemoveShip(ship);
 		waitList.EnqueueShip(ship);
-		RequestReschedule();
+		// RequestReschedule();
 	}
 
 	public void MoveShipToPriorityQueue(ShipController ship) { 
 		waitList.RemoveShip(ship);
 		priorityQueue.EnqueueShip(ship);
-		RequestReschedule();
+		// RequestReschedule();
 	}
 
 	public int PriorityQueueLength() {

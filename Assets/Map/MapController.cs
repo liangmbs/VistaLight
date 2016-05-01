@@ -18,7 +18,15 @@ public class MapController : MonoBehaviour {
 	private int nextNodeId = 1;
 	private int nextDockId = 1;
 
-	
+	void OnLevelWasLoaded(int level) {
+		foreach (Transform child in transform) {
+			GameObject.Destroy(child.gameObject);
+		}
+	}
+
+	void Awake() {
+		DontDestroyOnLoad(transform.gameObject);
+	}	
 
 	public Map Map { 
 		get { return map; }
@@ -51,7 +59,7 @@ public class MapController : MonoBehaviour {
 		GameObject nodeGO = Instantiate(nodePrefab, Vector3.zero, Quaternion.identity) as GameObject;
 		nodeGO.GetComponent<NodeVO>().node = node;
 		nodeGO.transform.parent = GameObject.Find("Map").transform;
-
+		nodeGO.name = "Node" + node.Id.ToString ();
 		return nodeGO;
 	}
 
@@ -66,8 +74,6 @@ public class MapController : MonoBehaviour {
 
 		connection.StartNode.AddConnection(connection);
 		connection.EndNode.AddConnection(connection);
-
-		
 		
 		return connectionGO;
 	}
@@ -92,6 +98,7 @@ public class MapController : MonoBehaviour {
 				Quaternion.identity) as GameObject;
 		dockObject.GetComponent<DockVO>().Dock = dock;
 		dockObject.transform.parent = GameObject.Find("Map").transform;
+		dockObject.name = "dock" + dock.id.ToString ();
 		return dockObject;
 	}
 
@@ -213,6 +220,12 @@ public class MapController : MonoBehaviour {
 		foreach (MapEvent mapEvent in map.mapEvents) {
 			CreateMapEventGameObject(mapEvent);
 		}
+	}
+
+	public void RemoveMapEvent(GameObject mapEventGO) {
+		MapEvent mapEvent = mapEventGO.GetComponent<MapEventVO> ().MapEvent;
+		map.RemoveMapEvent (mapEvent);
+		Destroy (mapEventGO);
 	}
 
 	public void CloseMap() {

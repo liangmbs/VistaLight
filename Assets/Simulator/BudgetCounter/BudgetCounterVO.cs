@@ -16,12 +16,12 @@ public class BudgetCounterVO : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		moneyText.text = string.Format("${0:N}", budget.money);
+		moneyText.text = string.Format("${0:N0}", budget.money);
 		if (budget.moneyChange < 0) {
-			moneyChangeText.text = string.Format("${0:N}", budget.moneyChange);
+			moneyChangeText.text = string.Format("${0:N0}", budget.moneyChange);
 			moneyChangeText.color = Color.red;
 		} else {
-			moneyChangeText.text = string.Format("${0:N}", budget.moneyChange);
+			moneyChangeText.text = string.Format("${0:N0}", budget.moneyChange);
 			moneyChangeText.color = Color.green;
 		}
 	}
