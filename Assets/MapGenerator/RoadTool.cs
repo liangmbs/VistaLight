@@ -12,7 +12,6 @@ public class RoadTool : IMapEditorTool
 	private bool isStarted = false;
 
 	private GameObject nodePrefab;
-	private GameObject connectionPrefab;
 	private GameObject tempNode;
 
 	private GameObject tempRoad;
@@ -24,7 +23,6 @@ public class RoadTool : IMapEditorTool
 	{
 		this.mapController = mapController;
 		nodePrefab = Resources.Load("Node", typeof(GameObject)) as GameObject;
-		connectionPrefab = Resources.Load("Connection", typeof(GameObject)) as GameObject;
 		
 		this.ShowTemporaryNode();
 		tempRoad = new GameObject();
@@ -58,6 +56,7 @@ public class RoadTool : IMapEditorTool
 			GameObject nodeMouseOn = MouseOnNode();
 			if (nodeMouseOn != null) {
 				currentNode = nodeMouseOn;
+				SelectNode(currentNode);
 			} else {
 				PutNode();
 			}
@@ -70,8 +69,17 @@ public class RoadTool : IMapEditorTool
 		}
 	}
 
+	private void SelectNode(GameObject node) { 
+		GameObject.Find("MapEditorController").GetComponent<MapEditorController>().SelectOne(node.GetComponent<NodeVO>());
+	}
+
+	private void DeselectNode() {
+		GameObject.Find("MapEditorController").GetComponent<MapEditorController>().DeselectAll();
+    }
+
 	private void PutNode() {
 		currentNode = mapController.AddNode(MousePosition());
+		SelectNode(currentNode);
 	}
 
 	public void RespondMouseLeftUp() {
@@ -142,6 +150,7 @@ public class RoadTool : IMapEditorTool
 	private GameObject PutNodeOnRoad(Vector2 position, int index) {
 		GameObject node = mapController.AddNode(position);
 		currentNode = node;
+		SelectNode(node);
 		return node;
 	}
 
@@ -163,7 +172,6 @@ public class RoadTool : IMapEditorTool
 			endNode = ray.collider.gameObject;
 			mousePosition = new Vector2(endNode.transform.position.x, endNode.transform.position.y);
 		}
-		Debug.Log(endOnNode);
 
 		Node node = currentNode.GetComponent<NodeVO>().node;
 		Vector2 currentPosition = new Vector2((float)node.X, (float)node.Y);
@@ -188,15 +196,35 @@ public class RoadTool : IMapEditorTool
 			putConnection(previousNode, endNode);
 			if (!isTemp) {
 				currentNode = endNode;
+				SelectNode(currentNode);
 			}
 		}
 	}
 
 	public void RespondMouseRightClick() {
-		this.isStarted = false;
-		this.tempRoad.SetActive(false);
-		UpdateTemporaryNodePosition();
-        tempNode.SetActive(true);
+		if (isStarted) {
+			this.isStarted = false;
+			this.tempRoad.SetActive(false);
+			this.DeselectNode();
+			UpdateTemporaryNodePosition();
+			tempNode.SetActive(true);
+		} else {
+			RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+			if (ray.collider != null && ray.collider.tag == "Node") {
+				mapController.RemoveNode(ray.collider.gameObject);
+			}
+		}
+	}
+
+	public bool CanDestroy() {
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+		if (isStarted) {
+			return false;
+		} else if (ray.collider != null && ray.collider.tag == "Node"){
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
 

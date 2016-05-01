@@ -45,17 +45,21 @@ public class ToolSelector : MonoBehaviour {
 		DeselectCurrentTool();		
 
 		toolSelected = tool;
+		
+		GameObject.Find("MapEditorController").GetComponent<MapEditorController>().DeselectAll();
 	}
 
-	private void DeselectCurrentTool() {
+	public void DeselectCurrentTool() {
 		// Destory previous tool
 		if (toolSelected != null) {
 			toolSelected.Destory();
+			GameObject.Find("MapEditorController").GetComponent<MapEditorController>().DeselectAll();
 		}
 		toolSelected = null;
 
 		// Make all other buttons gray
 		GrayOutAllToolButtons();
+
 	}
 
 	private void GrayOutAllToolButtons() {
@@ -63,4 +67,5 @@ public class ToolSelector : MonoBehaviour {
 		DockSubTray.GetComponent<SubTrayController>().DeselectAllTools();
 		EventSubTray.GetComponent<SubTrayController>().DeselectAllTools();
 	}
+
 }

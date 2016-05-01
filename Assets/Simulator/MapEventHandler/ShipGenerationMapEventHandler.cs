@@ -1,0 +1,51 @@
+﻿using UnityEngine;
+using System.Collections;
+using System;
+
+public class ShipGenerationMapEventHandler : IMapEventHandler {
+
+	private ShipGenerationEvent shipGenerationEvent;
+
+	public ShipGenerationMapEventHandler(ShipGenerationEvent shipGenerationEvent) {
+		this.shipGenerationEvent = shipGenerationEvent;
+	}
+
+	public void Process() {
+		GameObject shipPrefab = Resources.Load("Ship") as GameObject;
+
+		
+		GameObject shipGO = GameObject.Instantiate(shipPrefab);
+		ShipVO shipVO = shipGO.GetComponent<ShipVO>();
+		ShipController shipController = shipGO.GetComponent<ShipController>();
+
+		Ship ship = shipGenerationEvent.Ship;
+		ship.X = shipGenerationEvent.X;
+		ship.Y = shipGenerationEvent.Y;
+
+		shipVO.ship = ship;
+		shipController.Ship = ship;
+		shipController.shipGO = shipGO;
+		shipController.shipVO = shipVO;
+		shipController.ShipCreateTime = shipGenerationEvent.Time;
+
+		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().EnqueueShip(shipController);
+
+		GameObject shipEntry = GameObject.Find("ShipList").GetComponent<ShipListController>().AddShip(shipController);
+		shipController.ShipEntry = shipEntry.GetComponent<ShipListEntryController>();
+
+		GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogShipGeneration(shipGenerationEvent);
+
+		CreateNotification();
+	}
+
+	private void CreateNotification() {
+		NotificationSystem notificationSystem = GameObject.Find("NotificationSystem").GetComponent<NotificationSystem>();
+
+		Ship ship = shipGenerationEvent.Ship;
+		string content = String.Format("{0} ship {1} arrived at anchor field and is waiting for scheduling.",
+			ship.Industry.ToString(), ship.Name);
+
+		notificationSystem.Notify (NotificationType.Information, content);
+	}
+
+}

@@ -18,7 +18,15 @@ public class MapController : MonoBehaviour {
 	private int nextNodeId = 1;
 	private int nextDockId = 1;
 
-	
+	void OnLevelWasLoaded(int level) {
+		foreach (Transform child in transform) {
+			GameObject.Destroy(child.gameObject);
+		}
+	}
+
+	void Awake() {
+		DontDestroyOnLoad(transform.gameObject);
+	}	
 
 	public Map Map { 
 		get { return map; }
@@ -39,11 +47,19 @@ public class MapController : MonoBehaviour {
 		return nodeGO;
 	}
 
+	public void AddShip(Ship ship) {
+		map.AddShip(ship);
+	}
+
+	public Ship GetShipById(int id) {
+		return map.GetShipById(id);
+	}
+
 	private GameObject CreateNodeGameObject(Node node) {
 		GameObject nodeGO = Instantiate(nodePrefab, Vector3.zero, Quaternion.identity) as GameObject;
 		nodeGO.GetComponent<NodeVO>().node = node;
 		nodeGO.transform.parent = GameObject.Find("Map").transform;
-
+		nodeGO.name = "Node" + node.Id.ToString ();
 		return nodeGO;
 	}
 
@@ -55,11 +71,14 @@ public class MapController : MonoBehaviour {
 		map.AddConnection(connection);
 
 		GameObject connectionGO = CreateConnectionGameObject(connection);
+
+		connection.StartNode.AddConnection(connection);
+		connection.EndNode.AddConnection(connection);
 		
 		return connectionGO;
 	}
 
-	public GameObject AddDock(GameObject node, DockType type) {
+	public GameObject AddDock(GameObject node, IndustryType type) {
 		Dock dock = new Dock();
 		dock.id = nextDockId;
 		dock.node = node.GetComponent<NodeVO>().node;
@@ -79,21 +98,21 @@ public class MapController : MonoBehaviour {
 				Quaternion.identity) as GameObject;
 		dockObject.GetComponent<DockVO>().Dock = dock;
 		dockObject.transform.parent = GameObject.Find("Map").transform;
+		dockObject.name = "dock" + dock.id.ToString ();
 		return dockObject;
 	}
 
-	private GameObject CreateConnectionGameObject(Connection connection) { 
+	public GameObject CreateConnectionGameObject(Connection connection) { 
 		GameObject connectionGO = Instantiate(connectionPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-		connectionGO.GetComponent<ConnectionVO>().connection = connection;
+		
+		ConnectionVO connectionVO = connectionGO.GetComponent<ConnectionVO>();
+		connectionVO.connection = connection;
+
 		connectionGO.transform.parent = GameObject.Find("Map").transform;
 		return connectionGO;
 	}
 
-	public GameObject AddMapEvent(Vector3 position) {
-		MapEvent mapEvent = new MapEvent();
-		mapEvent.X = position.x;
-		mapEvent.Y = position.y;
-		mapEvent.Time = map.StartTime;
+	public GameObject AddMapEvent(MapEvent mapEvent) {
 		map.AddMapEvent(mapEvent);
 		GameObject mapEventGO = CreateMapEventGameObject(mapEvent);
 		return mapEventGO;
@@ -129,8 +148,44 @@ public class MapController : MonoBehaviour {
 		mapEvent.transform.FindChild("Event").gameObject.SetActive(false);	
 	}
 
-	public void RemoveNode(GameObject gameObject) {
-		throw new NotImplementedException();
+	public void RemoveNode(GameObject nodeGO) {
+		Node node = nodeGO.GetComponent<NodeVO>().node;
+
+		// First remove all related connections
+		for (int i = map.connections.Count - 1; i >= 0; i--) {
+			Connection connection = map.connections[i];
+			if (connection.StartNode == node || connection.EndNode == node) {
+				GameObject connectionGO = GetConnectionGO(connection);
+				if (connectionGO != null) {
+					RemoveConnection(connectionGO);
+				}
+			}
+		}
+
+		// Remove the node itself
+		GameObject.Destroy(nodeGO);
+		map.RemoveNode(node);
+	}
+
+	public GameObject GetConnectionGO(Connection connection) {
+		foreach (Transform child in GameObject.Find("Map").transform) {
+			GameObject go = child.gameObject;
+			if (go.GetComponent<ConnectionVO>() != null &&
+				go.GetComponent<ConnectionVO>().connection == connection) {
+				return go;
+			}
+		}
+		return null;
+	}
+
+	public void RemoveConnection(GameObject connectionGO) {
+		Connection connection = connectionGO.GetComponent<ConnectionVO>().connection;
+        map.RemoveConnection(connection);
+		GameObject.Destroy(connectionGO);
+
+		foreach (Node node in map.nodes) {
+			node.RemoveConnection(connection);
+		}
 	}
 
 
@@ -162,10 +217,15 @@ public class MapController : MonoBehaviour {
 
 	public void RegenerateMapEvents() {
 		// Regenerate all map events
-		Debug.Log(map.mapEvents.Count);
 		foreach (MapEvent mapEvent in map.mapEvents) {
 			CreateMapEventGameObject(mapEvent);
 		}
+	}
+
+	public void RemoveMapEvent(GameObject mapEventGO) {
+		MapEvent mapEvent = mapEventGO.GetComponent<MapEventVO> ().MapEvent;
+		map.RemoveMapEvent (mapEvent);
+		Destroy (mapEventGO);
 	}
 
 	public void CloseMap() {

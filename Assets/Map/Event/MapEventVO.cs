@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
-public class MapEventVO : MonoBehaviour {
+public class MapEventVO : MonoBehaviour, MapSelectableVO {
 
 	public MapEvent MapEvent;
 	public bool IsSelected = false;
+
+	public GameObject shipGenerationEvent;
+	public GameObject shipGenerationEventSelected;
+	public GameObject oilSpillingEvent;
+	public GameObject oilSpillingEventSelected;
 
 	void Start () {
 	
@@ -20,13 +26,19 @@ public class MapEventVO : MonoBehaviour {
 			(float)(Camera.main.orthographicSize / 20),
 			(float)1);
 
+		HideAllChildren();
 		if (IsSelected) {
-			gameObject.transform.FindChild("EventSelected").gameObject.SetActive(true);
-			gameObject.transform.FindChild("Event").gameObject.SetActive(false);
+			if (MapEvent is ShipGenerationEvent) {
+				shipGenerationEventSelected.SetActive(true);
+			} else if (MapEvent is OilSpillingEvent) {
+				oilSpillingEventSelected.SetActive(true);
+            }
 		} else { 
-			gameObject.transform.FindChild("EventSelected").gameObject.SetActive(false);
-			gameObject.transform.FindChild("Event").gameObject.SetActive(true);
-
+			if (MapEvent is ShipGenerationEvent) {
+				shipGenerationEvent.SetActive(true);
+			} else if (MapEvent is OilSpillingEvent) {
+				oilSpillingEvent.SetActive(true);
+            }
 		}
 	}
 
@@ -35,4 +47,37 @@ public class MapEventVO : MonoBehaviour {
 		MapEvent.X = ray.point.x;
 		MapEvent.Y = ray.point.y;
 	}
+
+	public void HideAllChildren() {
+		shipGenerationEvent.SetActive(false);
+		shipGenerationEventSelected.SetActive(false);
+		oilSpillingEvent.SetActive(false);
+		oilSpillingEventSelected.SetActive(false);
+	}
+
+	public void Select() {
+		IsSelected = true;
+	}
+
+	public void Deselect() {
+		IsSelected = false;
+	}
+
+    public GameObject GetSidePanel()
+    {
+		if (MapEvent is ShipGenerationEvent) {
+			GameObject sidePanel = GameObject.Find("SidePanels").transform.FindChild("ShipGenerationMapEventSidePanel").gameObject;
+			ShipGenerationEventSidePanelController controller = sidePanel.GetComponent<ShipGenerationEventSidePanelController>();
+			controller.shipGenerationEvent = (ShipGenerationEvent)MapEvent;
+			controller.UpdateDisplay();
+			return sidePanel;
+		} else if (MapEvent is OilSpillingEvent) {
+			GameObject sidePanel = GameObject.Find("SidePanels").transform.FindChild("OilSpillingMapEventSidePanel").gameObject;
+			OilSpillingMapEventSidePanelController controller = sidePanel.GetComponent<OilSpillingMapEventSidePanelController>();
+			controller.OilSpillingEvent = (OilSpillingEvent)MapEvent;
+			controller.UpdateDisplay();
+			return sidePanel;
+		}
+		return null;
+    }
 }

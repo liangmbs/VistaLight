@@ -9,6 +9,8 @@ public interface IMapEditorTool {
 
 	void RespondMouseRightClick();
 
+	bool CanDestroy();
+
 	void Destory();
 
 }

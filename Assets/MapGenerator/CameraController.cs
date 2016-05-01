@@ -5,6 +5,11 @@ using UnityEngine.EventSystems;
 public class CameraController : MonoBehaviour {
 
 	public double sensitivity = 30;
+	public int right_space = 0;
+
+	bool dragging = false;
+	private Vector3 dragOrigin;
+	public bool interactable = true;
 
 	// Use this for initialization
 	void Start () {
@@ -13,55 +18,67 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (!interactable) {
+			return;
+		}
+
+		Vector2 mouseInViewPort = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+		if (mouseInViewPort.x < 0 || mouseInViewPort.x > 1 || mouseInViewPort.y < 0 || mouseInViewPort.y > 1) {
+			return;
+		}
+
 		float mouseWheel = Input.GetAxis("Mouse ScrollWheel");
 		ZoomInAndOut(mouseWheel);
 
-		MoveWithMouseMiddleButton();
+		MoveWithMouseLeftButton();
 		MoveWithWASD();
-
-		double widthPercent = ((double)Screen.width - 200.0) / (double)Screen.width;
-		double heightPercent = ((double)Screen.height - 80.0) / (double)Screen.height;
-		gameObject.GetComponent<Camera>().rect = new Rect(
-			0, (float)(1-heightPercent), 
-			(float)widthPercent, 
-			(float)heightPercent);
 	}
 
-	void MoveWithMouseMiddleButton() {
-		if (Input.GetMouseButton(2)) {
-			double cameraSize = gameObject.GetComponent<Camera>().orthographicSize;
-			transform.position += new Vector3(
-				(float)(-Input.GetAxis("Mouse X") * cameraSize / sensitivity),
-				(float)(-Input.GetAxis("Mouse Y") * cameraSize / sensitivity), 0);
+	void MoveWithMouseLeftButton() {
+		RaycastHit2D ray = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+
+		if ((Input.GetMouseButtonDown(0) && ray.collider != null && ray.collider.tag == "Background") || Input.GetMouseButtonDown(2) ) {
+			dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			dragging = true;
+			return;
 		}
+
+		if (!dragging) {
+			return;
+		}
+
+		if (!(Input.GetMouseButton (0) || Input.GetMouseButton(2))) {
+			dragging = false;
+			return;
+		}
+
+		Vector3 pos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+		Vector3 move = pos - dragOrigin;
+
+		transform.Translate (-move, Space.World);
 	}
 
 	void MoveWithWASD() {
 		double cameraSize = gameObject.GetComponent<Camera>().orthographicSize;
 		double moveLength = cameraSize / sensitivity;
-		if (Input.GetKey("w")) {
+		if (Input.GetKey("w") || Input.GetKey(KeyCode.UpArrow)) {
 			transform.position += new Vector3(
 				0, (float)(moveLength), 0);
-		} else if (Input.GetKey("a")) {
+		} else if (Input.GetKey("a")|| Input.GetKey(KeyCode.LeftArrow)) {
 			transform.position += new Vector3(
 				(float)(-moveLength), 0, 0);
-		} else if (Input.GetKey("s")) {
+		} else if (Input.GetKey("s")|| Input.GetKey(KeyCode.DownArrow)) {
 			transform.position += new Vector3(
 				0, (float)(-moveLength), 0);
-		} else if (Input.GetKey("d")) {
+		} else if (Input.GetKey("d")|| Input.GetKey(KeyCode.RightArrow)) {
 			transform.position += new Vector3(
 				(float)(moveLength), 0, 0);
 		}
 	}
 
 	void ZoomInAndOut(float mouseWheel) {
-		// If over gui, do not zoom
-		if (EventSystem.current.IsPointerOverGameObject()) {
-			return;
-		}
-
 		double scrollSpeed = 1;
-		double minCameraSize = 100;
+		double minCameraSize = 5000;
 		double maxCameraSize = 50000;
 
 		if (mouseWheel != 0) {

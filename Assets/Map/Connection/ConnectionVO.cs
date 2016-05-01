@@ -4,14 +4,15 @@ using System.Collections;
 public class ConnectionVO : MonoBehaviour {
 
 	public Connection connection;
+	public Vector3 startNodePosition = Vector3.zero;
+	public Vector3 endNodePositino = Vector3.zero;
 
 	// Use this for initialization
 	void Start () {
 	
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	public void Update() {
 		Node startNode = connection.StartNode;
 		Node endNode = connection.EndNode;
 
@@ -20,11 +21,8 @@ public class ConnectionVO : MonoBehaviour {
 
 		gameObject.transform.position = (startPosition + endPosition) / 2.0f;
 		float distance = (Vector3.Distance(endPosition, startPosition));
-		gameObject.transform.localScale = new Vector3(distance, distance / 10, 0.01f);
-		gameObject.transform.localScale = new Vector3(
-				(float)(distance * Camera.main.orthographicSize / 10000),
-				(float)(distance / 10 * Camera.main.orthographicSize / 10000),
-				(float)1);
+		gameObject.transform.localScale = new Vector3((float) (distance * 1.68), (float)(distance * 1.68 / 10), 0.01f);
+		
 		gameObject.transform.rotation = Quaternion.FromToRotation(new Vector3(1, 0, 0), startPosition - endPosition);
 
 		if (connection.Bidirectional) {
@@ -35,4 +33,5 @@ public class ConnectionVO : MonoBehaviour {
 			gameObject.transform.FindChild("Bidirectional").GetComponent<SpriteRenderer>().enabled = false;
 		}
 	}
+	
 }

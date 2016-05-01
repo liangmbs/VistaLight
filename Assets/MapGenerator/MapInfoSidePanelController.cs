@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Collections;
 using UnityEngine.UI;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -13,6 +15,17 @@ public class MapInfoSidePanelController : MonoBehaviour {
 	public MapController mapController;
 	public ShipPanelController shipPannelController;
 	public Map map;
+    public ToolSelector toolSelector;
+
+	public InputField mapNameInput;
+	public InputField startTimeInput;
+	public InputField endTimeInput;
+	public InputField targetBudgetInput;
+	public InputField targetWelfareInput;
+	public Slider targetWelfareSlider;
+	public Slider targetDockUtilizationSlider;
+	public InputField targetDockUtilizationInput;
+
 	public bool hasModification = false;
 	public string path = "";
 
@@ -26,14 +39,6 @@ public class MapInfoSidePanelController : MonoBehaviour {
 		
 	}
 
-	private void updateMapInformationDisplay() {
-		if (map != null) {
-			GameObject.Find("MapNameInput").GetComponent<InputField>().text = map.Name;
-			GameObject.Find("StartTimeInput").GetComponent<InputField>().text = 
-				map.StartTime.ToString(Map.DateTimeFormat);
-		}
-	}
-
 	public void NewMap() {
 		if (mapController.Map != null) {
 			CloseMap();
@@ -43,18 +48,15 @@ public class MapInfoSidePanelController : MonoBehaviour {
 		hasModification = false;
 
 		mapInformationSetting.SetActive(true);
-		updateMapInformationDisplay();
+		UpdateDisplay();
 	}
 
 	public void LoadMap() {
-
 		CloseMap();
 
-		string[] mapTypes = {
-			"VistaLights Map Files", "vlmap",
-			"All Files", "*"
-		};
+		#if UNITY_EDITOR
 		path = EditorUtility.OpenFilePanel("Load map", "", "vlmap");
+		#endif
 
 		MapSerializer mapSerializer = new MapSerializer();
 		this.map = mapSerializer.LoadMap(path);
@@ -64,14 +66,16 @@ public class MapInfoSidePanelController : MonoBehaviour {
 		mapController.RegenerateMapEvents();
 
 		mapInformationSetting.SetActive(true);
-		this.updateMapInformationDisplay();
+		UpdateDisplay ();
 	} 
 
 	
 
 	public void SaveMap() {
 		if (path == "") {
+			#if UNITY_EDITOR
 			path = EditorUtility.SaveFilePanel("Select file location", "", "map", "vlmap");
+			#endif
 		}
 
 		MapSerializer mapSerializer = new MapSerializer();
@@ -90,5 +94,29 @@ public class MapInfoSidePanelController : MonoBehaviour {
 
 		path = "";
 		hasModification = false;
+
+        toolSelector.DeselectCurrentTool();
+	}
+
+	public void UpdateData() {
+		map.Name = mapNameInput.text;
+		map.StartTime = DateTime.Parse(startTimeInput.text);
+		map.EndTime = DateTime.Parse (endTimeInput.text);
+		map.TargetBudget = double.Parse (targetBudgetInput.text);
+		map.TargetWelfare = targetWelfareSlider.value;
+		map.TargetDockUtilization = targetDockUtilizationSlider.value;
+
+		UpdateDisplay();
+	}
+
+	public void UpdateDisplay() {
+		mapNameInput.text = map.Name;
+		startTimeInput.text = map.StartTime.ToString(Map.DateTimeFormat);
+		endTimeInput.text = map.EndTime.ToString (Map.DateTimeFormat);
+		targetBudgetInput.text = map.TargetBudget.ToString ();
+		targetWelfareInput.text = map.TargetWelfare.ToString ("F");
+		targetWelfareSlider.value = (float)map.TargetWelfare;
+		targetDockUtilizationInput.text = map.TargetDockUtilization.ToString("P2");
+		targetDockUtilizationSlider.value = (float)map.TargetDockUtilization;
 	}
 }

@@ -11,20 +11,20 @@ public class DockToolButtonController : ToolButtonController {
 	public override void SelectTool(string setting) {
 		CreateDockTool tool = null;
         switch (setting) {
-		case "Petro":
-			tool = new CreateDockTool(mapController, DockType.Petro);
+		case "Cruise":
+			tool = new CreateDockTool(mapController, IndustryType.Cruise);
 			break;			
 
 		case "Breakbulk":
-			tool = new CreateDockTool(mapController, DockType.BreakBulk);
+			tool = new CreateDockTool(mapController, IndustryType.BreakBulk);
 			break;
 
 		case "Bulk":
-			tool = new CreateDockTool(mapController, DockType.Bulk);
+			tool = new CreateDockTool(mapController, IndustryType.Bulk);
 			break;
 
-		case "Port":
-			tool = new CreateDockTool(mapController, DockType.Port);
+		case "Petro":
+			tool = new CreateDockTool(mapController, IndustryType.Petro);
 			break;
 
 		default:

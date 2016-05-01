@@ -7,10 +7,12 @@ public class MapEventToolButtonController : ToolButtonController {
 
 	public MapController mapController;
 	public ToolSelector toolSelector;
+	public MapEventType type;
 
 	public override void SelectTool(string setting) {
 		MapEventTool tool = new MapEventTool(mapController);
 		toolSelector.SelectTool(tool);
+		tool.Type = type;
 		gameObject.GetComponent<Button>().image.color = Color.white;
 	}
 

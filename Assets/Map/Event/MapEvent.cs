@@ -14,7 +14,7 @@ public class MapEvent : ISerializable{
 	public MapEvent() { }
 
 	// Serialization
-	public void GetObjectData(SerializationInfo info, StreamingContext context) {
+	virtual public void GetObjectData(SerializationInfo info, StreamingContext context) {
 		info.AddValue("X", X);
 		info.AddValue("Y", Y);
 		info.AddValue("Time", Time);
