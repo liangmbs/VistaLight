@@ -15,6 +15,14 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 	public Button SignalButton;
 	public Button highlightButton;
 	public Text priority;
+	public int PriorityInputValue {
+		get {
+			return Int32.Parse (priorityInput.text);
+		}
+		set {
+			priorityInput.text = value.ToString();
+		}
+	}
 	public InputField priorityInput;
 	public Text shipName;
 	public Text type;
@@ -30,10 +38,10 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 
 	public Vector3 Position {
 		get {
-			return gameObject.GetComponent<RectTransform> ().anchoredPosition;
+			return this.gameObject.GetComponent<RectTransform> ().anchoredPosition;
 		}
 		set {
-			gameObject.GetComponent<RectTransform> ().anchoredPosition = value;
+			this.gameObject.GetComponent<RectTransform> ().anchoredPosition = value;
 		}
 	}
 
@@ -176,11 +184,7 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 	}
 
 	public void UpdatePriorityInput() {
-		SetPriorityInput (shipController.GetShipPriority () + 1);
-	}
-
-	public void SetPriorityInput(int priority) {
-		priorityInput.text = priority.ToString();
+		PriorityInputValue = shipController.GetShipPriority () + 1;
 	}
 
 	#region IBeginDragHandler implementation
@@ -211,21 +215,27 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 
 		int newPriority = Math.Max(-1 * (int) Math.Round (Position.y / 30.0f), 0);
 		newPriority = Math.Min(newPriority, priorityQueue.GetCount() - 1);
-		int oldPriority = shipController.GetShipPriority ();
 
-		// Set this ship entry's new location;
-		Vector3 pos = Position;
-		pos.y = newPriority * -30.0f;
-		Position = pos;
-		SetPriorityInput (newPriority + 1);
+		int oldPriority;
+		try {
+			oldPriority = PriorityInputValue - 1;
+		} catch (FormatException _) {
+			oldPriority = shipController.GetShipPriority();
+		}
 
 		// Swap with the other ship's
 		ShipListEntryController otherEntry =
 			shipListController.FindEntryWithPriority (newPriority);
-		pos = otherEntry.Position;
+		Vector3 pos = otherEntry.Position;
 		pos.y = oldPriority * -30.0f;
 		otherEntry.Position = pos;
-		otherEntry.SetPriorityInput (oldPriority + 1);
+		otherEntry.PriorityInputValue = oldPriority + 1;
+
+		// Set this ship entry's new location;
+		pos = Position;
+		pos.y = newPriority * -30.0f;
+		Position = pos;
+		PriorityInputValue = newPriority + 1;
 	}
 
 	#endregion
