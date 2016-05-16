@@ -28,11 +28,15 @@ public class ShipListEntryController : MonoBehaviour {
 	public bool inDecisionMode = false;
 	public bool isGreenSignal = true;
 
-	// Use this for initialization
-	void Start () {
-			
+	public Vector3 Position {
+		get {
+			return gameObject.GetComponent<RectTransform> ().anchoredPosition;
+		}
+		set {
+			gameObject.GetComponent<RectTransform> ().anchoredPosition = value;
+		}
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		if (shipController == null) return;
@@ -53,9 +57,8 @@ public class ShipListEntryController : MonoBehaviour {
 
 		if (!inDecisionMode) {
 			priority.text = priorityValue.ToString ();
+			Position = new Vector3 (0, GetEntryYPos (), 0);
 		}
-		gameObject.GetComponent<RectTransform> ().anchoredPosition =
-			new Vector3 (0, GetEntryYPos (), 0);
 
 		status.text = shipController.status.ToString();
 
