@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.EventSystems;
 
-public class ShipListEntryController : MonoBehaviour {
+public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
 
 	public ShipController shipController;
 
@@ -176,6 +176,57 @@ public class ShipListEntryController : MonoBehaviour {
 	}
 
 	public void UpdatePriorityInput() {
-		priorityInput.text = (shipController.GetShipPriority() + 1).ToString();
+		SetPriorityInput (shipController.GetShipPriority () + 1);
 	}
+
+	public void SetPriorityInput(int priority) {
+		priorityInput.text = priority.ToString();
+	}
+
+	#region IBeginDragHandler implementation
+
+	public void OnBeginDrag (PointerEventData eventData)
+	{
+	}
+
+	#endregion
+
+	#region IDragHandler implementation
+
+	public void OnDrag (PointerEventData eventData)
+	{
+		Vector3 pos = Position;
+		pos.y += eventData.delta.y;
+		Position = pos;
+	}
+
+	#endregion
+
+	#region IEndDragHandler implementation
+
+	public void OnEndDrag (PointerEventData eventData)
+	{
+		PriorityQueue priorityQueue =
+			GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().priorityQueue;
+
+		int newPriority = Math.Max(-1 * (int) Math.Round (Position.y / 30.0f), 0);
+		newPriority = Math.Min(newPriority, priorityQueue.GetCount() - 1);
+		int oldPriority = shipController.GetShipPriority ();
+
+		// Set this ship entry's new location;
+		Vector3 pos = Position;
+		pos.y = newPriority * -30.0f;
+		Position = pos;
+		SetPriorityInput (newPriority + 1);
+
+		// Swap with the other ship's
+		ShipListEntryController otherEntry =
+			shipListController.FindEntryWithPriority (newPriority);
+		pos = otherEntry.Position;
+		pos.y = oldPriority * -30.0f;
+		otherEntry.Position = pos;
+		otherEntry.SetPriorityInput (oldPriority + 1);
+	}
+
+	#endregion
 }
