@@ -9,6 +9,7 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 	public ShipController shipController;
 
 	public ShipListController shipListController;
+	private static float listEntryOffset = 30.0f;
 
 	public Button greenButton;
 	public Button redButton;
@@ -213,7 +214,7 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 		PriorityQueue priorityQueue =
 			GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().priorityQueue;
 
-		int newPriority = Math.Max(-1 * (int) Math.Round (Position.y / 30.0f), 0);
+		int newPriority = Math.Max(-1 * (int) Math.Round (Position.y / listEntryOffset), 0);
 		newPriority = Math.Min(newPriority, priorityQueue.GetCount() - 1);
 
 		int oldPriority;
@@ -227,13 +228,13 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 		ShipListEntryController otherEntry =
 			shipListController.FindEntryWithPriority (newPriority);
 		Vector3 pos = otherEntry.Position;
-		pos.y = oldPriority * -30.0f;
+		pos.y = oldPriority * -listEntryOffset;
 		otherEntry.Position = pos;
 		otherEntry.PriorityInputValue = oldPriority + 1;
 
 		// Set this ship entry's new location;
 		pos = Position;
-		pos.y = newPriority * -30.0f;
+		pos.y = newPriority * -listEntryOffset;
 		Position = pos;
 		PriorityInputValue = newPriority + 1;
 	}
