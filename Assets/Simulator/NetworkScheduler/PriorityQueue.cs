@@ -24,7 +24,7 @@ public class PriorityQueue : MonoBehaviour {
 	}
 
 	public int GetPriority(ShipController ship) {
-		return queue.FindIndex(item => item == ship);
+		return queue.IndexOf(ship);
 	}
 
 	public int GetCount() {
