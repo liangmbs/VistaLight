@@ -73,9 +73,9 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 
 		if (!inDecisionMode) {
 			priority.text = priorityValue.ToString ();
-			Position = new Vector3 (0, GetEntryYPos (), 0);
 		}
 
+		Position = new Vector3 (0, GetEntryYPos (), 0);
 		status.text = shipController.status.ToString();
 
 		shipName.text = ship.Name;
@@ -236,18 +236,9 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 					return;
 				}
 
-				// Swap with the other ship's
-				ShipListEntryController otherEntry =
-					shipListController.FindEntryWithPriority (newPriority);
-				Vector3 pos = otherEntry.Position;
-				pos.y = oldPriority * -listEntryOffset;
-				otherEntry.Position = pos;
-				otherEntry.PriorityInputValue = oldPriority + 1;
+				priorityQueue.SwapPriority (oldPriority, newPriority);
 
-				// Set this ship entry's new location;
-				pos = Position;
-				pos.y = newPriority * -listEntryOffset;
-				Position = pos;
+				otherEntry.PriorityInputValue = oldPriority + 1;
 				PriorityInputValue = newPriority + 1;
 			}
 		}

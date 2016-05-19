@@ -35,6 +35,12 @@ public class PriorityQueue : MonoBehaviour {
 		return queue[priority];
 	}
 
+	public void SwapPriority(int priority, int otherPriority) {
+		ShipController temp = queue [priority];
+		queue [priority] = queue [otherPriority];
+		queue [otherPriority] = temp;
+	}
+
 	public void Clear() {
 		queue.Clear ();
 	}
