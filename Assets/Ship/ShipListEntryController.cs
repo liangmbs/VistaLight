@@ -18,7 +18,11 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 	public Text priority;
 	public int PriorityInputValue {
 		get {
-			return Int32.Parse (priorityInput.text);
+			try {
+				return Int32.Parse (priorityInput.text);
+			} catch (FormatException) {
+				return shipController.GetShipPriority () + 1;
+			}
 		}
 		set {
 			priorityInput.text = value.ToString();
@@ -100,10 +104,8 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 		
 		priority.gameObject.SetActive(true);
 
-		int priorityValue = 0;
 		NetworkScheduler networkScheduler = GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>();
-		priorityValue = PriorityInputValue;
-		networkScheduler.ChangeShipPriority(shipController, priorityValue);
+		networkScheduler.ChangeShipPriority(shipController, PriorityInputValue);
 
 		//shipListController.UpdateAllPriorityInput();
 	}
@@ -205,11 +207,7 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 
 		// Get old priority from the input field
 		int oldPriority;
-		try {
-			oldPriority = PriorityInputValue - 1;
-		} catch (FormatException) {
-			oldPriority = shipController.GetShipPriority();
-		}
+		oldPriority = PriorityInputValue - 1;
 
 		while (true) {
 			// Adjust to new priority
