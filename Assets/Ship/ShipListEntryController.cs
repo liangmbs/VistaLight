@@ -214,14 +214,14 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 		while (true) {
 			// Adjust to new priority
 			int newPriority;
-			if ( yOffset > listEntryOffset) {
+			if ( yOffset + (listEntryOffset/2) > listEntryOffset) {
 				if (oldPriority < 1) {
 					// Already at top, ignore.
 					return;
 				}
 				newPriority = oldPriority - 1;
 				yOffset -= listEntryOffset;
-			} else if (yOffset < -listEntryOffset) {
+			} else if (yOffset - (listEntryOffset/2) < -listEntryOffset) {
 				if (oldPriority > priorityQueue.GetCount () - 2) {
 					// Already at botton, ignore.
 					return;
