@@ -42,6 +42,7 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 	public bool isGreenSignal = true;
 
 	public float yOffset;
+	public bool dragging = false;
 
 	public Vector3 Position {
 		get {
@@ -192,7 +193,10 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 
 	public void OnBeginDrag (PointerEventData eventData)
 	{
-		yOffset = 0.0f;
+		if (inDecisionMode) {
+			dragging = true;
+			yOffset = 0.0f;
+		}
 	}
 
 	#endregion
@@ -201,49 +205,51 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 
 	public void OnDrag (PointerEventData eventData)
 	{
-		yOffset += eventData.delta.y;
-		PriorityQueue priorityQueue =
-			GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().priorityQueue;
+		if (dragging) {
+			yOffset += eventData.delta.y;
+			PriorityQueue priorityQueue =
+				GameObject.Find ("NetworkScheduler").GetComponent<NetworkScheduler> ().priorityQueue;
 
-		// Get old priority from the input field
-		int oldPriority;
-		oldPriority = PriorityInputValue - 1;
+			// Get old priority from the input field
+			int oldPriority;
+			oldPriority = PriorityInputValue - 1;
 
-		while (true) {
-			// Adjust to new priority
-			int newPriority;
-			if ( yOffset + (listEntryOffset/2) > listEntryOffset) {
-				if (oldPriority < 1) {
-					// Already at top, ignore.
+			while (true) {
+				// Adjust to new priority
+				int newPriority;
+				if (yOffset + (listEntryOffset / 2) > listEntryOffset) {
+					if (oldPriority < 1) {
+						// Already at top, ignore.
+						return;
+					}
+					newPriority = oldPriority - 1;
+					yOffset -= listEntryOffset;
+				} else if (yOffset - (listEntryOffset / 2) < -listEntryOffset) {
+					if (oldPriority > priorityQueue.GetCount () - 2) {
+						// Already at botton, ignore.
+						return;
+					}
+					newPriority = oldPriority + 1;
+					yOffset += listEntryOffset;
+				} else {
+					// Nothing to do
 					return;
 				}
-				newPriority = oldPriority - 1;
-				yOffset -= listEntryOffset;
-			} else if (yOffset - (listEntryOffset/2) < -listEntryOffset) {
-				if (oldPriority > priorityQueue.GetCount () - 2) {
-					// Already at botton, ignore.
-					return;
-				}
-				newPriority = oldPriority + 1;
-				yOffset += listEntryOffset;
-			} else {
-				// Nothing to do
-				return;
+
+				// Swap with the other ship's
+				ShipListEntryController otherEntry =
+					shipListController.FindEntryWithPriority (newPriority);
+				Vector3 pos = otherEntry.Position;
+				pos.y = oldPriority * -listEntryOffset;
+				otherEntry.Position = pos;
+				otherEntry.PriorityInputValue = oldPriority + 1;
+
+				// Set this ship entry's new location;
+				pos = Position;
+				pos.y = newPriority * -listEntryOffset;
+				Position = pos;
+				PriorityInputValue = newPriority + 1;
 			}
-
-			// Swap with the other ship's
-			ShipListEntryController otherEntry =
-				shipListController.FindEntryWithPriority (newPriority);
-			Vector3 pos = otherEntry.Position;
-			pos.y = oldPriority * -listEntryOffset;
-			otherEntry.Position = pos;
-			otherEntry.PriorityInputValue = oldPriority + 1;
-
-			// Set this ship entry's new location;
-			pos = Position;
-			pos.y = newPriority * -listEntryOffset;
-			Position = pos;
-			PriorityInputValue = newPriority + 1;
 		}
 	}
 
