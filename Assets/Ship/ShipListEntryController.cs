@@ -211,7 +211,7 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 		int oldPriority;
 		try {
 			oldPriority = PriorityInputValue - 1;
-		} catch (FormatException _) {
+		} catch (FormatException) {
 			oldPriority = shipController.GetShipPriority();
 		}
 
