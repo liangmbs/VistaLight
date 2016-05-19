@@ -138,7 +138,6 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 				networkScheduler.MoveShipToWaitList (shipController);
 				GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogRedGreenSignal (shipController.Ship, "red signal");
 			}
-			shipListController.UpdateAllPriorityInput();
 		} else {
 			NotificationSystem notificationSystem = GameObject.Find ("NotificationSystem").GetComponent<NotificationSystem> ();
 			notificationSystem.Notify (NotificationType.Warning, "Signal to ship can only be set in decision phase");
@@ -183,10 +182,6 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 		}
 
 		inDecisionMode = false;
-	}
-
-	public void UpdatePriorityInput() {
-		PriorityInputValue = shipController.GetShipPriority () + 1;
 	}
 
 	#region IBeginDragHandler implementation

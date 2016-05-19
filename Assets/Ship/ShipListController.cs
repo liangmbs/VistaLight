@@ -117,12 +117,6 @@ public class ShipListController : MonoBehaviour {
 		}
 	}
 
-	public void UpdateAllPriorityInput() {
-		foreach (ShipListEntryController entry in entries) {
-			entry.UpdatePriorityInput();
-		}
-	}
-
 	public ShipListEntryController FindEntryWithPriority(int priority) {
 		float posy = priority * -30.0f;
 		foreach (ShipListEntryController entry in entries) {
