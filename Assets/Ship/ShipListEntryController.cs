@@ -102,11 +102,7 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 
 		int priorityValue = 0;
 		NetworkScheduler networkScheduler = GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>();
-		try {
-			priorityValue = Int32.Parse(priorityInput.text);
-        } catch (Exception) {
-			return;
-		}
+		priorityValue = PriorityInputValue;
 		networkScheduler.ChangeShipPriority(shipController, priorityValue);
 
 		//shipListController.UpdateAllPriorityInput();
