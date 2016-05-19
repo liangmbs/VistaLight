@@ -18,17 +18,9 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 	public Text priority;
 	public int PriorityInputValue {
 		get {
-			try {
-				return Int32.Parse (priorityInput.text);
-			} catch (FormatException) {
 				return shipController.GetShipPriority () + 1;
-			}
-		}
-		set {
-			priorityInput.text = value.ToString();
 		}
 	}
-	public InputField priorityInput;
 	public Text shipName;
 	public Text type;
 	public Text amount;
@@ -145,9 +137,6 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 	}
 
 	public void ShowNewPriority() {
-		priorityInput.gameObject.SetActive (true);
-		priorityInput.text = "";
-
 		priority.gameObject.transform.Translate(new Vector3(40, 0, 0));
 		status.gameObject.transform.Translate(new Vector3(40, 0, 0));
 		shipName.gameObject.transform.Translate(new Vector3(40, 0, 0));
@@ -165,8 +154,7 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 	}
 
 	public void HideNewPriority() {
-		if (priorityInput.gameObject.activeSelf) {
-			priorityInput.gameObject.SetActive (false);
+		if (inDecisionMode) {
 			priority.gameObject.transform.Translate (new Vector3 (-40, 0, 0));
 			status.gameObject.transform.Translate (new Vector3 (-40, 0, 0));
 			shipName.gameObject.transform.Translate (new Vector3 (-40, 0, 0));
@@ -232,9 +220,6 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 				}
 
 				priorityQueue.SwapPriority (oldPriority, newPriority);
-
-				otherEntry.PriorityInputValue = oldPriority + 1;
-				PriorityInputValue = newPriority + 1;
 			}
 		}
 	}

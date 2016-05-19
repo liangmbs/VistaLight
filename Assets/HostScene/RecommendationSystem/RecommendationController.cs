@@ -42,7 +42,6 @@ public class RecommendationController : MonoBehaviour {
 
 	public void PerformeRecommendation() {
 		networkScheduler.priorityQueue.ChangePriority(recommendation.ship, recommendation.desiredPriority);
-		recommendation.ship.ShipEntry.PriorityInputValue = recommendation.desiredPriority;
 	}
 
 	public void Deny() {
