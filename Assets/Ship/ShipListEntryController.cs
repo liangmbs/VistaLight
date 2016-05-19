@@ -18,7 +18,7 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 	public Text priority;
 	public int PriorityInputValue {
 		get {
-				return shipController.GetShipPriority () + 1;
+				return shipController.GetShipPriority ();
 		}
 	}
 	public Text shipName;
@@ -194,8 +194,7 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 				GameObject.Find ("NetworkScheduler").GetComponent<NetworkScheduler> ().priorityQueue;
 
 			// Get old priority from the input field
-			int oldPriority;
-			oldPriority = PriorityInputValue - 1;
+			int oldPriority = PriorityInputValue;
 
 			while (true) {
 				// Adjust to new priority
