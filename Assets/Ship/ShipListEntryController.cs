@@ -37,6 +37,8 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 	public bool inDecisionMode = false;
 	public bool isGreenSignal = true;
 
+	public float yOffset;
+
 	public Vector3 Position {
 		get {
 			return this.gameObject.GetComponent<RectTransform> ().anchoredPosition;
@@ -192,6 +194,7 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 
 	public void OnBeginDrag (PointerEventData eventData)
 	{
+		yOffset = 0.0f;
 	}
 
 	#endregion
@@ -200,9 +203,54 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 
 	public void OnDrag (PointerEventData eventData)
 	{
-		Vector3 pos = Position;
-		pos.y += eventData.delta.y;
-		Position = pos;
+		yOffset += eventData.delta.y;
+		PriorityQueue priorityQueue =
+			GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().priorityQueue;
+
+		// Get old priority from the input field
+		int oldPriority;
+		try {
+			oldPriority = PriorityInputValue - 1;
+		} catch (FormatException _) {
+			oldPriority = shipController.GetShipPriority();
+		}
+
+		while (true) {
+			// Adjust to new priority
+			int newPriority;
+			if ( yOffset > listEntryOffset) {
+				if (oldPriority < 1) {
+					// Already at top, ignore.
+					return;
+				}
+				newPriority = oldPriority - 1;
+				yOffset -= listEntryOffset;
+			} else if (yOffset < -listEntryOffset) {
+				if (oldPriority > priorityQueue.GetCount () - 2) {
+					// Already at botton, ignore.
+					return;
+				}
+				newPriority = oldPriority + 1;
+				yOffset += listEntryOffset;
+			} else {
+				// Nothing to do
+				return;
+			}
+
+			// Swap with the other ship's
+			ShipListEntryController otherEntry =
+				shipListController.FindEntryWithPriority (newPriority);
+			Vector3 pos = otherEntry.Position;
+			pos.y = oldPriority * -listEntryOffset;
+			otherEntry.Position = pos;
+			otherEntry.PriorityInputValue = oldPriority + 1;
+
+			// Set this ship entry's new location;
+			pos = Position;
+			pos.y = newPriority * -listEntryOffset;
+			Position = pos;
+			PriorityInputValue = newPriority + 1;
+		}
 	}
 
 	#endregion
@@ -211,32 +259,6 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 
 	public void OnEndDrag (PointerEventData eventData)
 	{
-		PriorityQueue priorityQueue =
-			GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().priorityQueue;
-
-		int newPriority = Math.Max(-1 * (int) Math.Round (Position.y / listEntryOffset), 0);
-		newPriority = Math.Min(newPriority, priorityQueue.GetCount() - 1);
-
-		int oldPriority;
-		try {
-			oldPriority = PriorityInputValue - 1;
-		} catch (FormatException _) {
-			oldPriority = shipController.GetShipPriority();
-		}
-
-		// Swap with the other ship's
-		ShipListEntryController otherEntry =
-			shipListController.FindEntryWithPriority (newPriority);
-		Vector3 pos = otherEntry.Position;
-		pos.y = oldPriority * -listEntryOffset;
-		otherEntry.Position = pos;
-		otherEntry.PriorityInputValue = oldPriority + 1;
-
-		// Set this ship entry's new location;
-		pos = Position;
-		pos.y = newPriority * -listEntryOffset;
-		Position = pos;
-		PriorityInputValue = newPriority + 1;
 	}
 
 	#endregion
