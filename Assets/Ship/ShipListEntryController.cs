@@ -61,7 +61,7 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 
 		Ship ship = shipController.Ship;
 
-		int priorityValue = shipController.GetShipPriority() + 1;
+		int priorityValue = shipController.GetShipPriority();
 
 		if (!inDecisionMode) {
 			priority.text = priorityValue.ToString ();
@@ -111,11 +111,11 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 		NetworkScheduler networkScheduler = GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>();
 		if (isGreenSignal) {
 			int priorityValue = shipController.GetShipPriority();
-			return -30 * priorityValue;
+			return -30 * (priorityValue - 1);
 		} else {
 			int priorityQueueSize = networkScheduler.PriorityQueueLength();
 			int positionInWaitList = networkScheduler.ShipPositionInWaitList(shipController);
-			return -30 * (priorityQueueSize + positionInWaitList) - 10;
+			return -30 * (priorityQueueSize + (positionInWaitList - 1)) - 10;
 		}
 	}
 
@@ -200,14 +200,14 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 				// Adjust to new priority
 				int newPriority;
 				if (yOffset + (listEntryOffset / 2) > listEntryOffset) {
-					if (oldPriority < 1) {
+					if (oldPriority == 1) {
 						// Already at top, ignore.
 						return;
 					}
 					newPriority = oldPriority - 1;
 					yOffset -= listEntryOffset;
 				} else if (yOffset - (listEntryOffset / 2) < -listEntryOffset) {
-					if (oldPriority > priorityQueue.GetCount () - 2) {
+					if (oldPriority == priorityQueue.GetCount ()) {
 						// Already at botton, ignore.
 						return;
 					}
