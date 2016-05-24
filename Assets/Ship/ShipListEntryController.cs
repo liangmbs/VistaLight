@@ -107,6 +107,16 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 		shipController.ToggleHighLight ();
 	}
 
+	public void HighlightOn() {
+		shipName.fontStyle = FontStyle.Bold;
+		background.color = new Color ((float)0.086, (float)0.513, (float)0.780);
+	}
+
+	public void HighlightOff() {
+		shipName.fontStyle = FontStyle.Normal;
+		background.color = new Color ((float)0.141, (float)0.216, (float)0.305);
+	}
+
 	private int GetEntryYPos() {
 		NetworkScheduler networkScheduler = GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>();
 		if (isGreenSignal) {
@@ -179,6 +189,7 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 		if (inDecisionMode) {
 			dragging = true;
 			yOffset = 0.0f;
+			HighlightOn ();
 		}
 	}
 
@@ -229,6 +240,9 @@ public class ShipListEntryController : MonoBehaviour, IBeginDragHandler, IDragHa
 
 	public void OnEndDrag (PointerEventData eventData)
 	{
+		if (!shipController.highLighted) {
+			HighlightOff ();
+		}
 	}
 
 	#endregion
