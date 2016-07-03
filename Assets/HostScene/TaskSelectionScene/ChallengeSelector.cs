@@ -1,14 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class ChallengeSelector : MonoBehaviour {
 	public SceneSetting sceneSetting;
+
 	public bool tutorialPlayed = false;
+	public Button TutorialButton;
+
 	public bool challenge1Played = false;
+	public Button Challenge1Button;
+
 	public bool challenge2Played = false;
+	public Button Challenge2Button;
+
 	public bool challenge3Played = false;
+	public Button Challenge3Button;
 
 	public VistaLightsLogger logger;
 
@@ -35,7 +44,11 @@ public class ChallengeSelector : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		// Tutorial always interactable
+		TutorialButton.interactable = true;
+		Challenge1Button.interactable = tutorialPlayed && !challenge1Played;
+		Challenge2Button.interactable = challenge1Played && !challenge2Played;
+		Challenge3Button.interactable = challenge2Played && !challenge3Played;
 	}
 
 	public void SelectTutorial() {	
