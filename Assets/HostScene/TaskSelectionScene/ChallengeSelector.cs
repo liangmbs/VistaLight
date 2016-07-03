@@ -73,6 +73,7 @@ public class ChallengeSelector : MonoBehaviour {
 	}
 
 	private void StartGame() {
-		SceneManager.LoadScene("HostGameScene", LoadSceneMode.Single);
+		PhotonNetwork.automaticallySyncScene = true;
+		PhotonNetwork.LoadLevel("HostGameScene");
 	}
 }
