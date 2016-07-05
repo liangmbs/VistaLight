@@ -16,7 +16,7 @@ public class PriorityQueue : MonoBehaviour {
 
 	public void ChangePriority(ShipController ship, int priority) {
 		queue.Remove(ship);
-		if (priority >= queue.Count - 1) {
+		if (priority >= queue.Count + 1) {
 			queue.Add (ship);
 		} else {
 			queue.Insert (priority - 1, ship);
@@ -24,7 +24,7 @@ public class PriorityQueue : MonoBehaviour {
 	}
 
 	public int GetPriority(ShipController ship) {
-		return queue.FindIndex(item => item == ship);
+		return queue.IndexOf(ship) + 1;
 	}
 
 	public int GetCount() {
@@ -33,6 +33,12 @@ public class PriorityQueue : MonoBehaviour {
 
 	public ShipController GetShipWithPriority(int priority) {
 		return queue[priority];
+	}
+
+	public void SwapPriority(int priority, int otherPriority) {
+		ShipController temp = queue [priority - 1];
+		queue [priority - 1] = queue [otherPriority - 1];
+		queue [otherPriority - 1] = temp;
 	}
 
 	public void Clear() {
