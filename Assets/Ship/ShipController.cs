@@ -308,4 +308,8 @@ public class ShipController : MonoBehaviour {
 			ShipEntry.background.color = new Color ((float)0.141, (float)0.216, (float)0.305);
 		}
 	}
+
+	public bool ShowHighlighted(){
+		return highLighted;
+	}
 }
