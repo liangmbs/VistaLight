@@ -4,7 +4,6 @@ using System;
 using SimpleJSON;
 
 public class Timer : MonoBehaviour {
-
 	public double speed;
 
 	public DateTime gameStartTime;

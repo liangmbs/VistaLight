@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 
 public class ChallengeSelector : MonoBehaviour {
-	public SceneSetting sceneSetting;
-
 	public bool tutorialPlayed = false;
 	public Button TutorialButton;
 
@@ -39,7 +37,8 @@ public class ChallengeSelector : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		// Init SceneSetting
+		SceneSetting _ = SceneSetting.Instance;
 	}
 	
 	// Update is called once per frame
@@ -52,35 +51,35 @@ public class ChallengeSelector : MonoBehaviour {
 	}
 
 	public void SelectTutorial() {	
-		sceneSetting.MapName = "houston_game_0";
-		sceneSetting.inTutorial = true;
+		SceneSetting.Instance.MapName = "houston_game_0";
+		SceneSetting.Instance.inTutorial = true;
 		tutorialPlayed = true;
 		StartGame ();
 	}
 
 	public void SelectChallenge1() {
-		sceneSetting.MapName = "houston_game_1";
-		sceneSetting.GiveRecommendation = false;
-		sceneSetting.inTutorial = false;
+		SceneSetting.Instance.MapName = "houston_game_1";
+		SceneSetting.Instance.GiveRecommendation = false;
+		SceneSetting.Instance.inTutorial = false;
 		challenge1Played = true;
 		StartGame ();
 	}
 
 	public void SelectChallenge2() {
-		sceneSetting.MapName = "houston_game_2";
-		//sceneSetting.GiveRecommendation = true;
-		//sceneSetting.RecommendWithJustification = false;
-		sceneSetting.inTutorial = false;
+		SceneSetting.Instance.MapName = "houston_game_2";
+		//SceneSetting.Instance.GiveRecommendation = true;
+		//SceneSetting.Instance.RecommendWithJustification = false;
+		SceneSetting.Instance.inTutorial = false;
 		challenge2Played = true;
 
 		StartGame ();
 	}
 
 	public void SelectChallenge3() {
-		sceneSetting.MapName = "houston_game_3";
+		SceneSetting.Instance.MapName = "houston_game_3";
 		//sceneSetting.GiveRecommendation = true;
 		//sceneSetting.RecommendWithJustification = true;
-		sceneSetting.inTutorial = false;
+		SceneSetting.Instance.inTutorial = false;
 		challenge3Played = true;
 		StartGame ();
 	}

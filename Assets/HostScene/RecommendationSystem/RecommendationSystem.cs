@@ -21,13 +21,11 @@ public class RecommendationSystem : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		SceneSetting sceneSetting = GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ();
-
-		if (!sceneSetting.GiveRecommendation) {
+		if (!SceneSetting.Instance.GiveRecommendation) {
 			RecommendationTab.SetActive (false);
 		}
 
-		showJustifiction = sceneSetting.RecommendWithJustification;
+		showJustifiction = SceneSetting.Instance.RecommendWithJustification;
 	}
 	
 	// Update is called once per frame

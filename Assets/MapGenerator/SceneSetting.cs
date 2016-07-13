@@ -1,22 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SceneSetting : MonoBehaviour {
-
-	void Awake() {
-		DontDestroyOnLoad(transform.gameObject);
-		DestoryIfInstanceExist ();
-	}
-
-	private static SceneSetting instance = null;
-	void DestoryIfInstanceExist() {
-		if (instance != null) {
-			Destroy (gameObject); 
-			return;
-		}
-		instance = this;
-	}
-
+public class SceneSetting : Singleton<SceneSetting> {
 	// This field is telling if the gameobjects are in a real game, or in 
 	// the map editor
 	public bool AllowMapEditing;
