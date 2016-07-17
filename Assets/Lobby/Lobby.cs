@@ -6,6 +6,7 @@ using Photon;
 
 public class Lobby : PunBehaviour {
 	public InputField RoomNameInput;
+	public SceneSetting Settings;
 
 	// Use this for initialization
 	void Start () {
@@ -27,6 +28,7 @@ public class Lobby : PunBehaviour {
 		// Only allow the master client into the task selection scene
 		PhotonNetwork.automaticallySyncScene = false;
 		PhotonNetwork.LoadLevel ("HostScene/TaskSelectionScene/TaskSelection");
+		Settings.IsMaster = true;
 	}
 
 	public override void OnPhotonCreateRoomFailed(object[] codeAndMsg) {
@@ -35,6 +37,7 @@ public class Lobby : PunBehaviour {
 
 	public void Join() {
 		PhotonNetwork.JoinRoom (RoomNameInput.text);
+		Settings.IsMaster = false;
 	}
 
 	public override void OnPhotonJoinRoomFailed(object[] codeAndMsg) {

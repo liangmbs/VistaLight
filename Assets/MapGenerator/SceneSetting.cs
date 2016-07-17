@@ -30,4 +30,7 @@ public class SceneSetting : Singleton<SceneSetting> {
 
 	// Show the reason why the recommendation is given
 	public bool RecommendWithJustification = false;
+
+	// Is this player the master client? (true if this is a single player game)
+	public bool IsMaster = true;
 }
