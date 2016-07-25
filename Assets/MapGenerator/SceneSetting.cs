@@ -31,6 +31,22 @@ public class SceneSetting : Singleton<SceneSetting> {
 	// Show the reason why the recommendation is given
 	public bool RecommendWithJustification = false;
 
+	private bool isMaster = true;
+
 	// Is this player the master client? (true if this is a single player game)
-	public bool IsMaster = true;
+	public bool IsMaster {
+		get {
+			if (GameObject.Find("Lobby") == null) {
+				GameObject lobby = (GameObject) GameObject.Instantiate (Resources.Load ("Lobby", typeof(GameObject)));
+				lobby.name = "Lobby";
+				// Loop until connected
+				lobby.GetComponent<Lobby> ().CreateWithName (Random.value.ToString());
+			}
+			return isMaster;
+		}
+		set {
+			isMaster = value;
+		}
+	}
+
 }

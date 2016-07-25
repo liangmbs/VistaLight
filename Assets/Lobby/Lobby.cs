@@ -31,15 +31,17 @@ public class Lobby : PunBehaviour {
 		return error;
 	}
 
+	public void CreateWithName(string name) {
+		PhotonNetwork.CreateRoom (name);
+		SceneSetting.Instance.IsMaster = true;
+	}
+
 	public void Create() {
 		if (RoomNameInput.text == "" || !ConnectedToMaster) {
 			return;
 		}
 
-		// Only allow the master client into the task selection scene
-		PhotonNetwork.automaticallySyncScene = false;
-		PhotonNetwork.LoadLevel ("HostScene/TaskSelectionScene/TaskSelection");
-		Settings.IsMaster = true;
+		CreateWithName (RoomNameInput.text);
 	}
 
 	public override void OnPhotonCreateRoomFailed(object[] codeAndMsg) {
