@@ -11,10 +11,7 @@ public class ShipGenerationMapEventHandler : IMapEventHandler {
 	}
 
 	public void Process() {
-		GameObject shipPrefab = Resources.Load("Ship") as GameObject;
-
-		
-		GameObject shipGO = GameObject.Instantiate(shipPrefab);
+		GameObject shipGO = PhotonNetwork.Instantiate("Ship", new Vector3(), new Quaternion(), 0);
 		ShipVO shipVO = shipGO.GetComponent<ShipVO>();
 		ShipController shipController = shipGO.GetComponent<ShipController>();
 

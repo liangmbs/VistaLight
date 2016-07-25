@@ -46,16 +46,18 @@ public class MapEventProcessor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		List<MapEvent> triggeredMapEvent = new List<MapEvent>();
-		foreach (MapEvent mapEvent in MapEvents) {
-			if (ShouldHappen(mapEvent)) {
-				Happen(mapEvent);
-				triggeredMapEvent.Add(mapEvent);
+		if (SceneSetting.Instance.IsMaster) {
+			List<MapEvent> triggeredMapEvent = new List<MapEvent> ();
+			foreach (MapEvent mapEvent in MapEvents) {
+				if (ShouldHappen (mapEvent)) {
+					Happen (mapEvent);
+					triggeredMapEvent.Add (mapEvent);
+				}
 			}
+
+			MapEvents.RemoveAll (mapEvent => triggeredMapEvent.Contains (mapEvent));
+
+			previousTime = timer.VirtualTime;
 		}
-
-		MapEvents.RemoveAll(mapEvent => triggeredMapEvent.Contains(mapEvent));
-
-		previousTime = timer.VirtualTime;
     }
 }
