@@ -8,10 +8,19 @@ public class Lobby : PunBehaviour {
 	public InputField RoomNameInput;
 	public SceneSetting Settings;
 
+	private bool ConnectedToMaster = false;
 	// Use this for initialization
 	void Start () {
 		PhotonNetwork.ConnectUsingSettings ("");
 		PhotonNetwork.automaticallySyncScene = true;
+	}
+
+	public override void OnConnectedToMaster() {
+		ConnectedToMaster = true;
+	}
+
+	public override void OnJoinedLobby() {
+		ConnectedToMaster = true;
 	}
 
 	private string PrintError(object[] codeAndMsg) {
@@ -23,7 +32,9 @@ public class Lobby : PunBehaviour {
 	}
 
 	public void Create() {
-		PhotonNetwork.CreateRoom (RoomNameInput.text);
+		if (RoomNameInput.text == "" || !ConnectedToMaster) {
+			return;
+		}
 
 		// Only allow the master client into the task selection scene
 		PhotonNetwork.automaticallySyncScene = false;
@@ -36,8 +47,19 @@ public class Lobby : PunBehaviour {
 	}
 
 	public void Join() {
+		if (RoomNameInput.text == "" || !ConnectedToMaster) {
+			return;
+		}
 		PhotonNetwork.JoinRoom (RoomNameInput.text);
 		Settings.IsMaster = false;
+	}
+
+	public override void OnJoinedRoom() {
+		if (SceneSetting.Instance.IsMaster) {
+			// Only allow the master client into the task selection scene
+			PhotonNetwork.automaticallySyncScene = false;
+			PhotonNetwork.LoadLevel ("HostScene/TaskSelectionScene/TaskSelection");
+		}
 	}
 
 	public override void OnPhotonJoinRoomFailed(object[] codeAndMsg) {
