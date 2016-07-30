@@ -49,15 +49,15 @@ public class ShipVO : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = new Vector3(
+			transform.position = new Vector3 (
 				(float)ship.X,
 				(float)ship.Y,
 				-2);
 
-		UpdateShipHeading();
+			UpdateShipHeading ();
 
-		AdaptShapeByCameraHeight();
-		ChangeThumbnailColorByIndustry();
+			AdaptShapeByCameraHeight ();
+			ChangeThumbnailColorByIndustry ();
 	}
 
 	private void UpdateShipHeading() {
@@ -70,5 +70,13 @@ public class ShipVO : MonoBehaviour {
 	private void ChangeThumbnailColorByIndustry() {
 		Color color = IndustryColor.GetIndustryColor(ship.Industry);
         Thumbnail.GetComponent<SpriteRenderer>().color = color;	
+	}
+
+	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+		if (stream.isWriting) {
+			ship.SerializeTo (stream);
+		} else {
+			ship.DeserializeFrom (stream);
+		}
 	}
 }

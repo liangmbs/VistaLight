@@ -58,7 +58,7 @@ public class ShipScheduler {
 	}
 
 	private ShipSchedule PathToSchedule(ShipPath path) {
-		double defaultShipSpeed = GameObject.Find("SceneSetting").GetComponent<SceneSetting>().ShipSpeed;
+		double defaultShipSpeed = SceneSetting.Instance.ShipSpeed;
 		double shipSpeed = defaultShipSpeed;
 		ShipSchedule schedule = new ShipSchedule();
 		MapUtil mapUtil = GameObject.Find("MapUtil").GetComponent<MapUtil>();
@@ -94,7 +94,7 @@ public class ShipScheduler {
 			schedule.AppendTask(moveTask);
 
 			// Unloading task
-			double unloadingSpeed = GameObject.Find("SceneSetting").GetComponent<SceneSetting>().UnloadingSpeed;
+			double unloadingSpeed = SceneSetting.Instance.UnloadingSpeed;
 			Dock dock = mapUtil.GetDockByNode(node);
             if (!unloadingScheduled && dock != null) {
 				TimeSpan unloadingDuration = new TimeSpan(0, 0, (int)Math.Round(ship.Ship.cargo / unloadingSpeed));

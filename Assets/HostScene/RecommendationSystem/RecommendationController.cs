@@ -14,9 +14,11 @@ public class RecommendationController : MonoBehaviour {
 	public bool isProcessed = false;
 
 	public VistaLightsLogger logger;
+	NetworkScheduler networkScheduler;
 
 	void Awake() {
 		logger = GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ();
+		networkScheduler = GameObject.Find ("NetworkScheduler").GetComponent<NetworkScheduler> ();
 	}
 
 
@@ -39,7 +41,7 @@ public class RecommendationController : MonoBehaviour {
 	}
 
 	public void PerformeRecommendation() {
-		recommendation.ship.ShipEntry.priorityInput.text = recommendation.desiredPriority.ToString();
+		networkScheduler.priorityQueue.ChangePriority(recommendation.ship, recommendation.desiredPriority);
 	}
 
 	public void Deny() {

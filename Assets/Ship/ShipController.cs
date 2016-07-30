@@ -14,7 +14,6 @@ public enum ShipStatus {
 }
 
 public class ShipController : MonoBehaviour {
-
 	public ShipSchedule schedule;
 	private Ship ship;
 	private double originalCargoAmount;
@@ -49,35 +48,39 @@ public class ShipController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		GetComponent<PhotonView> ().ObservedComponents.Add (this);
+		GetComponent<PhotonView> ().ObservedComponents.Add (this.shipVO);
+		this.ship = shipVO.ship;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (ship == null)
-			return;
+		if (SceneSetting.Instance.IsMaster) {
+			if (ship == null)
+				return;
 		
-		if (schedule != null && schedule.tasks.Count > 0) {
-			DateTime currentTime = GameObject.Find("Timer").GetComponent<Timer>().VirtualTime;
-			ShipTask task = schedule.GetNextTask();
+			if (schedule != null && schedule.tasks.Count > 0) {
+				DateTime currentTime = GameObject.Find ("Timer").GetComponent<Timer> ().VirtualTime;
+				ShipTask task = schedule.GetNextTask ();
 
-			if (task.isOverDue(currentTime)) {
-				ForceComplete(task);
-				schedule.CompleteNextTask();
+				if (task.isOverDue (currentTime)) {
+					ForceComplete (task);
+					schedule.CompleteNextTask ();
+				}
+
+				if (task.isInTaskTime (currentTime)) {
+					ProcessTask (task);
+				}
 			}
 
-			if (task.isInTaskTime(currentTime)) {
-				ProcessTask(task);
-			}
+			UpdateStatusPanel ();
+
+			CheckClick ();
+
+			CalculateCargoMaintainenceCost ();
+			CalculateCargoOverDueCost ();
+			CalculateCargoOverDueWelfareImpact ();
 		}
-
-		UpdateStatusPanel ();
-
-		CheckClick ();
-
-		CalculateCargoMaintainenceCost();
-		CalculateCargoOverDueCost();
-		CalculateCargoOverDueWelfareImpact ();
 	}
 
 	public void UpdateStatusPanel() {
@@ -301,11 +304,17 @@ public class ShipController : MonoBehaviour {
 	public void ToggleHighLight() {
 		highLighted = !highLighted;
 		if (highLighted) {
-			ShipEntry.shipName.fontStyle = FontStyle.Bold;
-			ShipEntry.background.color = new Color ((float)0.086, (float)0.513, (float)0.780);
+			ShipEntry.HighlightOn ();
 		} else {
-			ShipEntry.shipName.fontStyle = FontStyle.Normal;
-			ShipEntry.background.color = new Color ((float)0.141, (float)0.216, (float)0.305);
+			ShipEntry.HighlightOff ();
+		}
+	}
+
+	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+			if (stream.isWriting) {
+			stream.SendNext (heading);
+			} else {
+			heading = (double)stream.ReceiveNext ();
 		}
 	}
 }

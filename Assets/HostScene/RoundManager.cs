@@ -17,7 +17,6 @@ public class RoundManager : MonoBehaviour {
 	public ShipListController shipListController;
 	public NetworkScheduler networkScheduler;
 	public VistaLightsLogger logger;
-	public SceneSetting sceneSetting;
 	public RecommendationSystem recommendataionSystem;
 	public NotificationSystem notificationSystem;
 	public MapLoader mapLoader;
@@ -41,15 +40,14 @@ public class RoundManager : MonoBehaviour {
 		mapLoader.LoadMap ();
 		StartSimulationPhase ();
 
-		if (!sceneSetting.inTutorial) {
+		if (!SceneSetting.Instance.inTutorial) {
 			ShowIntroductionWindow ();
 		}
 
 	}
 
 	void Awake() {
-		logger = GameObject.Find("BasicLoggerManager").GetComponent<VistaLightsLogger>();	
-		sceneSetting = GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ();
+		logger = GameObject.Find("BasicLoggerManager").GetComponent<VistaLightsLogger>();
 
 		logger.StartRun ("run");
 	}
@@ -68,7 +66,7 @@ public class RoundManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		// if (sceneSetting.inTutorial) {
+		// if (SceneSetting.Instance.inTutorial) {
 		// 	return;
 		// }
 
@@ -118,7 +116,7 @@ public class RoundManager : MonoBehaviour {
 	}
 
 	public void SubmitAndContinueButtonClickHandler() {
-		if (GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ().GiveRecommendation) {
+		if (SceneSetting.Instance.GiveRecommendation) {
 			if (!recommendataionSystem.recommendationRequested ||
 			   !recommendataionSystem.isAllRecommendationsProcessed ()) {
 				notificationSystem.Notify (NotificationType.Warning, 

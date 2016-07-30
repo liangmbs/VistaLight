@@ -16,7 +16,7 @@ public class OilSpillingMapEventHandler : IMapEventHandler {
 	public void Process() {
 		GameObject oilSpillingPrefab = Resources.Load("OilSpilling") as GameObject;
 		
-		GameObject oilSpillingGO = GameObject.Instantiate(oilSpillingPrefab);
+		GameObject oilSpillingGO = PhotonNetwork.Instantiate("oilSpillingPrefab", new Vector3(), new Quaternion(), 0);
 
 		OilSpillingController oilSpillingController = oilSpillingGO.GetComponent<OilSpillingController>();
 		oilSpillingController.position = new Vector2((float)OilSpillingEvent.X, (float)OilSpillingEvent.Y);

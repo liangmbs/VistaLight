@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class TutorialController : MonoBehaviour {
 
-	public SceneSetting sceneSetting;
 	public GameObject tutorialWindow;
 	public Text MinimizeButtonText;
 
@@ -19,7 +18,6 @@ public class TutorialController : MonoBehaviour {
 	private int tabShowing = 0;
 
 	void Awake() {
-		sceneSetting = GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ();
 
 		// indicatorImage = Resources.Load ("image/node.png") as Sprite;
 		// indicatorSelectImage = Resources.Load ("image/node_select.png") as Sprite;
@@ -28,7 +26,7 @@ public class TutorialController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		if (sceneSetting.inTutorial) {
+		if (SceneSetting.Instance.inTutorial) {
 			ShowTutorialWindow ();
 		}
 		

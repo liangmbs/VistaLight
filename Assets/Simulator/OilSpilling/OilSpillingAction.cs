@@ -154,14 +154,14 @@ public class OilSpillingAction : MonoBehaviour {
 	}
 
 	public bool hasShipInOilArea() {
-		foreach(ShipController ship in priorityQueue.queue) {
+		foreach(ShipController ship in priorityQueue.Queue) {
 			double distance = Math.Pow(Math.Pow(ship.Ship.X - OilSpillingController.position.x, 2) + Math.Pow(ship.Ship.Y - OilSpillingController.position.y, 2), 0.5);
 			if (distance < OilSpillingController.Radius) {
 				return true;
 			}
 		}
 
-		foreach(ShipController ship in waitList.queue) {
+		foreach(ShipController ship in waitList.Queue) {
 			double distance = Math.Pow(Math.Pow(ship.Ship.X - OilSpillingController.position.x, 2) + Math.Pow(ship.Ship.Y - OilSpillingController.position.y, 2), 0.5);
 			if (distance < OilSpillingController.Radius) {
 				return true;

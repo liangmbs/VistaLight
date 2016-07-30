@@ -11,10 +11,7 @@ public class ShipGenerationMapEventHandler : IMapEventHandler {
 	}
 
 	public void Process() {
-		GameObject shipPrefab = Resources.Load("Ship") as GameObject;
-
-		
-		GameObject shipGO = GameObject.Instantiate(shipPrefab);
+		GameObject shipGO = PhotonNetwork.Instantiate("Ship", new Vector3(), new Quaternion(), 0);
 		ShipVO shipVO = shipGO.GetComponent<ShipVO>();
 		ShipController shipController = shipGO.GetComponent<ShipController>();
 
@@ -30,8 +27,8 @@ public class ShipGenerationMapEventHandler : IMapEventHandler {
 
 		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().EnqueueShip(shipController);
 
-		GameObject shipEntry = GameObject.Find("ShipList").GetComponent<ShipListController>().AddShip(shipController);
-		shipController.ShipEntry = shipEntry.GetComponent<ShipListEntryController>();
+		GameObject.Find("ShipList").GetComponent<PhotonView>().RPC(
+			"AddShip", PhotonTargets.All, shipController.GetComponent<PhotonView>().viewID);
 
 		GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogShipGeneration(shipGenerationEvent);
 

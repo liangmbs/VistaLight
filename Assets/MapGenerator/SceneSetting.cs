@@ -1,22 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SceneSetting : MonoBehaviour {
-
-	void Awake() {
-		DontDestroyOnLoad(transform.gameObject);
-		DestoryIfInstanceExist ();
-	}
-
-	private static SceneSetting instance = null;
-	void DestoryIfInstanceExist() {
-		if (instance != null) {
-			Destroy (gameObject); 
-			return;
-		}
-		instance = this;
-	}
-
+public class SceneSetting : Singleton<SceneSetting> {
 	// This field is telling if the gameobjects are in a real game, or in 
 	// the map editor
 	public bool AllowMapEditing;
@@ -38,11 +23,23 @@ public class SceneSetting : MonoBehaviour {
 	public double ShipSpeedInDispersantArea = 1.0;
 
 	// The map to load
-	public string MapName = "";
+	public string MapName = "houston_game_0"; // Sane default for debugging
 
 	// Whether or not give recommendation
 	public bool GiveRecommendation = false;
 
 	// Show the reason why the recommendation is given
 	public bool RecommendWithJustification = false;
+
+	// Is this player the master client?
+	public bool IsMaster = true;
+
+	void Start() {
+		PhotonNetwork.offlineMode = true; // This should go somewhere else
+	}
+
+	[PunRPC]
+	void SetMap(string mapName) {
+		MapName = mapName;
+	}
 }

@@ -4,7 +4,6 @@ using System;
 using SimpleJSON;
 
 public class Timer : MonoBehaviour {
-
 	public double speed;
 
 	public DateTime gameStartTime;
@@ -21,17 +20,20 @@ public class Timer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		previousTime = Time.time;
+		GetComponent<PhotonView> ().ObservedComponents.Add (this);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		double currentTime = Time.time;
+		if (settings.IsMaster) {
+			double currentTime = Time.time;
 
-		double virtualTimeAdvance = (currentTime - previousTime) * speed;
-		virtualTime = virtualTime.AddSeconds(virtualTimeAdvance);
-		timeElapsed = TimeSpan.FromSeconds(virtualTimeAdvance);
+			double virtualTimeAdvance = (currentTime - previousTime) * speed;
+			virtualTime = virtualTime.AddSeconds(virtualTimeAdvance);
+			timeElapsed = TimeSpan.FromSeconds(virtualTimeAdvance);
 
-		previousTime = currentTime;
+			previousTime = currentTime;
+		}
 	}
 
 	public DateTime VirtualTime {
@@ -46,5 +48,19 @@ public class Timer : MonoBehaviour {
 	public double Speed {
 		get { return speed; }
 		set { speed = value; } 
+	}
+
+	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+		if (stream.isWriting) {
+			stream.SendNext (Speed);
+			stream.SendNext (gameStartTime.ToBinary());
+			stream.SendNext (VirtualTime.ToBinary());
+			stream.SendNext (TimeElapsed.Ticks);
+		} else {
+			Speed = (double)stream.ReceiveNext ();
+			gameStartTime = DateTime.FromBinary((System.Int64)stream.ReceiveNext ());
+			VirtualTime= DateTime.FromBinary((System.Int64)stream.ReceiveNext ());
+			timeElapsed = TimeSpan.FromTicks((long)stream.ReceiveNext ());
+		}
 	}
 }

@@ -92,7 +92,7 @@ public class DockVO : MonoBehaviour, MapSelectableVO {
     }
 
 	private void CheckClick() {
-		if (GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ().AllowMapEditing) {
+		if (SceneSetting.Instance.AllowMapEditing) {
 			return;
 		}
 

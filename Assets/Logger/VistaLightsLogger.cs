@@ -164,7 +164,7 @@ public class VistaLightsLogger : MonoBehaviour {
 	public void StartRun(string challengeName) {
 		JSONClass details = new JSONClass ();
 		AddTimeInformation (details);
-		SceneSetting sceneSetting = GameObject.Find ("SceneSetting").GetComponent<SceneSetting> ();
+		SceneSetting sceneSetting = SceneSetting.Instance;
 		details ["map"] = sceneSetting.MapName;
 		details ["give_recommendation"] = sceneSetting.GiveRecommendation.ToString ();
 		details ["with_justification"] = sceneSetting.RecommendWithJustification.ToString ();

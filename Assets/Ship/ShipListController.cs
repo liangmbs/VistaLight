@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class ShipListController : MonoBehaviour {
 
@@ -20,12 +21,15 @@ public class ShipListController : MonoBehaviour {
 	
 	}
 
-	public GameObject AddShip(ShipController shipController) {
+	[PunRPC]
+	public GameObject AddShip(int shipControllerID) {
+		ShipController shipController = PhotonView.Find (shipControllerID).gameObject.GetComponent<ShipController>();
 		GameObject entryGO = GameObject.Instantiate(entryPrefab) as GameObject;
 		ShipListEntryController entryController = entryGO.GetComponent<ShipListEntryController>();
 		entryController.shipController = shipController;
 		entryController.shipListController = this;
 		entryGO.transform.SetParent(this.transform);
+		shipController.ShipEntry = entryController;
 
 		RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
 		rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x,
@@ -116,9 +120,13 @@ public class ShipListController : MonoBehaviour {
 		}
 	}
 
-	public void UpdateAllPriorityInput() {
+	public ShipListEntryController FindEntryWithPriority(int priority) {
+		float posy = priority * -30.0f;
 		foreach (ShipListEntryController entry in entries) {
-			entry.UpdatePriorityInput();
+			if (entry.Position.y == posy) {
+				return entry;
+			}
 		}
+		throw new ArgumentException (String.Format ("no ship with priority {0:N0}", priority));
 	}
 }
