@@ -74,12 +74,12 @@ public class NetworkScheduler : MonoBehaviour {
 		ReservationManager reservationManager = GameObject.Find("MapUtil").GetComponent<ReservationManager>();
 		reservationManager.ClearAll();
 
-		foreach (ShipController ship in priorityQueue.queue) {
+		foreach (ShipController ship in priorityQueue.Queue) {
 			ship.schedule = null;
 			ship.status = ShipStatus.Scheduling;
 		}
 
-		foreach (ShipController ship in waitList.queue) {
+		foreach (ShipController ship in waitList.Queue) {
 			ship.schedule = null;
 			ship.status = ShipStatus.RedSignal;
 		}
@@ -125,7 +125,7 @@ public class NetworkScheduler : MonoBehaviour {
 	}
 
 	public int PriorityQueueLength() {
-		return priorityQueue.queue.Count;
+		return priorityQueue.GetCount();
 	}
 
 	public int ShipPositionInWaitList(ShipController ship) {
