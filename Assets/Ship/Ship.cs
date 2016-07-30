@@ -35,4 +35,26 @@ public class Ship {
 
 	public double X;
 	public double Y;
+
+	public void SerializeTo(PhotonStream stream) {
+		stream.SendNext (shipID);
+		stream.SendNext (Name);
+		stream.SendNext (cargo);
+		stream.SendNext (value);
+		stream.SendNext ((int)Industry);
+		stream.SendNext ((long)dueTime.ToBinary());
+		stream.SendNext (X);
+		stream.SendNext (Y);
+	}
+
+	public void DeserializeFrom(PhotonStream stream) {
+		shipID = (int)stream.ReceiveNext ();
+		Name = (string)stream.ReceiveNext ();
+		cargo = (double)stream.ReceiveNext ();
+		value = (double)stream.ReceiveNext ();
+		Industry = (IndustryType)(int)stream.ReceiveNext ();
+		dueTime = DateTime.FromBinary((long)stream.ReceiveNext ());
+		X = (double)stream.ReceiveNext ();
+		Y = (double)stream.ReceiveNext ();
+	}
 }

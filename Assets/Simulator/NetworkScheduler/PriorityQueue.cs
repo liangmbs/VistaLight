@@ -68,4 +68,18 @@ public class PriorityQueue : MonoBehaviour {
 		return PhotonView.Find (ID).gameObject.GetComponent<ShipController> ();
 	}
 
+	void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
+		if (stream.isWriting) {
+			stream.SendNext (queue.Count);
+			foreach (int ID in queue) {
+				stream.SendNext (ID);
+			}
+		} else {
+			queue.Clear ();
+			int count = (int)stream.ReceiveNext ();
+			for (int i = 0; i < count; i++) {
+				queue.Add((int)stream.ReceiveNext());
+			}
+		}
+	}
 }

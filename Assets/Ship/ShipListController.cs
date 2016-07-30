@@ -21,12 +21,15 @@ public class ShipListController : MonoBehaviour {
 	
 	}
 
-	public GameObject AddShip(ShipController shipController) {
+	[PunRPC]
+	public GameObject AddShip(int shipControllerID) {
+		ShipController shipController = PhotonView.Find (shipControllerID).gameObject.GetComponent<ShipController>();
 		GameObject entryGO = GameObject.Instantiate(entryPrefab) as GameObject;
 		ShipListEntryController entryController = entryGO.GetComponent<ShipListEntryController>();
 		entryController.shipController = shipController;
 		entryController.shipListController = this;
 		entryGO.transform.SetParent(this.transform);
+		shipController.ShipEntry = entryController;
 
 		RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
 		rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x,

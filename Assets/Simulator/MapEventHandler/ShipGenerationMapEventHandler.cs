@@ -27,8 +27,8 @@ public class ShipGenerationMapEventHandler : IMapEventHandler {
 
 		GameObject.Find("NetworkScheduler").GetComponent<NetworkScheduler>().EnqueueShip(shipController);
 
-		GameObject shipEntry = GameObject.Find("ShipList").GetComponent<ShipListController>().AddShip(shipController);
-		shipController.ShipEntry = shipEntry.GetComponent<ShipListEntryController>();
+		GameObject.Find("ShipList").GetComponent<PhotonView>().RPC(
+			"AddShip", PhotonTargets.All, shipController.GetComponent<PhotonView>().viewID);
 
 		GameObject.Find ("BasicLoggerManager").GetComponent<VistaLightsLogger> ().LogShipGeneration(shipGenerationEvent);
 
