@@ -11,16 +11,20 @@ public class Lobby : PunBehaviour {
 	private bool ConnectedToMaster = false;
 	// Use this for initialization
 	void Start () {
+		PhotonNetwork.offlineMode = false; // This should go somewhere else
 		PhotonNetwork.ConnectUsingSettings ("");
 		PhotonNetwork.automaticallySyncScene = true;
+		RoomNameInput.placeholder.GetComponent<Text> ().text = "Connecting...";
 	}
 
 	public override void OnConnectedToMaster() {
 		ConnectedToMaster = true;
+		RoomNameInput.placeholder.GetComponent<Text> ().text = "Connected. Enter lobby name:";
 	}
 
 	public override void OnJoinedLobby() {
 		ConnectedToMaster = true;
+		RoomNameInput.placeholder.GetComponent<Text> ().text = "Connected. Enter lobby name";
 	}
 
 	private string PrintError(object[] codeAndMsg) {
@@ -57,11 +61,7 @@ public class Lobby : PunBehaviour {
 	}
 
 	public override void OnJoinedRoom() {
-		if (SceneSetting.Instance.IsMaster) {
-			// Only allow the master client into the task selection scene
-			PhotonNetwork.automaticallySyncScene = false;
-			PhotonNetwork.LoadLevel ("HostScene/TaskSelectionScene/TaskSelection");
-		}
+		PhotonNetwork.LoadLevel ("HostScene/TaskSelectionScene/TaskSelection");
 	}
 
 	public override void OnPhotonJoinRoomFailed(object[] codeAndMsg) {

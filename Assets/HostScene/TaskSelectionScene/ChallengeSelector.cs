@@ -50,14 +50,29 @@ public class ChallengeSelector : MonoBehaviour {
 		Challenge3Button.interactable = challenge2Played && !challenge3Played;
 	}
 
-	public void SelectTutorial() {	
+
+	public void SelectTutorial() {
+		if (SceneSetting.Instance.IsMaster) {
+			GetComponent<PhotonView>().RPC ("PlayTutorial", PhotonTargets.All);
+		}
+	}
+
+	[PunRPC]
+	public void PlayTutorial() {
 		SceneSetting.Instance.MapName = "houston_game_0";
 		SceneSetting.Instance.inTutorial = true;
 		tutorialPlayed = true;
 		StartGame ();
 	}
 
+	[PunRPC]
 	public void SelectChallenge1() {
+		if (SceneSetting.Instance.IsMaster) {
+			GetComponent<PhotonView>().RPC ("PlayTutorial", PhotonTargets.All);
+		}
+	}
+
+	public void PlayChallenge1() {
 		SceneSetting.Instance.MapName = "houston_game_1";
 		SceneSetting.Instance.GiveRecommendation = false;
 		SceneSetting.Instance.inTutorial = false;
@@ -66,6 +81,13 @@ public class ChallengeSelector : MonoBehaviour {
 	}
 
 	public void SelectChallenge2() {
+		if (SceneSetting.Instance.IsMaster) {
+			GetComponent<PhotonView>().RPC ("PlayTutorial", PhotonTargets.All);
+		}
+	}
+
+	[PunRPC]
+	public void PlayChallenge2() {
 		SceneSetting.Instance.MapName = "houston_game_2";
 		//SceneSetting.Instance.GiveRecommendation = true;
 		//SceneSetting.Instance.RecommendWithJustification = false;
@@ -75,7 +97,15 @@ public class ChallengeSelector : MonoBehaviour {
 		StartGame ();
 	}
 
+
 	public void SelectChallenge3() {
+		if (SceneSetting.Instance.IsMaster) {
+			GetComponent<PhotonView>().RPC ("PlayTutorial", PhotonTargets.All);
+		}
+	}
+
+	[PunRPC]
+	public void PlayChallenge3() {
 		SceneSetting.Instance.MapName = "houston_game_3";
 		//sceneSetting.GiveRecommendation = true;
 		//sceneSetting.RecommendWithJustification = true;
@@ -85,7 +115,6 @@ public class ChallengeSelector : MonoBehaviour {
 	}
 
 	private void StartGame() {
-		PhotonNetwork.automaticallySyncScene = true;
 		PhotonNetwork.LoadLevel("HostGameScene");
 	}
 }

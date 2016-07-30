@@ -23,7 +23,7 @@ public class SceneSetting : Singleton<SceneSetting> {
 	public double ShipSpeedInDispersantArea = 1.0;
 
 	// The map to load
-	public string MapName = "";
+	public string MapName = "houston_game_0"; // Sane default for debugging
 
 	// Whether or not give recommendation
 	public bool GiveRecommendation = false;
@@ -31,22 +31,15 @@ public class SceneSetting : Singleton<SceneSetting> {
 	// Show the reason why the recommendation is given
 	public bool RecommendWithJustification = false;
 
-	private bool isMaster = true;
+	// Is this player the master client?
+	public bool IsMaster = true;
 
-	// Is this player the master client? (true if this is a single player game)
-	public bool IsMaster {
-		get {
-			if (GameObject.Find("Lobby") == null) {
-				GameObject lobby = (GameObject) GameObject.Instantiate (Resources.Load ("Lobby", typeof(GameObject)));
-				lobby.name = "Lobby";
-				// Loop until connected
-				lobby.GetComponent<Lobby> ().CreateWithName (Random.value.ToString());
-			}
-			return isMaster;
-		}
-		set {
-			isMaster = value;
-		}
+	void Start() {
+		PhotonNetwork.offlineMode = true; // This should go somewhere else
 	}
 
+	[PunRPC]
+	void SetMap(string mapName) {
+		MapName = mapName;
+	}
 }
